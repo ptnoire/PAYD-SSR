@@ -3,46 +3,10 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMoneyBill,
-  faSignIn,
-  faSignOut,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 
 import { api } from "~/utils/api";
-import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-// import NavBar from "components/navBar";
-
-const NavBar = () => {
-  const { user, isLoaded: userLoaded, isSignedIn } = useUser();
-  console.log(user);
-
-  return (
-    <div className={styles.topNav}>
-      {!isSignedIn && (
-        <SignInButton>
-          <button>
-            <FontAwesomeIcon
-              icon={faSignIn}
-              className="fa-icon"
-            ></FontAwesomeIcon>
-          </button>
-        </SignInButton>
-      )}
-      {!!isSignedIn && (
-        <>
-          <SignOutButton>
-            <button>
-              <FontAwesomeIcon icon={faSignOut} className="fa-icon" />
-            </button>
-          </SignOutButton>
-
-          <img src={user.profileImageUrl} />
-        </>
-      )}
-    </div>
-  );
-};
+import { NavBar } from "components/navBar";
 
 const Home: NextPage = () => {
   return (

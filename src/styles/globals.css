@@ -12,7 +12,12 @@ body {
   --payd-gradient: linear-gradient(to left, #00C853, #B2FF59);
   --due-gradient: linear-gradient(to left, #e91313, #fe4a4a);
   --normal-gradient: linear-gradient(to left, #d1dbd0, #a1fba0);
-  --background-black: rgb(29, 29, 29);
+  --background-black: #1d1d1d;
+}
+
+@font-face {
+  font-family: Comforta;
+  src: url(./Comfortaa.ttf);
 }
 
 h1, h2, h3, p { color: var(--white) }

@@ -18,6 +18,7 @@
 }
 
 .topNav {
+  position: relative;
   border: 1px solid var(--background-black);
   display: flex;
   align-items: center;
@@ -47,6 +48,34 @@
 .topNav button:hover {
   transform: scale(120%);
   transition: all .5s;
+}
+
+.navDate {
+  position: absolute;
+  left: 10px;
+  width: 9%;
+}
+
+.paydGreen {
+  font-size: 3rem;
+  font-family: Comforta;
+  letter-spacing: -8px;
+  position: relative;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: var(--payd-gradient);
+  -webkit-text-fill-color: transparent;
+  z-index: 2;
+}
+
+.paydGreen::before {
+  display: block;
+  content: "payd-2";
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px solid white;
 }
 
 @media (min-width: 640px) {
