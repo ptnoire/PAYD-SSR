@@ -13,6 +13,7 @@ body {
   --due-gradient: linear-gradient(to left, #e91313, #fe4a4a);
   --normal-gradient: linear-gradient(to left, #d1dbd0, #a1fba0);
   --background-black: #1d1d1d;
+  --clear-black: #1d1d1d68;
 }
 
 @font-face {
@@ -34,4 +35,14 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.spinner {
+  padding: 5px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
 }

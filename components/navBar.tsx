@@ -1,9 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMoneyBill,
-  faSignIn,
-  faSignOut,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import styles from "../src/pages/index.module.css";
 
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";

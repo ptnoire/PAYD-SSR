@@ -17,6 +17,12 @@
   padding: 4rem 1rem;
 }
 
+.pMiddle {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 .topNav {
   position: relative;
   border: 1px solid var(--background-black);
@@ -208,3 +214,4 @@
 .loginButton:hover {
   background-color: rgb(255 255 255 / 0.2);
 }
+
