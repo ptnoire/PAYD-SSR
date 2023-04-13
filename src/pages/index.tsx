@@ -39,6 +39,8 @@ const Home: NextPage = () => {
           <h1>Welcome to Payd-2!</h1>
           <LoadingSpinner />
           <BillForm />
+        </div>
+        <div className={styles.billList}>
           <BillList />
         </div>
       </main>

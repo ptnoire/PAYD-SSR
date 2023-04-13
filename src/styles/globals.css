@@ -48,6 +48,15 @@ button:hover {
   transition: all .5s;
 }
 
+.btn {
+  border: 2px solid var(--white);
+  border-radius: 5px;
+  background-color: var(--background-black);
+  color: var(--white);
+  padding: 5px;
+  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+}
+
 .formInput { 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -60,6 +69,45 @@ button:hover {
     "form_inputs form_inputs form_inputs"
     "form_btns form_btns form_btns";
 }
+
+.billListFormat {  
+  margin-top: 20px;
+  width: 70vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr .5fr;
+  gap: 5px 5px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "billList_title billList_title billList_dueDates"
+    "billList_amt billList_amt billList_dueDates"
+    "billList_btns billList_btns billList_btns";
+}
+
+.billList_title { 
+  grid-area: billList_title; 
+}
+
+.billList_btns { 
+  grid-area: billList_btns; 
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  align-items: center;
+}
+
+.billList_amt { 
+  grid-area: billList_amt; 
+}
+
+.billList_dueDates { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-area: billList_dueDates; 
+}
+
 
 .form_style {
   border: 1px solid var(--white);

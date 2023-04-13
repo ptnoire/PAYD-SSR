@@ -1,4 +1,4 @@
-import { RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
 import { BillFormating } from "./billListFormat";
 
@@ -12,7 +12,7 @@ export function BillList() {
   return (
     <div className="">
       {data?.map((bill) => (
-        <BillFormating {...bill} />
+        <BillFormating {...bill} key={bill.bill.id} />
       ))}
     </div>
   );

@@ -3,6 +3,7 @@ import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 
 const filterUserForClient = (user: User) => {
+    console.log(User);
     return {id: user.id}
 }
 
@@ -14,14 +15,14 @@ export const billsRouter = createTRPCRouter({
                 {createAt: "desc"}
             ]
         })
-
-    const users = (await clerkClient.users.getUserList({
-        userId: bills.map((bill) => bill.billOwner),
-        limit: 100,
-    })).map(filterUserForClient)
-
-    return bills.map(bill => {
-        const owner = users.find((user) => user.id === bill.billOwner);
+        const users = (await clerkClient.users.getUserList({
+            userId: bills.map((bill) => bill.billOwner),
+            limit: 100,
+        })).map(filterUserForClient)
+        
+        return bills.map(bill => {
+            const owner = users.find((user) => user.id === bill.billOwner);
+            
 
         if (!owner) throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",

@@ -1,8 +1,8 @@
 .main {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   min-height: 100vh;
   background-image: var(--payd-gradient);
 }
@@ -45,6 +45,14 @@
   width: 150px;
 }
 
+.billList {
+  margin: 15px 5% 15px 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .paydGreen {
   font-size: 3rem;
   font-family: Comforta;
@@ -67,36 +75,6 @@
   -webkit-text-stroke: 1px solid white;
 }
 
-@media (min-width: 640px) {
-  .container {
-    max-width: 640px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 768px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1024px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 1536px) {
-  .container {
-    max-width: 1536px;
-  }
-}
-
 .title {
   font-size: 3rem;
   line-height: 1;
@@ -105,96 +83,3 @@
   margin: 0;
   color: var(--white);
 }
-
-@media (min-width: 640px) {
-  .title {
-    font-size: 5rem;
-  }
-}
-
-.pinkSpan {
-  color: hsl(280 100% 70%);
-}
-
-.cardRow {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-@media (min-width: 640px) {
-  .cardRow {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 768px) {
-  .cardRow {
-    gap: 2rem;
-  }
-}
-
-.card {
-  max-width: 20rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 0.75rem;
-  color: var(--white);
-  background-color: var(--background-black);
-}
-
-.card:hover {
-  background-color: rgb(255 255 255 / 0.2);
-  transition: background-color 150ms cubic-bezier(0.5, 0, 0.2, 1);
-}
-
-.cardTitle {
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.cardText {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.showcaseContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.showcaseText {
-  color: var(--white);
-  text-align: center;
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-
-.authContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.loginButton {
-  border-radius: 9999px;
-  background-color: var(--background-black);
-  padding: 0.75rem 2.5rem;
-  font-weight: 600;
-  color: var(--white);
-  text-decoration-line: none;
-  transition: background-color 150ms cubic-bezier(0.5, 0, 0.2, 1);
-}
-
-.loginButton:hover {
-  background-color: rgb(255 255 255 / 0.2);
-}
-
