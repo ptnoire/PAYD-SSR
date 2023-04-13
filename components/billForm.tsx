@@ -1,7 +1,7 @@
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export function BillForm(props: { title?: String }) {
+export function BillForm(props: { title?: string }) {
   return (
     <div className="formInput">
       <div className="form_title form_style">

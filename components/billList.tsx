@@ -10,7 +10,7 @@ export function BillList() {
   if (!data) return <div>Something went wrong!</div>;
 
   return (
-    <div className="">
+    <div>
       {data?.map((bill) => (
         <BillFormating {...bill} key={bill.bill.id} />
       ))}
