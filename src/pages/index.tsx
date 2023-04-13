@@ -9,6 +9,7 @@ import { api } from "~/utils/api";
 import { NavBar } from "components/navBar";
 import { LoadingSpinner } from "components/loading";
 import { BillForm } from "components/billForm";
+import { BillList } from "components/billList";
 
 const Home: NextPage = () => {
   return (
@@ -38,6 +39,7 @@ const Home: NextPage = () => {
           <h1>Welcome to Payd-2!</h1>
           <LoadingSpinner />
           <BillForm />
+          <BillList />
         </div>
       </main>
     </>

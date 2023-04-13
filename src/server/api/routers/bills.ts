@@ -1,11 +1,9 @@
 import { User, clerkClient } from "@clerk/nextjs/dist/api";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 
 const filterUserForClient = (user: User) => {
-    return {id: user.id, 
-        username: user.username, 
-        profileImageUrl: user.profileImageUrl}
+    return {id: user.id}
 }
 
 export const billsRouter = createTRPCRouter({
@@ -25,7 +23,7 @@ export const billsRouter = createTRPCRouter({
     return bills.map(bill => {
         const owner = users.find((user) => user.id === bill.billOwner);
 
-        if (!owner || !owner.username) throw new TRPCError({
+        if (!owner) throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
             message: "No bills found by Owner.",
         });
@@ -35,5 +33,15 @@ export const billsRouter = createTRPCRouter({
             owner,
         };
     });
-    })
+    }),
+    // create: privateProcedure.input().mutation(({ctx, input}) => {
+    //     const billOwner = ctx.userId;
+    //     const bill = await ctx.prisma.bill.create({
+    //         data: {
+    //             billOwner,
+
+    //         }
+    //     });
+    //     return bill;
+    // })
 })

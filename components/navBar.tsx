@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import styles from "../src/pages/index.module.css";
-import Image from "next/image";
 
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
@@ -41,7 +40,7 @@ export function NavBar() {
             </button>
           </SignOutButton>
 
-          <Image src={user.profileImageUrl} alt="Profile Image" />
+          <img src={user.profileImageUrl} alt="Profile Image" />
         </>
       )}
     </div>

@@ -1,8 +1,9 @@
-import { api } from "~/utils/api";
+import { RouterOutputs, api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
+import { BillFormating } from "./billListFormat";
 
 export function BillList() {
-  const { data, isLoading: postsLoading } = api.example.getAll.useQuery();
+  const { data, isLoading: postsLoading } = api.bills.getAll.useQuery();
 
   if (postsLoading) return <LoadingSpinner />;
 
@@ -10,9 +11,9 @@ export function BillList() {
 
   return (
     <div className="">
-      {/* {data?.map((fullPost) => (
-          <PostView {...fullPost} key={fullPost.post.id} />
-        ))} */}
+      {data?.map((bill) => (
+        <BillFormating {...bill} />
+      ))}
     </div>
   );
 }
