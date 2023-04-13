@@ -11,6 +11,16 @@ generator client {
     provider = "prisma-client-js"
 }
 
+model Bill {
+    id          String   @id @default(cuid())
+    createAt    DateTime @default(now())
+    billName    String
+    billDueAmt  Float
+    billDueDate DateTime
+    isRecurring Boolean
+    billOwner   String
+}
+
 model Post {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())

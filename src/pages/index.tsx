@@ -8,6 +8,7 @@ import { faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import { api } from "~/utils/api";
 import { NavBar } from "components/navBar";
 import { LoadingSpinner } from "components/loading";
+import { BillForm } from "components/billForm";
 
 const Home: NextPage = () => {
   return (
@@ -36,6 +37,7 @@ const Home: NextPage = () => {
           <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
           <h1>Welcome to Payd-2!</h1>
           <LoadingSpinner />
+          <BillForm />
         </div>
       </main>
     </>

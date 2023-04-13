@@ -17,12 +17,6 @@
   padding: 4rem 1rem;
 }
 
-.pMiddle {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
 .topNav {
   position: relative;
   border: 1px solid var(--background-black);
@@ -43,17 +37,6 @@
   height: 48px;
   border-radius: 50%;
   border: 3px solid var(--payd-green);
-}
-
-.topNav button {
-  background-color: transparent;
-  border: none;
-  transition: all .5s;
-}
-
-.topNav button:hover {
-  transform: scale(120%);
-  transition: all .5s;
 }
 
 .navDate {
