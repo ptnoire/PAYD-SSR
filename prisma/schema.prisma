@@ -16,7 +16,7 @@ model Bill {
     createAt    DateTime @default(now())
     billName    String
     billDueAmt  Float
-    billDueDate DateTime
+    billDueDate String
     isRecurring Boolean
     billOwner   String
 }

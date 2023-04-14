@@ -1,6 +1,7 @@
 import { User, clerkClient } from "@clerk/nextjs/dist/api";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
+import { BillFormSchema } from "components/billForm";
 
 const filterUserForClient = (user: User) => {
     return {id: user.id}
@@ -34,14 +35,17 @@ export const billsRouter = createTRPCRouter({
         };
     });
     }),
-    // create: privateProcedure.input().mutation(({ctx, input}) => {
-    //     const billOwner = ctx.userId;
-    //     const bill = await ctx.prisma.bill.create({
-    //         data: {
-    //             billOwner,
-
-    //         }
-    //     });
-    //     return bill;
-    // })
+    create: privateProcedure.input(BillFormSchema).mutation(async ({ctx, input}) => {
+        const billOwner = ctx.userId;
+        const bill = await ctx.prisma.bill.create({
+            data: {
+                isRecurring: input.isRecurring,
+                billDueAmt: input.billDueAmt,
+                billName: input.billName,
+                billDueDate: input.billDueDate,
+                billOwner,
+            }
+        });
+        return bill;
+    })
 })
