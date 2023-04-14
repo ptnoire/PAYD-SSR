@@ -3,7 +3,6 @@ import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 
 const filterUserForClient = (user: User) => {
-    console.log(User);
     return {id: user.id}
 }
 

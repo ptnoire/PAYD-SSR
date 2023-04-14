@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: center; */
   min-height: 100vh;
-  background-image: var(--payd-gradient);
 }
 
 .container {
@@ -45,8 +44,15 @@
   width: 150px;
 }
 
+.formList {
+  margin: 0 5% 0 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .billList {
-  margin: 15px 5% 15px 5%;
   display: flex;
   flex-direction: column;
   align-items: center;

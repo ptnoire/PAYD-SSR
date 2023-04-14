@@ -38,7 +38,9 @@ const Home: NextPage = () => {
           <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
           <h1>Welcome to Payd-2!</h1>
           <LoadingSpinner />
-          <BillForm />
+          <div className={styles.formList}>
+            <BillForm />
+          </div>
         </div>
         <div className={styles.billList}>
           <BillList />
