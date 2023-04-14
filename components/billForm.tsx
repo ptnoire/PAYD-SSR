@@ -28,7 +28,7 @@ export function BillForm(props: { title?: string }) {
       ctx.bills.getAll.invalidate();
     },
   });
-  const cancelBtn = (e: React.FormEvent<HTMLFormElement>) => {
+  const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     // Cancel submitting
   };
