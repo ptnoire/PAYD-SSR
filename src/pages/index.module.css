@@ -45,18 +45,15 @@
 }
 
 .formList {
-  margin: 0 5% 0 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  width: 40vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .billList {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  width: 60vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .paydGreen {
@@ -81,11 +78,11 @@
   -webkit-text-stroke: 1px solid white;
 }
 
-.title {
-  font-size: 3rem;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  margin: 0;
-  color: var(--white);
+@media only screen and (max-width: 800px) {
+  .formList {
+    width: 93vw;
+  }
+  .billList {
+    width: 93vw;
+  }
 }

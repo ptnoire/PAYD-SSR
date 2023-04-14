@@ -1,6 +1,5 @@
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMutation } from "@tanstack/react-query";
 
 import { useState } from "react";
 import { z } from "zod";
@@ -22,14 +21,21 @@ export function BillForm(props: { title?: string }) {
 
   const { mutate, isLoading: isPosting } = api.bills.create.useMutation({
     onSuccess: () => {
-      // Reset Inputs
-      // setBillName("")
-      // setBillDueAmt("")
+      setBillName("");
+      setBillDueAmt("");
+      setBillDueDate("");
+      setIsRecurring(false);
       ctx.bills.getAll.invalidate();
     },
   });
+  const cancelBtn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Cancel submitting
+  };
 
-  const handleSubmit = async () =>
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     mutate(
       BillFormSchema.parse({
         billName,
@@ -38,14 +44,15 @@ export function BillForm(props: { title?: string }) {
         isRecurring,
       })
     );
+  };
 
   return (
     <div className="formInput">
       <div className="form_title form_style">
         <h2>{props.title ? props.title : "Submit New Bill"}</h2>
       </div>
-      <form onSubmit={handleSubmit} className="upload" id="upload">
-        <div className="form_inputs form_style">
+      <div className="form_inputs form_style">
+        <form onSubmit={(event) => handleSubmit(event)} id="billForm">
           <input
             className="text__field"
             id="title"
@@ -53,6 +60,7 @@ export function BillForm(props: { title?: string }) {
             type="text"
             placeholder="Insert Bill Name Here"
             value={billName}
+            disabled={isPosting}
             onChange={(e) => setBillName(e.target.value)}
             required
           />
@@ -64,6 +72,7 @@ export function BillForm(props: { title?: string }) {
             step="0.01"
             placeholder="Insert Cost of Bill Here"
             value={billDueAmt}
+            disabled={isPosting}
             onChange={(e) => setBillDueAmt(e.target.value)}
             required
           />
@@ -73,6 +82,7 @@ export function BillForm(props: { title?: string }) {
             name="dueDate"
             type="date"
             value={billDueDate}
+            disabled={isPosting}
             onChange={(e) => setBillDueDate(e.target.value)}
             required
           />
@@ -83,20 +93,21 @@ export function BillForm(props: { title?: string }) {
               name="reoccuring"
               type="checkbox"
               checked={isRecurring}
+              disabled={isPosting}
               onChange={(e) => setIsRecurring(e.target.checked)}
             />
             <span>Monthly?</span>
           </label>
-        </div>
-        <div className="form_btns form_style">
-          <button className="cancel_btn">
-            <FontAwesomeIcon icon={faCancel} className="fa-icon" />
-          </button>
-          <button className="btn--submit">
-            <FontAwesomeIcon icon={faCheck} className="fa-icon" />
-          </button>
-        </div>
-      </form>
+          <div className="form_btns">
+            <button onClick={(e) => cancelBtn(e)} className="cancel_btn">
+              <FontAwesomeIcon icon={faCancel} className="fa-icon" />
+            </button>
+            <button type="submit" disabled={isPosting}>
+              <FontAwesomeIcon icon={faCheck} className="fa-icon" />
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

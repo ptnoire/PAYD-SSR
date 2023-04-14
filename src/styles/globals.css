@@ -65,10 +65,6 @@ button:hover {
   box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
 }
 
-.form_inst {
-  font-size: .7rem;
-  color: var(--gray-);
-}
 
 .formInput { 
   display: grid;
@@ -83,9 +79,7 @@ button:hover {
     "form_btns form_btns form_btns";
 }
 
-.billListFormat {  
-  width: 50vw;
-  min-width: 450px;
+.billListFormat {
   margin-top: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -182,6 +176,7 @@ input[type="checkbox"]:checked::before {
 }
 
 .form_btns { 
+  padding: 10px;
   display: flex;
   justify-content: space-evenly;
   grid-area: form_btns; 
@@ -191,6 +186,11 @@ input[type="checkbox"]:checked::before {
 .spinner {
   padding: 5px;
   animation: spin 1.5s linear infinite;
+}
+
+@media only screen and (max-width: 800px) {
+  h1 { font-size: 1.2rem; }
+  h3 { font-size: .8rem; }
 }
 
 @keyframes spin {

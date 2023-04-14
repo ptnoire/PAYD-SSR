@@ -6,7 +6,7 @@ dayjs.extend(relativeTime);
 type BillWithUser = RouterOutputs["bills"]["getAll"][number];
 
 export function BillFormating(props: BillWithUser) {
-  const { bill, owner } = props;
+  const { bill } = props;
 
   const dueDate = new Date(bill.billDueDate);
   return (
