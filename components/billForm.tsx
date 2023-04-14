@@ -44,6 +44,8 @@ export function BillForm(props: { title?: string }) {
         isRecurring,
       })
     );
+
+    return;
   };
 
   return (
