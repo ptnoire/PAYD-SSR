@@ -28,15 +28,13 @@ export function BillForm(props: { title?: string }) {
       ctx.bills.getAll.invalidate();
     },
   });
-  const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
     e.preventDefault();
-    // Cancel submitting
-  };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    mutate(
+    await mutate(
       BillFormSchema.parse({
         billName,
         billDueAmt: parseFloat(billDueAmt),
