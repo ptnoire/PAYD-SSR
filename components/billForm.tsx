@@ -20,12 +20,12 @@ export function BillForm(props: { title?: string }) {
   const ctx = api.useContext();
 
   const { mutate, isLoading: isPosting } = api.bills.create.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       setBillName("");
       setBillDueAmt("");
       setBillDueDate("");
       setIsRecurring(false);
-      ctx.bills.getAll.invalidate();
+      await ctx.bills.getAll.invalidate();
     },
   });
   const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
