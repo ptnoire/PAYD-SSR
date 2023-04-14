@@ -31,10 +31,10 @@ export function BillForm(props: { title?: string }) {
   const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
     e.preventDefault();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await mutate(
+    mutate(
       BillFormSchema.parse({
         billName,
         billDueAmt: parseFloat(billDueAmt),
@@ -42,8 +42,6 @@ export function BillForm(props: { title?: string }) {
         isRecurring,
       })
     );
-
-    return;
   };
 
   return (
