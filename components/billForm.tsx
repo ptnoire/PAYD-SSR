@@ -2,12 +2,13 @@ import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { z } from "zod";
 import { api } from "~/utils/api";
 
 export const BillFormSchema = z.object({
   billName: z.string(),
-  billDueAmt: z.number(),
+  billDueAmt: z.number().positive(),
   billDueDate: z.string(),
   isRecurring: z.boolean(),
 });
@@ -27,21 +28,41 @@ export function BillForm(props: { title?: string }) {
       setIsRecurring(false);
       await ctx.bills.getAll.invalidate();
     },
+    onError: (e) => {
+      const errMsg = e.data?.zodError?.fieldErrors.content;
+      if (errMsg && errMsg[0]) {
+        toast.error(errMsg[0]);
+      } else {
+        toast.error(
+          "Failed to post, please check that all fields are correct!"
+        );
+      }
+    },
   });
   const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
     e.preventDefault();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    mutate(
-      BillFormSchema.parse({
-        billName,
-        billDueAmt: parseFloat(billDueAmt),
-        billDueDate,
-        isRecurring,
-      })
-    );
+    try {
+      mutate(
+        BillFormSchema.parse({
+          billName,
+          billDueAmt: parseFloat(billDueAmt),
+          billDueDate,
+          isRecurring,
+        })
+      );
+    } catch (e: any) {
+      const errMsg = e.errors[0]?.message;
+      if (errMsg) {
+        toast.error(errMsg);
+      } else {
+        toast.error(
+          "Failed to post, please check that all fields are filled out!"
+        );
+      }
+    }
   };
 
   return (
@@ -60,7 +81,6 @@ export function BillForm(props: { title?: string }) {
             value={billName}
             disabled={isPosting}
             onChange={(e) => setBillName(e.target.value)}
-            required
           />
           <input
             className="text__field"
@@ -72,7 +92,6 @@ export function BillForm(props: { title?: string }) {
             value={billDueAmt}
             disabled={isPosting}
             onChange={(e) => setBillDueAmt(e.target.value)}
-            required
           />
           <input
             className="text__field dateBox"
@@ -82,7 +101,6 @@ export function BillForm(props: { title?: string }) {
             value={billDueDate}
             disabled={isPosting}
             onChange={(e) => setBillDueDate(e.target.value)}
-            required
           />
           <br />
           <label>
