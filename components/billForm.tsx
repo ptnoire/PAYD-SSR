@@ -53,10 +53,12 @@ export function BillForm(props: { title?: string }) {
           isRecurring,
         })
       );
-    } catch (e: any) {
-      const errMsg = e.errors[0]?.message;
-      if (errMsg) {
-        toast.error(errMsg);
+    } catch (e: unknown) {
+      if (e instanceof z.ZodError) {
+        const errMsg = e.errors[0]?.message;
+        if (errMsg) {
+          toast.error(errMsg);
+        }
       } else {
         toast.error(
           "Failed to post, please check that all fields are filled out!"
