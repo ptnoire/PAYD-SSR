@@ -1,6 +1,7 @@
 import { RouterOutputs } from "~/utils/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Link from "next/link";
 dayjs.extend(relativeTime);
 
 type BillWithUser = RouterOutputs["bills"]["getAll"][number];
@@ -24,7 +25,9 @@ export function BillFormating(props: BillWithUser) {
       </div>
       <div className="billList_btns">
         <button className="btn payd__button">Payd!</button>
-        <button className="btn history__button">View History</button>
+        <Link href={`/billHistory/${bill.id}`}>
+          <button className="btn history__button">View History</button>
+        </Link>
         <button className="btn modify_button">Edit Bill</button>
       </div>
     </div>
