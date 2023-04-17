@@ -24,9 +24,8 @@ export function BillList() {
       return (
         <div>
           <h1>
-            No bills have been created yet! Let's get started! Click the
-            <FontAwesomeIcon icon={faSquarePlus} className="fa-icon" /> to get
-            started!
+            No bills have been created yet! Let's get started! Look for the plus
+            on the Nav Bar!
           </h1>
         </div>
       );
