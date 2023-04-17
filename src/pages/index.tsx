@@ -1,5 +1,6 @@
 import styles from "./index.module.css";
 import { type NextPage } from "next";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 

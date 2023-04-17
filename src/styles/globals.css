@@ -116,6 +116,10 @@ button:hover {
   grid-area: billList_dueDates; 
 }
 
+.formInput {
+  opacity: 1;
+  transition: all .5s;
+}
 
 .form_style {
   border: 1px solid var(--white);
@@ -182,10 +186,15 @@ input[type="checkbox"]:checked::before {
   grid-area: form_btns; 
 }
 
-
 .spinner {
   padding: 5px;
   animation: spin 1.5s linear infinite;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: all .5s;
 }
 
 @media only screen and (max-width: 800px) {

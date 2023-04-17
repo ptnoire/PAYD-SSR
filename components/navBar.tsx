@@ -10,6 +10,12 @@ import styles from "../src/pages/index.module.css";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 
+const showNewBillSubmit = () => {
+  const form = document.querySelector(".formInput");
+  if (!form) return;
+  form.classList.remove("hidden");
+};
+
 export function NavBar() {
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
 
@@ -40,7 +46,7 @@ export function NavBar() {
       )}
       {!!isSignedIn && (
         <>
-          <button>
+          <button onClick={showNewBillSubmit}>
             <FontAwesomeIcon icon={faSquarePlus} className="fa-icon" />
           </button>
           <button>

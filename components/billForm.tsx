@@ -39,8 +39,12 @@ export function BillForm(props: { title?: string }) {
       }
     },
   });
-  const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+  const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    const form = document.querySelector(".formInput");
+    if (!form) return;
+    form.classList.add("hidden");
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,6 +57,10 @@ export function BillForm(props: { title?: string }) {
           isRecurring,
         })
       );
+
+      const form = document.querySelector(".formInput");
+      if (!form) return;
+      form.classList.add("hidden");
     } catch (e: unknown) {
       if (e instanceof z.ZodError) {
         const errMsg = e.errors[0]?.message;
@@ -68,7 +76,7 @@ export function BillForm(props: { title?: string }) {
   };
 
   return (
-    <div className="formInput">
+    <div className="formInput hidden">
       <div className="form_title form_style">
         <h2>{props.title ? props.title : "Submit New Bill"}</h2>
       </div>

@@ -2,6 +2,8 @@ import { api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
 import { BillFormating } from "./billListFormat";
 import { useUser } from "@clerk/nextjs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 
 export function BillList() {
   const { isSignedIn } = useUser();
@@ -18,7 +20,16 @@ export function BillList() {
 
     if (postsLoading) return <LoadingSpinner />;
 
-    if (!data) return <div>Something went wrong!</div>;
+    if (!data || data.length === 0)
+      return (
+        <div>
+          <h1>
+            No bills have been created yet! Let's get started! Click the{" "}
+            <FontAwesomeIcon icon={faSquarePlus} className="fa-icon" /> to get
+            started!
+          </h1>
+        </div>
+      );
 
     return (
       <div>
@@ -28,5 +39,9 @@ export function BillList() {
       </div>
     );
   }
-  return <div>Something went wrong!</div>;
+  return (
+    <div>
+      <h3>Something Went Wrong!</h3>
+    </div>
+  );
 }
