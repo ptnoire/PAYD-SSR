@@ -7,25 +7,23 @@ dayjs.extend(relativeTime);
 type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
 
 export function BillFormating(props: BillWithUser) {
-  const bill = props;
-
-  const dueDate = new Date(bill.billDueDate);
+  const dueDate = new Date(props.billDueDate);
   return (
-    <div className="billListFormat" key={bill.id}>
+    <div className="billListFormat" key={props.id}>
       <div className="form_style billList_title">
-        <h1>{bill.billName}</h1>
+        <h1>{props.billName}</h1>
       </div>
       <div className="form_style billList_amt">
-        <h2>{`Amount Due: ${bill.billDueAmt}`}</h2>
+        <h2>{`Amount Due: ${props.billDueAmt}`}</h2>
       </div>
       <div className="form_style billList_dueDates">
         <h3>{dueDate.toLocaleDateString()}</h3>
-        {!!bill.isRecurring && <h3>Monthly Bill</h3>}
+        {!!props.isRecurring && <h3>Monthly Bill</h3>}
         <h3>{`Due ${dayjs(dueDate).fromNow()}`}</h3>
       </div>
       <div className="billList_btns">
         <button className="btn payd__button">Payd!</button>
-        <Link href={`/billHistory/${bill.id}`}>
+        <Link href={`/billHistory/${props.id}`}>
           <button className="btn history__button">View History</button>
         </Link>
         <button className="btn modify_button">Edit Bill</button>

@@ -21,10 +21,7 @@ export function BillList() {
     if (!data || data.length === 0)
       return (
         <div>
-          <h1>
-            No bills have been created yet! Let's get started! Look for the plus
-            on the Nav Bar!
-          </h1>
+          <h1>No bills created yet! 👩‍🏫</h1>
         </div>
       );
 
