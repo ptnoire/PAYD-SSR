@@ -1,6 +1,5 @@
 import styles from "./index.module.css";
 import { type NextPage } from "next";
-import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { NavBar } from "components/navBar";

@@ -2,8 +2,6 @@ import { api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
 import { BillFormating } from "./billListFormat";
 import { useUser } from "@clerk/nextjs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 
 export function BillList() {
   const { isSignedIn } = useUser();
