@@ -35,6 +35,16 @@ export const billsRouter = createTRPCRouter({
         };
     });
     }),
+    getUserBills: privateProcedure.query(async ({ctx}) => ctx.prisma.bill.findMany({
+            where: {
+                billOwner: ctx.userId
+            },
+            take: 100,
+            orderBy: [
+                {createAt: "desc"}
+            ]
+        })
+    ),
     create: privateProcedure.input(BillFormSchema).mutation(async ({ctx, input}) => {
         const billOwner = ctx.userId;
         const bill = await ctx.prisma.bill.create({

@@ -4,10 +4,10 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
 dayjs.extend(relativeTime);
 
-type BillWithUser = RouterOutputs["bills"]["getAll"][number];
+type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
 
 export function BillFormating(props: BillWithUser) {
-  const { bill } = props;
+  const bill = props;
 
   const dueDate = new Date(bill.billDueDate);
   return (
