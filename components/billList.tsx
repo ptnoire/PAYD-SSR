@@ -24,7 +24,7 @@ export function BillList() {
       return (
         <div>
           <h1>
-            No bills have been created yet! Let's get started! Click the{" "}
+            No bills have been created yet! Let's get started! Click the
             <FontAwesomeIcon icon={faSquarePlus} className="fa-icon" /> to get
             started!
           </h1>
