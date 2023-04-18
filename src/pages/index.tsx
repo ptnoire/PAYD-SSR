@@ -23,10 +23,22 @@ const showNewBillSubmit = () => {
   form.classList.toggle("hidden");
 };
 
+const BillList = () => {
+  const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
+
+  if (postsLoading) return <LoadingSpinner />;
+
+  return (
+    <div>
+      {data?.map((bill) => (
+        <BillFormating {...bill} key={bill.id} />
+      ))}
+    </div>
+  );
+};
+
 const Home: NextPage = () => {
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
-
-  const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
 
   return (
     <>
@@ -35,7 +47,11 @@ const Home: NextPage = () => {
           <div className={styles.navDate}>
             <h3 className={styles.paydGreen}>payd-2</h3>
           </div>
-          {!userLoaded && <h3>Error: Failed to load user, try refreshing!</h3>}
+
+          {/* User Failed to Load */}
+          {!userLoaded && <LoadingSpinner />}
+
+          {/* Not Signed In Nav Bar */}
           {!isSignedIn && (
             <SignInButton>
               <button>
@@ -46,6 +62,8 @@ const Home: NextPage = () => {
               </button>
             </SignInButton>
           )}
+
+          {/* Signed In Nav Bar */}
           {!!isSignedIn && (
             <>
               <button onClick={showNewBillSubmit}>
@@ -69,26 +87,35 @@ const Home: NextPage = () => {
             </>
           )}
         </div>
-        <div className={styles.formList}>
-          <BillForm />
-        </div>
+
+        {!!isSignedIn && (
+          <div className={styles.formList}>
+            <BillForm />
+          </div>
+        )}
 
         <div className={styles.billList}>
-          {!isSignedIn && (
-            <div>
+          {!userLoaded && (
+            <div className="center">
+              <LoadingSpinner />
+            </div>
+          )}
+          {!isSignedIn && userLoaded && (
+            <div className={styles.container}>
               <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
-              <h1>Welcome to Payd-2!</h1>
-              <h2>Let&apos;s sign in to get started.</h2>
+              <h1 className={styles.welcomeTitle}>Welcome to payd-2</h1>
+              <h2 className={styles.zIndex2}>
+                Let&apos;s sign in to get started.
+              </h2>
+              <video
+                autoPlay
+                loop
+                muted
+                src="https://cdn.coverr.co/videos/coverr-three-dollars-1756/1080p.mp4"
+              ></video>
             </div>
           )}
-          {!!isSignedIn && postsLoading && <LoadingSpinner />}
-          {!!isSignedIn && (
-            <div>
-              {data?.map((bill) => (
-                <BillFormating {...bill} key={bill.id} />
-              ))}
-            </div>
-          )}
+          {!!isSignedIn && <BillList />}
         </div>
       </main>
     </>

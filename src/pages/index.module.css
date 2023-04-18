@@ -4,6 +4,7 @@
 }
 
 .container {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -11,6 +12,7 @@
   justify-content: center;
   gap: 3rem;
   padding: 4rem 1rem;
+  border-radius: 10px;
 }
 
 .topNav {
@@ -73,6 +75,25 @@
   -webkit-text-stroke: 1px solid white;
 }
 
+.welcomeTitle {
+  font-size: 5rem;
+  font-family: Comforta;
+  position: relative;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: var(--payd-gradient);
+  -webkit-text-fill-color: transparent;
+  z-index: 2;
+  filter:
+    drop-shadow(2px 2px 0 rgb(0, 255, 38)) 
+    drop-shadow(2px 2px 2px rgb(0, 183, 255)) 
+    drop-shadow(2px 2px 0 rgb(0, 128, 255));
+}
+
+.zIndex2 {
+  z-index: 2;
+}
+
 @media only screen and (max-width: 800px) {
   .main {
     margin-top: 25%;
@@ -82,5 +103,8 @@
   }
   .billList {
     width: 93vw;
+  }
+  .welcomeTitle {
+    font-size: 2rem;
   }
 }
