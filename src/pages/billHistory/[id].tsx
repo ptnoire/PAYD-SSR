@@ -4,7 +4,6 @@ import { type NextPage } from "next";
 import { LoadingSpinner } from "components/loading";
 import { api } from "~/utils/api";
 import dayjs from "dayjs";
-import { NavBar } from "components/navBar";
 import { useRouter } from "next/router";
 
 const BillHistoryPage: NextPage = () => {
@@ -23,7 +22,7 @@ const BillHistoryPage: NextPage = () => {
   return (
     <>
       <main className={styles.main}>
-        <NavBar />
+        {/* <NavBar /> */}
         <div className="container">
           <h1>{data.billName}</h1>
           <h1>{data.billDueAmt}</h1>
