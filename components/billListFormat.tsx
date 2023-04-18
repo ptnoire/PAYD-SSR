@@ -2,22 +2,43 @@ import { RouterOutputs, api } from "~/utils/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
+import toast from "react-hot-toast";
 dayjs.extend(relativeTime);
 
 type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
 
 export function BillFormating(props: BillWithUser) {
   const dueDate = new Date(props.billDueDate);
+  const ctx = api.useContext();
 
-  // const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const { mutate } = api.bills.deleteBill.useMutation({
+    onSuccess: async () => {
+      await ctx.bills.getUserBills.invalidate();
+      toast.success("Bill Successfully Deleted!");
+    },
+    onError: (e) => {
+      const errMsg = e.data?.zodError?.fieldErrors.content;
+      if (errMsg && errMsg[0]) {
+        toast.error(errMsg[0]);
+      } else {
+        toast.error("Failed to Delete!");
+      }
+    },
+  });
+
+  const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      mutate({ id: props.id });
+    } catch (error) {
+      toast.error("Failed to delete bill");
+    }
+  };
+
+  // const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   e.preventDefault();
-  //   try {
-  //     const { data } = api.bills.deleteBill.useQuery({ id: props.id });
-  //     toast.success(`${data?.billName} successfully deleted!`);
-  //   } catch (error) {
-  //     toast.error("Failed to delete bill");
-  //   }
-  // };
+
+  // }
 
   return (
     <div className="billListFormat" key={props.id}>
@@ -38,7 +59,9 @@ export function BillFormating(props: BillWithUser) {
           <button className="btn history__button">View History</button>
         </Link>
         <button className="btn modify_button">Edit Bill</button>
-        <button className="btn">Delete Bill</button>
+        <button className="btn" onClick={(e) => deleteFunction(e)}>
+          Delete Bill
+        </button>
       </div>
     </div>
   );

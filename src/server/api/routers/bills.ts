@@ -68,20 +68,10 @@ export const billsRouter = createTRPCRouter({
 
         return bill;
     }),
-    deleteBill: privateProcedure.input(z.object({ id: z.string() })).query(async ({ctx, input}) => {
-        const billDelete = await ctx.prisma.bill.findUnique({
-            where: {
-                id: input.id,
-            }
-        })
-        if(!billDelete) throw new TRPCError({code: "NOT_FOUND"})
-
+    deleteBill: privateProcedure.input(z.object({ id: z.string() })).mutation(async ({ctx, input}) => 
         await ctx.prisma.bill.delete({
             where: {
                 id: input.id,
             }
-        })
-
-        return billDelete
-    })
+        }))
 })
