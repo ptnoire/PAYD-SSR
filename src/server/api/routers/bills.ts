@@ -2,6 +2,7 @@ import { User, clerkClient } from "@clerk/nextjs/dist/api";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { BillFormSchema } from "components/billForm";
+import { z } from "zod";
 
 const filterUserForClient = (user: User) => {
     return {id: user.id}
@@ -35,7 +36,7 @@ export const billsRouter = createTRPCRouter({
         };
     });
     }),
-    getUserBills: privateProcedure.query(async ({ctx}) => ctx.prisma.bill.findMany({
+    getUserBills: privateProcedure.query(async ({ctx}) => await ctx.prisma.bill.findMany({
             where: {
                 billOwner: ctx.userId
             },
@@ -56,6 +57,15 @@ export const billsRouter = createTRPCRouter({
                 billOwner,
             }
         });
+        return bill;
+    }),
+    getBillById: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ctx, input}) => {
+        const bill = await ctx.prisma.bill.findUnique({
+        where: { id: input.id }} )
+        if(!bill) throw new TRPCError({code: "NOT_FOUND"});
+
         return bill;
     })
 })

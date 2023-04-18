@@ -2,6 +2,8 @@ import { api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
 import { BillFormating } from "./billListFormat";
 import { useUser } from "@clerk/nextjs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 
 export function BillList() {
   const { isSignedIn } = useUser();
@@ -9,7 +11,9 @@ export function BillList() {
   if (!isSignedIn)
     return (
       <div>
-        <h3>Sign in to get started!</h3>
+        <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
+        <h1>Welcome to Payd-2!</h1>
+        <h2>Let's sign in to get started.</h2>
       </div>
     );
 
@@ -21,7 +25,7 @@ export function BillList() {
     if (!data || data.length === 0)
       return (
         <div>
-          <h1>No bills created yet! 👩‍🏫</h1>
+          <h1 className="center">No bills created yet! 👩‍🏫</h1>
         </div>
       );
 
@@ -35,7 +39,7 @@ export function BillList() {
   }
   return (
     <div>
-      <h3>Something Went Wrong!</h3>
+      <h3 className="center">Something Went Wrong!</h3>
     </div>
   );
 }
