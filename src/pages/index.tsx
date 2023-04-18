@@ -107,6 +107,16 @@ const Home: NextPage = () => {
               <h2 className={styles.zIndex2}>
                 Let&apos;s sign in to get started.
               </h2>
+
+              <SignInButton>
+                <button className={styles.zIndex2}>
+                  <FontAwesomeIcon
+                    icon={faSignIn}
+                    className="fa-icon"
+                  ></FontAwesomeIcon>
+                </button>
+              </SignInButton>
+
               <video
                 autoPlay
                 loop
