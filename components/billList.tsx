@@ -13,7 +13,7 @@ export function BillList() {
       <div>
         <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
         <h1>Welcome to Payd-2!</h1>
-        <h2>Let's sign in to get started.</h2>
+        <h2>Let&apos;s sign in to get started.</h2>
       </div>
     );
 
