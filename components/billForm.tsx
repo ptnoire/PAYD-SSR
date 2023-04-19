@@ -77,10 +77,10 @@ export function BillForm(props: { title?: string }) {
 
   return (
     <div className="formInput hidden">
-      <div className={`${styles.form_title}`}>
+      <div className={`${styles.form_title}` || ""}>
         <h2>{props.title ? props.title : "Submit New Bill"}</h2>
       </div>
-      <div className={`${styles.form_inputs}`}>
+      <div className={`${styles.form_inputs}` || ""}>
         <form onSubmit={(event) => handleSubmit(event)} id="billForm">
           <input
             className="text__field"

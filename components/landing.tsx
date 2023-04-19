@@ -4,15 +4,15 @@ export const LandingPage = () => {
   return (
     <div className={styles.landingContainer}>
       <div className={styles.land_1}>
-        <h1 className={`${styles.gradient_text} ${styles.font_fancy}`}>
+        <h1 className={`${styles.gradient_text} ${styles.font_fancy}` || ""}>
           Simple. No-nonsense.
         </h1>
       </div>
       <div className={styles.land_2}>
         <h2 className={styles.textItalic}>
-          Managing your bills and finances can be a hassle, but it doesn't have
-          to be. Simple and no-nonsense. Payd let&apos;s you keep track of all
-          your bills and payments in one place without having to share your
+          Managing your bills and finances can be a hassle, but it doesn&apos;t
+          have to be. Simple and no-nonsense. Payd let&apos;s you keep track of
+          all your bills and payments in one place without having to share your
           banking details with anyone.
         </h2>
         <h2 className={styles.textItalic}>
@@ -26,7 +26,7 @@ export const LandingPage = () => {
         <h3 className={styles.textItalic}>
           To help your make life a little easier.
         </h3>
-        <h1 className={`${styles.gradient_text} ${styles.font_fancy}`}>
+        <h1 className={`${styles.gradient_text} ${styles.font_fancy}` || ""}>
           Bill Tracking.
         </h1>
       </div>
