@@ -77,10 +77,10 @@ export function BillForm(props: { title?: string }) {
 
   return (
     <div className="formInput hidden">
-      <div className={`${styles.form_title}` as string}>
+      <div className="form_title form_style">
         <h2>{props.title ? props.title : "Submit New Bill"}</h2>
       </div>
-      <div className={`${styles.form_inputs}` as string}>
+      <div className="form_inputs form_style">
         <form onSubmit={(event) => handleSubmit(event)} id="billForm">
           <input
             className="text__field"
@@ -124,7 +124,7 @@ export function BillForm(props: { title?: string }) {
             />
             <span>Monthly?</span>
           </label>
-          <div className={styles.form_btns}>
+          <div className="form_btns">
             <button onClick={(e) => cancelBtn(e)} className="cancel_btn">
               <FontAwesomeIcon icon={faCancel} className="fa-icon" />
             </button>

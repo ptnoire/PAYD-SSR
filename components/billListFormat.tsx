@@ -57,11 +57,11 @@ export function BillFormating(props: BillWithUser) {
       <div className={styles.billList_btns}>
         <button className="btn payd__button">Payd!</button>
         <Link href={`/billHistory/${props.id}`}>
-          <button className="btn history__button">View History</button>
+          <button className="btn history__button">History</button>
         </Link>
-        <button className="btn modify_button">Edit Bill</button>
+        <button className="btn modify_button">Edit</button>
         <button className="btn" onClick={(e) => deleteFunction(e)}>
-          Delete Bill
+          Delete
         </button>
       </div>
     </div>

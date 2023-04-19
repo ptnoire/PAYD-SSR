@@ -83,6 +83,36 @@ button:hover {
     "form_inputs form_inputs form_inputs"
     "form_btns form_btns form_btns";
   transition: all .5s;
+  opacity: 1;
+}
+
+.form_title { 
+  grid-area: form_title; 
+  text-align: center;
+}
+
+.form_inputs { 
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-area: form_inputs; 
+  text-align: center;
+}
+
+.form_btns { 
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  grid-area: form_btns; 
+}
+
+.form_style {
+  border: 1px solid var(--white);
+  border-radius: 10px;
+  background-color: var(--clear-black);
+  padding: 10px;
+  margin: 1px 1px 1px 1px;
+  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
 }
 
 input[type="checkbox"] {

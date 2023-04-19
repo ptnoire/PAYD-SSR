@@ -52,40 +52,10 @@
   margin-right: auto;
 }
 
-.form_style {
-  border: 1px solid var(--white);
-  border-radius: 10px;
-  background-color: var(--clear-black);
-  padding: 10px;
-  margin: 1px 1px 1px 1px;
-  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
-}
-
 
 .formInput {
   opacity: 1;
   transition: all .5s;
-}
-
-
-.form_title { 
-  grid-area: form_title; 
-  text-align: center;
-}
-
-.form_inputs { 
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  grid-area: form_inputs; 
-  text-align: center;
-}
-
-.form_btns { 
-  padding: 10px;
-  display: flex;
-  justify-content: space-evenly;
-  grid-area: form_btns; 
 }
 
 .billList {
@@ -163,15 +133,15 @@
   -webkit-text-fill-color: transparent;
   z-index: 2;
   filter:
-    drop-shadow(2px 2px 0 rgb(0, 255, 38)) 
-    drop-shadow(2px 2px 2px rgb(0, 183, 255)) 
+    drop-shadow(2px 2px 0 #00C853) 
+    drop-shadow(2px 2px 2px #143f1b) 
     drop-shadow(2px 2px 0 #14150b);
 }
 
 .zIndex2 {
   z-index: 2;
   filter:
-    drop-shadow(2px 2px 0 rgb(20, 63, 27)) 
+    drop-shadow(2px 2px 0 #143f1b) 
     drop-shadow(2px 2px 0 #14150b);
 }
 
@@ -181,11 +151,9 @@
   background-clip: text;
   background-image: var(--payd-gradient);
   -webkit-text-fill-color: transparent;
+  font-family: Comforta;
+  font-weight: 900;
   z-index: 2;
-}
-
-.font_fancy {
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .landingContainer {  
@@ -203,7 +171,7 @@
 
 .land_1 { 
   grid-area: land_1;
-  font-size: 3vw;
+  font-size: 2.8vw;
  }
 
 .land_2 { 
@@ -235,8 +203,8 @@
   .welcomeTitle {
     font-size: 8vw;
   }
-  .font_fancy {
-    font-size: 2.5rem;
+  .gradient_text {
+    font-size: 2rem;
   }
   .landingContainer {  
     display: flex;
