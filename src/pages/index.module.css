@@ -52,14 +52,13 @@
   margin-right: auto;
 }
 
-
 .formInput {
   opacity: 1;
   transition: all .5s;
 }
 
 .billList {
-  width: 60vw;
+  width: 50vw;
   margin-left: auto;
   margin-right: auto;
 }
@@ -79,6 +78,7 @@
 
 .billList_title { 
   grid-area: billList_title; 
+  background-color: var(--clear-black);
 }
 
 .billList_btns { 
@@ -91,6 +91,7 @@
 
 .billList_amt { 
   grid-area: billList_amt; 
+  background-color: var(--clear-black);
 }
 
 .billList_dueDates { 
@@ -99,6 +100,7 @@
   align-items: center;
   justify-content: space-evenly;
   grid-area: billList_dueDates; 
+  background-color: var(--clear-black);
 }
 
 .paydGreen {

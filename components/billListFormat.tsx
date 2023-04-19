@@ -43,13 +43,13 @@ export function BillFormating(props: BillWithUser) {
 
   return (
     <div className={styles.billListFormat} key={props.id}>
-      <div className={`${styles.billList_title} ${styles.form_style}`}>
+      <div className={styles.billList_title}>
         <h1 className={styles.gradient_text}>{props.billName}</h1>
       </div>
-      <div className={`${styles.billList_amt} ${styles.form_style}`}>
+      <div className={styles.billList_amt}>
         <h2>{`Amount Due: ${props.billDueAmt}`}</h2>
       </div>
-      <div className={`${styles.billList_dueDates} ${styles.form_style}`}>
+      <div className={styles.billList_dueDates}>
         <h3>{dueDate.toLocaleDateString()}</h3>
         {!!props.isRecurring && <h3>Monthly Bill</h3>}
         <h3>{`Due ${dayjs(dueDate).fromNow()}`}</h3>
