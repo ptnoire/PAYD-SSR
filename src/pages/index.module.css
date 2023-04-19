@@ -165,7 +165,6 @@
   background-image: var(--payd-gradient);
   -webkit-text-fill-color: transparent;
   font-family: Comforta;
-  font-size: 2.3rem;
   font-weight: 900;
   z-index: 2;
 }
