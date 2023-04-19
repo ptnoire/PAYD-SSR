@@ -1,4 +1,5 @@
 import { RouterOutputs, api } from "~/utils/api";
+import styles from "../src/pages/index.module.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
@@ -41,19 +42,19 @@ export function BillFormating(props: BillWithUser) {
   // }
 
   return (
-    <div className="billListFormat" key={props.id}>
-      <div className="form_style billList_title">
-        <h1>{props.billName}</h1>
+    <div className={styles.billListFormat} key={props.id}>
+      <div className={`${styles.billList_title} ${styles.form_style}`}>
+        <h1 className={styles.gradient_text}>{props.billName}</h1>
       </div>
-      <div className="form_style billList_amt">
+      <div className={`${styles.billList_amt} ${styles.form_style}`}>
         <h2>{`Amount Due: ${props.billDueAmt}`}</h2>
       </div>
-      <div className="form_style billList_dueDates">
+      <div className={`${styles.billList_dueDates} ${styles.form_style}`}>
         <h3>{dueDate.toLocaleDateString()}</h3>
         {!!props.isRecurring && <h3>Monthly Bill</h3>}
         <h3>{`Due ${dayjs(dueDate).fromNow()}`}</h3>
       </div>
-      <div className="billList_btns">
+      <div className={styles.billList_btns}>
         <button className="btn payd__button">Payd!</button>
         <Link href={`/billHistory/${props.id}`}>
           <button className="btn history__button">View History</button>

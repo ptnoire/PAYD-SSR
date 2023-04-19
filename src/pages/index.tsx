@@ -16,6 +16,7 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { BillFormating } from "components/billListFormat";
 import { LoadingSpinner } from "components/loading";
+import { LandingPage } from "components/landing";
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");
@@ -121,13 +122,14 @@ const Home: NextPage = () => {
                 autoPlay
                 loop
                 muted
-                src="https://cdn.coverr.co/videos/coverr-three-dollars-1756/1080p.mp4"
+                src="https://cdn.coverr.co/videos/coverr-ocean-sequence-8009/1080p.mp4"
               ></video>
             </div>
           )}
           {!!isSignedIn && <BillList />}
         </div>
       </main>
+      {!isSignedIn && userLoaded && <LandingPage />}
     </>
   );
 };

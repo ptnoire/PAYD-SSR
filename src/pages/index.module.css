@@ -4,15 +4,19 @@
 }
 
 .container {
-  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
   padding: 4rem 1rem;
   border-radius: 10px;
+  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+}
+
+.textItalic {
+  font-style: italic;
+  font-weight: 300;
 }
 
 .topNav {
@@ -28,6 +32,7 @@
   padding: 10px;
   background-color: var(--background-black);
   box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+  z-index: 5;
 }
 
 .topNav img {
@@ -47,10 +52,83 @@
   margin-right: auto;
 }
 
+.form_style {
+  border: 1px solid var(--white);
+  border-radius: 10px;
+  background-color: var(--clear-black);
+  padding: 10px;
+  margin: 1px 1px 1px 1px;
+  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+}
+
+
+.formInput {
+  opacity: 1;
+  transition: all .5s;
+}
+
+
+.form_title { 
+  grid-area: form_title; 
+  text-align: center;
+}
+
+.form_inputs { 
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-area: form_inputs; 
+  text-align: center;
+}
+
+.form_btns { 
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  grid-area: form_btns; 
+}
+
 .billList {
   width: 60vw;
   margin-left: auto;
   margin-right: auto;
+}
+
+.billListFormat {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: .5fr .5fr .8fr;
+  gap: 5px 5px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "billList_title billList_title billList_dueDates"
+    "billList_amt billList_amt billList_dueDates"
+    "billList_btns billList_btns billList_btns";
+}
+
+.billList_title { 
+  grid-area: billList_title; 
+}
+
+.billList_btns { 
+  grid-area: billList_btns; 
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  align-items: center;
+}
+
+.billList_amt { 
+  grid-area: billList_amt; 
+}
+
+.billList_dueDates { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-area: billList_dueDates; 
 }
 
 .paydGreen {
@@ -87,14 +165,62 @@
   filter:
     drop-shadow(2px 2px 0 rgb(0, 255, 38)) 
     drop-shadow(2px 2px 2px rgb(0, 183, 255)) 
-    drop-shadow(2px 2px 0 rgb(0, 128, 255));
+    drop-shadow(2px 2px 0 #14150b);
 }
 
 .zIndex2 {
   z-index: 2;
   filter:
-  drop-shadow(2px 2px 0 rgb(0, 0, 0));
+    drop-shadow(2px 2px 0 rgb(20, 63, 27)) 
+    drop-shadow(2px 2px 0 #14150b);
 }
+
+.gradient_text {
+  position: relative;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: var(--payd-gradient);
+  -webkit-text-fill-color: transparent;
+  z-index: 2;
+}
+
+.font_fancy {
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.landingContainer {  
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: .5fr .5fr .5fr;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "land_1 land_1 ."
+    ". land_2 land_2"
+    "land_3 land_3 land_3";
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.land_1 { 
+  grid-area: land_1;
+  font-size: 3vw;
+ }
+
+.land_2 { 
+  grid-area: land_2;
+  text-align: center;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.land_3 { 
+  grid-area: land_3;
+  display: flex;
+  flex-direction: row;
+  font-size: 3vw;
+  justify-content: space-evenly;
+ }
+
 
 @media only screen and (max-width: 800px) {
   .main {
@@ -107,6 +233,17 @@
     width: 93vw;
   }
   .welcomeTitle {
-    font-size: 2rem;
+    font-size: 8vw;
+  }
+  .font_fancy {
+    font-size: 2.5rem;
+  }
+  .landingContainer {  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-left: 2%;
+    margin-right: 2%;
   }
 }

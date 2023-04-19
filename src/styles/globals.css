@@ -8,7 +8,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: var(--payd-gradient);
+    background-image: var(--black-gradient);
     overflow-x: hidden;
 }
 
@@ -18,8 +18,9 @@ body {
   --payd-gradient: linear-gradient(to left, #00C853, #B2FF59);
   --due-gradient: linear-gradient(to left, #e91313, #fe4a4a);
   --normal-gradient: linear-gradient(to left, #d1dbd0, #a1fba0);
-  --background-black: #1d1d1d;
-  --clear-black: #1d1d1d68;
+  --background-black: #14150b;
+  --black-gradient: linear-gradient(180deg, #121608 0%, #0f1207 52%, #090b04 100%);
+  --clear-black: #1d1d1d43;
   --gray-: #8a8a8a;
 }
 
@@ -70,7 +71,6 @@ button:hover {
   box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
 }
 
-
 .formInput { 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -82,70 +82,7 @@ button:hover {
     "form_title form_title form_title"
     "form_inputs form_inputs form_inputs"
     "form_btns form_btns form_btns";
-}
-
-.billListFormat {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr .5fr;
-  gap: 5px 5px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "billList_title billList_title billList_dueDates"
-    "billList_amt billList_amt billList_dueDates"
-    "billList_btns billList_btns billList_btns";
-}
-
-.billList_title { 
-  grid-area: billList_title; 
-}
-
-.billList_btns { 
-  grid-area: billList_btns; 
-  display: flex;
-  justify-content: flex-end;
-  gap: 2rem;
-  align-items: center;
-}
-
-.billList_amt { 
-  grid-area: billList_amt; 
-}
-
-.billList_dueDates { 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  grid-area: billList_dueDates; 
-}
-
-.formInput {
-  opacity: 1;
   transition: all .5s;
-}
-
-.form_style {
-  border: 1px solid var(--white);
-  border-radius: 10px;
-  background-color: var(--background-black);
-  padding: 10px;
-  margin: 1px 1px 1px 1px;
-  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
-}
-
-.form_title { 
-  grid-area: form_title; 
-  text-align: center;
-}
-
-.form_inputs { 
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  grid-area: form_inputs; 
-  text-align: center;
 }
 
 input[type="checkbox"] {
@@ -182,6 +119,7 @@ video {
   object-fit: cover;
   z-index: 1;
   border-radius: 10px;
+  filter: contrast(110%);
 }
 
 .text__field {
@@ -194,13 +132,6 @@ video {
   margin: 2px;
 }
 
-.form_btns { 
-  padding: 10px;
-  display: flex;
-  justify-content: space-evenly;
-  grid-area: form_btns; 
-}
-
 .spinner {
   padding: 5px;
   animation: spin 1.5s linear infinite;
@@ -209,6 +140,7 @@ video {
 .hidden {
   opacity: 0;
   visibility: hidden;
+  transform: translateY(-20px);
   transition: all .5s;
 }
 
