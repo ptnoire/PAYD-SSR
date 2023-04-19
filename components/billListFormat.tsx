@@ -47,7 +47,9 @@ export function BillFormating(props: BillWithUser) {
         <h1 className={styles.gradient_text}>{props.billName}</h1>
       </div>
       <div className={styles.billList_amt}>
-        <h2>{`Amount Due: ${props.billDueAmt}`}</h2>
+        <h2
+          className={styles.textItalic}
+        >{`Amount Due: ${props.billDueAmt}`}</h2>
       </div>
       <div className={styles.billList_dueDates}>
         <h3>{dueDate.toLocaleDateString()}</h3>

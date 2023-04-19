@@ -68,7 +68,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: .5fr .5fr .8fr;
-  gap: 5px 5px;
+  gap: 0px 5px;
   grid-auto-flow: row;
   grid-template-areas:
     "billList_title billList_title billList_dueDates"
@@ -78,7 +78,11 @@
 
 .billList_title { 
   grid-area: billList_title; 
-  background-color: var(--clear-black);
+  background-color: var(--background-black);
+  border-top-left-radius: 20px;
+  padding: 1rem;
+  border: 1px solid var(--white);
+  border-width: 1px 1px 0 1px;
 }
 
 .billList_btns { 
@@ -91,7 +95,12 @@
 
 .billList_amt { 
   grid-area: billList_amt; 
-  background-color: var(--clear-black);
+  background-color: var(--background-black);
+  border-bottom-left-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+  border: 1px solid var(--white);
+  border-width: 0 1px 1px 1px;
 }
 
 .billList_dueDates { 
@@ -101,6 +110,8 @@
   justify-content: space-evenly;
   grid-area: billList_dueDates; 
   background-color: var(--clear-black);
+  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+  border: 1px solid var(--white);
 }
 
 .paydGreen {
@@ -154,6 +165,7 @@
   background-image: var(--payd-gradient);
   -webkit-text-fill-color: transparent;
   font-family: Comforta;
+  font-size: 2.3rem;
   font-weight: 900;
   z-index: 2;
 }
@@ -188,7 +200,7 @@
   display: flex;
   flex-direction: row;
   font-size: 3vw;
-  justify-content: space-evenly;
+  justify-content: space-around;
  }
 
 
