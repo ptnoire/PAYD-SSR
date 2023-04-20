@@ -15,6 +15,8 @@ export function BillFormating(props: BillWithUser) {
   const { mutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
+      await ctx.bills.getExpenseTotal.invalidate();
+      await ctx.bills.getMonthTotal.invalidate();
       toast.success("Bill Successfully Deleted!");
     },
     onError: (e) => {

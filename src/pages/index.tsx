@@ -4,6 +4,8 @@ import { BillForm } from "components/billForm";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowDown,
+  faArrowUpRightFromSquare,
   faCircleQuestion,
   faMoneyBill,
   faSignIn,
@@ -17,6 +19,8 @@ import { api } from "~/utils/api";
 import { BillFormating } from "components/billListFormat";
 import { LoadingSpinner } from "components/loading";
 import { LandingPage } from "components/landing";
+import Link from "next/link";
+import { useRef } from "react";
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");
@@ -24,22 +28,53 @@ const showNewBillSubmit = () => {
   form.classList.toggle("hidden");
 };
 
+const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
+  if (ref.current) {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+};
+
 const BillList = () => {
   const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
+  const { data: expData } = api.bills.getExpenseTotal.useQuery();
+  const { data: monthData } = api.bills.getMonthTotal.useQuery();
 
   if (postsLoading) return <LoadingSpinner />;
 
   return (
-    <div>
-      {data?.map((bill) => (
-        <BillFormating {...bill} key={bill.id} />
-      ))}
-    </div>
+    <>
+      <div className={styles.expenseRow}>
+        <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
+        <h3>
+          <span className={styles.textItalic}>
+            This Month&apos;s Expenses:{" "}
+          </span>
+          {monthData}
+        </h3>
+        <h3>
+          <span className={styles.textItalic}>Total Monthly Expenses: </span>
+          {expData}
+        </h3>
+      </div>
+      <div>
+        {data?.map((bill) => (
+          <BillFormating {...bill} key={bill.id} />
+        ))}
+      </div>
+    </>
   );
 };
 
 const Home: NextPage = () => {
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
+  const myRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = () => {
+    scrollTo(myRef);
+  };
 
   return (
     <>
@@ -105,18 +140,54 @@ const Home: NextPage = () => {
             <div className={styles.container}>
               <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
               <h1 className={styles.welcomeTitle}>Welcome to payd-2</h1>
-              <h2 className={styles.zIndex2}>
-                Let&apos;s sign in to get started.
-              </h2>
+              <div className={styles.landingC2}>
+                <div className={styles.c2_1}>
+                  <h2>
+                    Returning?<br></br>
+                    <span className={styles.textItalic}>
+                      Let&apos;s sign-in!
+                    </span>
+                  </h2>
 
-              <SignInButton>
-                <button className={styles.zIndex2}>
-                  <FontAwesomeIcon
-                    icon={faSignIn}
-                    className="fa-icon"
-                  ></FontAwesomeIcon>
-                </button>
-              </SignInButton>
+                  <SignInButton>
+                    <button>
+                      <FontAwesomeIcon
+                        icon={faSignIn}
+                        className="fa-icon"
+                      ></FontAwesomeIcon>
+                    </button>
+                  </SignInButton>
+                </div>
+                <div className={styles.c2_2}>
+                  <h2>
+                    New?<br></br>
+                    <span className={styles.textItalic}>
+                      Scroll to learn more!
+                    </span>
+                  </h2>
+                  <button onClick={handleClick}>
+                    <FontAwesomeIcon icon={faArrowDown} className="fa-icon" />
+                  </button>
+                </div>
+                <div className={styles.c2_3}>
+                  <h2>
+                    Curious?<br></br>{" "}
+                    <span className={styles.textItalic}>Try the demo!</span>
+                  </h2>
+                  <button>
+                    <Link
+                      href="https://ptnoire.github.io/PAYD-bill-tracker/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FontAwesomeIcon
+                        icon={faArrowUpRightFromSquare}
+                        className="fa-icon"
+                      />
+                    </Link>
+                  </button>
+                </div>
+              </div>
 
               <video
                 autoPlay
@@ -129,7 +200,7 @@ const Home: NextPage = () => {
           {!!isSignedIn && <BillList />}
         </div>
       </main>
-      {!isSignedIn && userLoaded && <LandingPage />}
+      <div ref={myRef}>{!isSignedIn && userLoaded && <LandingPage />}</div>
     </>
   );
 };

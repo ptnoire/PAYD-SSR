@@ -27,6 +27,8 @@ export function BillForm(props: { title?: string }) {
       setBillDueDate("");
       setIsRecurring(false);
       await ctx.bills.getUserBills.invalidate();
+      await ctx.bills.getExpenseTotal.invalidate();
+      await ctx.bills.getMonthTotal.invalidate();
     },
     onError: (e) => {
       const errMsg = e.data?.zodError?.fieldErrors.content;

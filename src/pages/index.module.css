@@ -57,6 +57,18 @@
   transition: all .5s;
 }
 
+.expenseRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid var(--white);
+  border-radius: 10px;
+  background: var(--background-black);
+  text-align: right;
+  padding: 5px;
+}
+
 .billList {
   width: 50vw;
   margin-left: auto;
@@ -169,6 +181,42 @@
   z-index: 2;
 }
 
+.landingC2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: .5fr;
+  grid-template-areas:
+    "c2_1 c2_2 c2_3";
+  gap: 12px;
+  z-index: 2;
+  text-align: center;
+}
+
+.c2_1, .c2_2, .c2_3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--clear-black);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 25px;
+  padding: 10px;
+  width: 30vw;
+}
+
+.c2_1 {
+  grid-area: c2_1;
+}
+
+.c2_2 {
+  grid-area: c2_2;
+}
+
+.c2_3 {
+  grid-area: c2_3;
+}
+
 .landingContainer {  
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -214,7 +262,7 @@
     width: 93vw;
   }
   .welcomeTitle {
-    font-size: 8vw;
+    font-size: 8.4vw;
   }
   .gradient_text {
     font-size: 2rem;

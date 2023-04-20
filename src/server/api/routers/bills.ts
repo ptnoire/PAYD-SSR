@@ -46,6 +46,33 @@ export const billsRouter = createTRPCRouter({
             ]
         })
     ),
+    getExpenseTotal: privateProcedure.query(async ({ctx}) => {
+        const result = await ctx.prisma.bill.aggregate({
+            where: {
+                billOwner: ctx.userId,
+                isRecurring: true,
+            },
+            _sum: {
+                billDueAmt: true,
+            }
+        })
+
+        return result._sum.billDueAmt;
+    }
+),
+getMonthTotal: privateProcedure.query(async ({ctx}) => {
+    const result = await ctx.prisma.bill.aggregate({
+        where: {
+            billOwner: ctx.userId,
+        },
+        _sum: {
+            billDueAmt: true,
+        }
+    })
+
+    return result._sum.billDueAmt;
+}
+),
     create: privateProcedure.input(BillFormSchema).mutation(async ({ctx, input}) => {
         const billOwner = ctx.userId;
         const bill = await ctx.prisma.bill.create({
