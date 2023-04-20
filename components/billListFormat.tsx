@@ -63,7 +63,7 @@ export function BillFormating(props: BillWithUser) {
     try {
       paydMutate({ id: props.id });
     } catch (error) {
-      toast.error(`Uh-oh! ${error}`);
+      toast.error("Failed to pay this bill! Uh Oh!");
     }
   };
 
