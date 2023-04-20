@@ -30,10 +30,10 @@ export const convertCurr = (inputCurrency: number) => {
             newDate.setMonth(newDate.getMonth() + 1);
             newDate.setDate(new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate());
             const updatedDate = newDate.toString();
-            return updatedDate as string;
+            return updatedDate;
         }
     newDate.setMonth(newDate.getMonth() + 1);
     const updatedDate = newDate.toString();
 
-    return updatedDate as string;
+    return updatedDate;
   }
