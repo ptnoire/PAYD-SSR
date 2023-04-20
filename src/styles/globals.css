@@ -179,6 +179,9 @@ video {
   h1 { font-size: 1.2rem; }
   h2 { font-size: 1rem; }
   h3 { font-size: .9rem; }
+  .hideMobile {
+    display: none;
+  }
 }
 
 @keyframes spin {

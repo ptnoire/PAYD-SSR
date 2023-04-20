@@ -3,9 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
-
 import { api } from "~/utils/api";
-
 import "~/styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import Head from "next/head";

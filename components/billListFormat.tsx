@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { convertCurr } from "~/pages";
 dayjs.extend(relativeTime);
 
 type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
@@ -49,9 +50,9 @@ export function BillFormating(props: BillWithUser) {
         <h1 className={styles.gradient_text}>{props.billName}</h1>
       </div>
       <div className={styles.billList_amt}>
-        <h2
-          className={styles.textItalic}
-        >{`Amount Due: ${props.billDueAmt}`}</h2>
+        <h2 className={styles.textItalic}>{`Amount Due: ${convertCurr(
+          props.billDueAmt
+        )}`}</h2>
       </div>
       <div className={styles.billList_dueDates}>
         <h3>{dueDate.toLocaleDateString()}</h3>

@@ -1,15 +1,16 @@
 import styles from "./index.module.css";
 import { type NextPage } from "next";
 import { BillForm } from "components/billForm";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowDown,
   faArrowUpRightFromSquare,
   faCircleQuestion,
   faMoneyBill,
+  faMoneyCheck,
   faSignIn,
   faSignOut,
+  faSmileBeam,
   faSquarePlus,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -21,6 +22,16 @@ import { LoadingSpinner } from "components/loading";
 import { LandingPage } from "components/landing";
 import Link from "next/link";
 import { useRef } from "react";
+
+export const convertCurr = (inputCurrency: number) => {
+  const userLang = navigator.language;
+  const xchange = new Intl.NumberFormat(userLang, {
+    style: "currency",
+    currency: "USD",
+  }).format(inputCurrency);
+
+  return xchange;
+};
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");
@@ -41,22 +52,68 @@ const BillList = () => {
   const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
   const { data: expData } = api.bills.getExpenseTotal.useQuery();
   const { data: monthData } = api.bills.getMonthTotal.useQuery();
+  const today = new Date();
 
-  if (postsLoading) return <LoadingSpinner />;
+  if (postsLoading)
+    return (
+      <div className="center">
+        <LoadingSpinner />
+      </div>
+    );
+
+  if (!data || data.length === 0)
+    return (
+      <div className="center">
+        <FontAwesomeIcon icon={faSmileBeam} className="fa-icon" />
+        <h1 className={styles.welcomeTitle}>Welcome!</h1>
+        <h2>Let&apos;s get it started in here!</h2>
+        <h3 className={styles.textItalic}>
+          At the top of this screen, you&apos;ll see a plus sign icon:
+          <button onClick={showNewBillSubmit}>
+            <FontAwesomeIcon icon={faSquarePlus} className="fa-icon" />
+          </button>
+          <br />
+          click that to add a new bill, a form should appear!
+        </h3>
+        <p className={styles.textItalic}>
+          If have any questions or want some help, please click the{" "}
+          <FontAwesomeIcon icon={faCircleQuestion} className="fa-icon" />
+          <br /> icon at the top or click{" "}
+          <Link
+            href="https://github.com/ptnoire/PAYD-bill-tracker/blob/master/README.md#its-payd"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className={styles.gradient_text}>here</span>.
+          </Link>
+        </p>
+      </div>
+    );
 
   return (
     <>
       <div className={styles.expenseRow}>
-        <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
+        <FontAwesomeIcon icon={faMoneyCheck} className="fa-icon hideMobile" />
+        <h3>
+          <span className={styles.textItalic}>Today&apos;s Date: </span>
+          {today.toLocaleDateString()}
+        </h3>
+        <h3>
+          <span className={styles.textItalic}>Current Balance: </span>
+          {typeof expData === "number" && convertCurr(expData)}
+        </h3>
+      </div>
+      <div className={styles.expenseRow}>
+        <FontAwesomeIcon icon={faMoneyBill} className="fa-icon hideMobile" />
         <h3>
           <span className={styles.textItalic}>
             This Month&apos;s Expenses:{" "}
           </span>
-          {monthData}
+          {typeof monthData === "number" && convertCurr(monthData)}
         </h3>
         <h3>
           <span className={styles.textItalic}>Total Monthly Expenses: </span>
-          {expData}
+          {typeof expData === "number" && convertCurr(expData)}
         </h3>
       </div>
       <div>
@@ -106,7 +163,16 @@ const Home: NextPage = () => {
                 <FontAwesomeIcon icon={faSquarePlus} className="fa-icon" />
               </button>
               <button>
-                <FontAwesomeIcon icon={faCircleQuestion} className="fa-icon" />
+                <Link
+                  href="https://github.com/ptnoire/PAYD-bill-tracker/blob/master/README.md#its-payd"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon
+                    icon={faCircleQuestion}
+                    className="fa-icon"
+                  />
+                </Link>
               </button>
               <SignOutButton>
                 <button>
@@ -140,6 +206,9 @@ const Home: NextPage = () => {
             <div className={styles.container}>
               <FontAwesomeIcon icon={faMoneyBill} className="fa-icon" />
               <h1 className={styles.welcomeTitle}>Welcome to payd-2</h1>
+              <h3 className={styles.textPop}>
+                Simple. No-nonsense. Bill Tracking.
+              </h3>
               <div className={styles.landingC2}>
                 <div className={styles.c2_1}>
                   <h2>
