@@ -20,3 +20,20 @@ export const convertCurr = (inputCurrency: number) => {
   
     return localDateString;
   };
+
+  export function incrementMonthAndRetainDate(date: string) {
+    const newDate = new Date(date);
+
+    const isLastDayOfMonth = newDate.getDate() === new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate();
+        if (isLastDayOfMonth) {
+            newDate.setDate(1);
+            newDate.setMonth(newDate.getMonth() + 1);
+            newDate.setDate(new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate());
+            const updatedDate = newDate.toString();
+            return updatedDate as string;
+        }
+    newDate.setMonth(newDate.getMonth() + 1);
+    const updatedDate = newDate.toString();
+
+    return updatedDate as string;
+  }

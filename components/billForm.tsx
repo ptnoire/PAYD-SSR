@@ -19,20 +19,16 @@ export function BillForm(props: { title?: string }) {
   const [isRecurring, setIsRecurring] = useState(false);
   const ctx = api.useContext();
 
-  const validator = async () => {
-    await ctx.bills.getUserBills.invalidate();
-    await ctx.bills.getExpenseTotal.invalidate();
-    await ctx.bills.getMonthTotal.invalidate();
-    await ctx.bills.getCurBalance.invalidate();
-  };
-
   const { mutate, isLoading: isPosting } = api.bills.create.useMutation({
     onSuccess: async () => {
       setBillName("");
       setBillDueAmt("");
       setBillDueDate("");
       setIsRecurring(false);
-      validator();
+      await ctx.bills.getUserBills.invalidate();
+      await ctx.bills.getExpenseTotal.invalidate();
+      await ctx.bills.getMonthTotal.invalidate();
+      await ctx.bills.getCurBalance.invalidate();
     },
     onError: (e) => {
       const errMsg = e.data?.zodError?.fieldErrors.content;
