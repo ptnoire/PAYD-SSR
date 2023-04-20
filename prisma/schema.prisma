@@ -18,22 +18,14 @@ model Bill {
     billDueAmt  Float
     billDueDate String
     isRecurring Boolean
+    payd        Boolean  @default(false)
     billOwner   String
 }
 
-model Post {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-
-    content String @db.VarChar(255)
-
-    authorId String
-
-    @@index([authorId])
-}
-
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model BillHistory {
+    id         String   @id @default(cuid())
+    createAt   DateTime @default(now())
+    billNameID String
+    amtPaid    Float
+    billOwner  String
 }

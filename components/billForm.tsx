@@ -1,6 +1,5 @@
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "../src/pages/index.module.css";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -13,12 +12,19 @@ export const BillFormSchema = z.object({
   isRecurring: z.boolean(),
 });
 
+const validator = async () => {
+  const ctx = api.useContext();
+  await ctx.bills.getUserBills.invalidate();
+  await ctx.bills.getExpenseTotal.invalidate();
+  await ctx.bills.getMonthTotal.invalidate();
+  await ctx.bills.getCurBalance.invalidate();
+};
+
 export function BillForm(props: { title?: string }) {
   const [billName, setBillName] = useState("");
   const [billDueAmt, setBillDueAmt] = useState("");
   const [billDueDate, setBillDueDate] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
-  const ctx = api.useContext();
 
   const { mutate, isLoading: isPosting } = api.bills.create.useMutation({
     onSuccess: async () => {
@@ -26,9 +32,7 @@ export function BillForm(props: { title?: string }) {
       setBillDueAmt("");
       setBillDueDate("");
       setIsRecurring(false);
-      await ctx.bills.getUserBills.invalidate();
-      await ctx.bills.getExpenseTotal.invalidate();
-      await ctx.bills.getMonthTotal.invalidate();
+      validator();
     },
     onError: (e) => {
       const errMsg = e.data?.zodError?.fieldErrors.content;
@@ -50,12 +54,14 @@ export function BillForm(props: { title?: string }) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const parsedDate = new Date(billDueDate);
+    const isoDateString = parsedDate.toISOString();
     try {
       mutate(
         BillFormSchema.parse({
           billName,
           billDueAmt: parseFloat(billDueAmt),
-          billDueDate,
+          billDueDate: isoDateString,
           isRecurring,
         })
       );

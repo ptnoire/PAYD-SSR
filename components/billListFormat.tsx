@@ -4,20 +4,25 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import { convertCurr } from "~/pages";
+import { convertCurr, convertLocalDate } from "~/helpers/convert";
 dayjs.extend(relativeTime);
 
 type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
 
-export function BillFormating(props: BillWithUser) {
-  const dueDate = new Date(props.billDueDate);
+const validator = async () => {
   const ctx = api.useContext();
+  await ctx.bills.getUserBills.invalidate();
+  await ctx.bills.getExpenseTotal.invalidate();
+  await ctx.bills.getMonthTotal.invalidate();
+  await ctx.bills.getCurBalance.invalidate();
+};
 
-  const { mutate } = api.bills.deleteBill.useMutation({
+export function BillFormating(props: BillWithUser) {
+  const dueDate = convertLocalDate(props.billDueDate);
+
+  const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {
-      await ctx.bills.getUserBills.invalidate();
-      await ctx.bills.getExpenseTotal.invalidate();
-      await ctx.bills.getMonthTotal.invalidate();
+      validator();
       toast.success("Bill Successfully Deleted!");
     },
     onError: (e) => {
@@ -33,9 +38,33 @@ export function BillFormating(props: BillWithUser) {
   const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      mutate({ id: props.id });
+      deleteMutate({ id: props.id });
     } catch (error) {
       toast.error("Failed to delete bill");
+    }
+  };
+
+  const { mutate: paydMutate } = api.bills.payd.useMutation({
+    onSuccess: async () => {
+      validator();
+      toast.success("Bill Payd!!");
+    },
+    onError: (e) => {
+      const errMsg = e.data?.zodError?.fieldErrors.content;
+      if (errMsg && errMsg[0]) {
+        toast.error(errMsg[0]);
+      } else {
+        toast.error("Failed to pay bill, whoops!");
+      }
+    },
+  });
+
+  const paydFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      paydMutate({ id: props.id });
+    } catch (error) {
+      toast.error(`Uh-oh! ${error}`);
     }
   };
 
@@ -55,12 +84,14 @@ export function BillFormating(props: BillWithUser) {
         )}`}</h2>
       </div>
       <div className={styles.billList_dueDates}>
-        <h3>{dueDate.toLocaleDateString()}</h3>
+        <h3>{dueDate}</h3>
         {!!props.isRecurring && <h3>Monthly Bill</h3>}
         <h3>{`Due ${dayjs(dueDate).fromNow()}`}</h3>
       </div>
       <div className={styles.billList_btns}>
-        <button className="btn payd__button">Payd!</button>
+        <button className="btn payd__button" onClick={(e) => paydFunction(e)}>
+          Payd!
+        </button>
         <Link href={`/billHistory/${props.id}`}>
           <button className="btn history__button">History</button>
         </Link>
