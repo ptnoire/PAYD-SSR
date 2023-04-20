@@ -12,19 +12,19 @@ export const BillFormSchema = z.object({
   isRecurring: z.boolean(),
 });
 
-const validator = async () => {
-  const ctx = api.useContext();
-  await ctx.bills.getUserBills.invalidate();
-  await ctx.bills.getExpenseTotal.invalidate();
-  await ctx.bills.getMonthTotal.invalidate();
-  await ctx.bills.getCurBalance.invalidate();
-};
-
 export function BillForm(props: { title?: string }) {
   const [billName, setBillName] = useState("");
   const [billDueAmt, setBillDueAmt] = useState("");
   const [billDueDate, setBillDueDate] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
+  const ctx = api.useContext();
+
+  const validator = async () => {
+    await ctx.bills.getUserBills.invalidate();
+    await ctx.bills.getExpenseTotal.invalidate();
+    await ctx.bills.getMonthTotal.invalidate();
+    await ctx.bills.getCurBalance.invalidate();
+  };
 
   const { mutate, isLoading: isPosting } = api.bills.create.useMutation({
     onSuccess: async () => {

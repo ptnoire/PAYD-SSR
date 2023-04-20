@@ -9,20 +9,21 @@ dayjs.extend(relativeTime);
 
 type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
 
-const validator = async () => {
-  const ctx = api.useContext();
-  await ctx.bills.getUserBills.invalidate();
-  await ctx.bills.getExpenseTotal.invalidate();
-  await ctx.bills.getMonthTotal.invalidate();
-  await ctx.bills.getCurBalance.invalidate();
-};
-
 export function BillFormating(props: BillWithUser) {
+  const ctx = api.useContext();
+
+  const validator = async () => {
+    await ctx.bills.getUserBills.invalidate();
+    await ctx.bills.getExpenseTotal.invalidate();
+    await ctx.bills.getMonthTotal.invalidate();
+    await ctx.bills.getCurBalance.invalidate();
+  };
+
   const dueDate = convertLocalDate(props.billDueDate);
 
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {
-      validator();
+      await validator();
       toast.success("Bill Successfully Deleted!");
     },
     onError: (e) => {
@@ -46,7 +47,7 @@ export function BillFormating(props: BillWithUser) {
 
   const { mutate: paydMutate } = api.bills.payd.useMutation({
     onSuccess: async () => {
-      validator();
+      await validator();
       toast.success("Bill Payd!!");
     },
     onError: (e) => {
