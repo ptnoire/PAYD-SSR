@@ -188,3 +188,17 @@ video {
   0% {transform: rotate(0deg);}
   100% {transform: rotate(360deg);}
 }
+
+::-webkit-scrollbar {
+  height: 7px;
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--payd-green);
+  border-radius: 30px;
+}
