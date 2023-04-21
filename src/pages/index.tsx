@@ -20,9 +20,10 @@ import { BillFormating } from "components/billListFormat";
 import { LoadingSpinner } from "components/loading";
 import { LandingPage } from "components/landing";
 import Link from "next/link";
-import { useRef } from "react";
+import { ReactElement, ReactNode, useRef } from "react";
 import { NewListDisplay } from "components/newList";
 import { convertCurr } from "~/helpers/convert";
+import ReactDOM from "react-dom";
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");
@@ -36,6 +37,27 @@ const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
       behavior: "smooth",
       block: "start",
     });
+  }
+};
+
+export const ModalRender = (content: ReactElement) => {
+  document.querySelector(".backdrop")?.classList.remove("hidden");
+  const modal = document.querySelector(".modal");
+  if (!modal) return;
+  modal?.classList.remove("hidden");
+  if (!content) return;
+  return ReactDOM.render(content, modal);
+};
+
+export const CloseModal = () => {
+  const modal = document.querySelector(".modal");
+  if (modal) {
+    ReactDOM.unmountComponentAtNode(modal);
+    modal.classList.add("hidden");
+  }
+  const backdrop = document.querySelector(".backdrop");
+  if (backdrop) {
+    backdrop.classList.add("hidden");
   }
 };
 
@@ -238,6 +260,8 @@ const Home: NextPage = () => {
         </div>
       </main>
       <div ref={myRef}>{!isSignedIn && userLoaded && <LandingPage />}</div>
+      <div className="modal hidden"></div>
+      <div className="backdrop hidden"></div>
     </>
   );
 };
