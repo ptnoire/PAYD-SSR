@@ -41,15 +41,24 @@
 }
 
 .modal_format {
+  padding: 15px;
   display: grid;
-  align-items: center;
-  justify-content: space-evenly;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: .1fr .5fr .5fr;
   grid-auto-flow: row;
   grid-template-areas:
-    "modalT modalT modalT"
-    "modalD modalD modalD"
-    "modalB modalB modalB";
+    "modalT modalT"
+    "modalD modalD"
+    "modalB modalB";
+}
+
+.history_format {
+  border: 1px outset var(--white);
+  background: var(--background-black);
+  margin: 5px 0 5px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .modalT {
@@ -60,6 +69,7 @@
 .modalD {
   text-align: center;
   grid-area: modalD;
+  padding: 0 15% 0 15%;
 }
 
 .modalB {

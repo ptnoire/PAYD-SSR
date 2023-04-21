@@ -86,6 +86,24 @@ export const billsRouter = createTRPCRouter({
 
         return bill;
     }),
+    getBillHistoryById: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ctx, input}) => {
+        const billHistory = await ctx.prisma.billHistory.findMany({
+            where: { 
+                billOwner: ctx.userId,
+                billNameID: input.id 
+            },
+            take: 100,
+            orderBy: [
+                {createAt: "desc"}
+            ]
+        })
+
+        if(!billHistory) throw new TRPCError({code: "NOT_FOUND"});
+
+        return billHistory;
+    }),
     payd: privateProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ctx, input}) => {

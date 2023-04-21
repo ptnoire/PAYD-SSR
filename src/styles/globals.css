@@ -182,6 +182,7 @@ video {
   -webkit-backdrop-filter: blur(5px);
   transition: all 0.5s;
   box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+  overflow-y: scroll;
 }
 
 .backdrop {

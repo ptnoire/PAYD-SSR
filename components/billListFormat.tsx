@@ -8,6 +8,7 @@ import { convertCurr, convertLocalDate } from "~/helpers/convert";
 import { CloseModal, ModalRender } from "~/pages";
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BillHistoryComponent } from "./history";
 dayjs.extend(relativeTime);
 
 type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
@@ -15,7 +16,12 @@ type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
 export function BillFormating(props: BillWithUser) {
   const ctx = api.useContext();
   const dueDate = convertLocalDate(props.billDueDate);
-
+  const { data: billData } = api.bills.getBillById.useQuery({
+    id: props.id as string,
+  });
+  const { data: historyData } = api.bills.getBillHistoryById.useQuery({
+    id: props.id as string,
+  });
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
@@ -59,6 +65,16 @@ export function BillFormating(props: BillWithUser) {
     } catch (error) {
       toast.error("Failed to pay this bill! Uh Oh!");
     }
+  };
+
+  const historyDisplay = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!billData) return;
+    ModalRender(
+      <>
+        <BillHistoryComponent uniqueBill={billData} history={historyData} />
+      </>
+    );
   };
 
   const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -120,10 +136,10 @@ export function BillFormating(props: BillWithUser) {
         <button className="btn payd__button" onClick={(e) => paydFunction(e)}>
           Payd!
         </button>
-        <Link href={`/billHistory/${props.id}`}>
-          <button className="btn history__button">History</button>
-        </Link>
-        <button className="btn modify_button">Edit</button>
+        <button className="btn" onClick={(e) => historyDisplay(e)}>
+          History
+        </button>
+        <button className="btn">Edit</button>
         <button className="btn" onClick={(e) => confirmDelete(e)}>
           Delete
         </button>
