@@ -25,9 +25,7 @@ export function BillFormating(props: BillWithUser) {
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
-      await ctx.bills.getExpenseTotal.invalidate();
-      await ctx.bills.getMonthTotal.invalidate();
-      await ctx.bills.getCurBalance.invalidate();
+      await ctx.bills.getTotals.invalidate();
       toast.success("Bill Successfully Deleted!");
     },
     onError: (e) => {
@@ -43,9 +41,7 @@ export function BillFormating(props: BillWithUser) {
   const { mutate: paydMutate } = api.bills.payd.useMutation({
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
-      await ctx.bills.getExpenseTotal.invalidate();
-      await ctx.bills.getMonthTotal.invalidate();
-      await ctx.bills.getCurBalance.invalidate();
+      await ctx.bills.getTotals.invalidate();
       toast.success("Bill Payd!!");
     },
     onError: (e) => {

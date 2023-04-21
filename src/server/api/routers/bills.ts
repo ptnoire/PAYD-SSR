@@ -16,8 +16,11 @@ export const billsRouter = createTRPCRouter({
             ]
         })
     ),
-    getExpenseTotal: privateProcedure.query(async ({ctx}) => {
-        const result = await ctx.prisma.bill.aggregate({
+    getTotals: privateProcedure.query(async ({ctx}) => {
+        const currentDate = new Date();
+        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+        const expenseTotal = await ctx.prisma.bill.aggregate({
             where: {
                 billOwner: ctx.userId,
                 isRecurring: true,
@@ -27,14 +30,17 @@ export const billsRouter = createTRPCRouter({
             }
         })
 
-        return result._sum.billDueAmt;
-    }),
-    getMonthTotal: privateProcedure.query(async ({ctx}) => {
-        const currentDate = new Date();
-        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+        const currBalance = await ctx.prisma.bill.aggregate({
+            where: {
+                billOwner: ctx.userId,
+                payd: false,
+            },
+            _sum: {
+                billDueAmt: true,
+            }
+        })
         
-        const result = await ctx.prisma.bill.aggregate({
+        const monthTotal = await ctx.prisma.bill.aggregate({
             where: {
                 billOwner: ctx.userId,
                 billDueDate: {
@@ -46,21 +52,14 @@ export const billsRouter = createTRPCRouter({
                 billDueAmt: true,
             }
         })
-        
-        return result._sum.billDueAmt;
-    }),
-    getCurBalance: privateProcedure.query(async ({ctx}) => {
-        const result = await ctx.prisma.bill.aggregate({
-            where: {
-                billOwner: ctx.userId,
-                payd: false,
-            },
-            _sum: {
-                billDueAmt: true,
-            }
-        })
-        
-        return result._sum.billDueAmt;
+
+        const totals = {
+            expenses: expenseTotal._sum.billDueAmt, 
+            monthExpense: monthTotal._sum.billDueAmt,
+            currBalance: currBalance._sum.billDueAmt,
+        }
+
+        return totals;
     }),
     create: privateProcedure
     .input(BillFormSchema)

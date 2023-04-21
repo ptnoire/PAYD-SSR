@@ -63,9 +63,7 @@ export const CloseModal = () => {
 
 const BillList = () => {
   const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
-  const { data: expData } = api.bills.getExpenseTotal.useQuery();
-  const { data: monthData } = api.bills.getMonthTotal.useQuery();
-  const { data: balanceData } = api.bills.getCurBalance.useQuery();
+  const { data: sumReports } = api.bills.getTotals.useQuery();
   const today = new Date();
 
   if (postsLoading)
@@ -87,7 +85,8 @@ const BillList = () => {
         </h3>
         <h3>
           <span className={styles.textItalic}>Current Balance: </span>
-          {(typeof balanceData === "number" && convertCurr(balanceData)) ||
+          {(typeof sumReports?.currBalance === "number" &&
+            convertCurr(sumReports?.currBalance)) ||
             convertCurr(0)}
         </h3>
       </div>
@@ -97,12 +96,14 @@ const BillList = () => {
           <span className={styles.textItalic}>
             This Month&apos;s Expenses:{" "}
           </span>
-          {(typeof monthData === "number" && convertCurr(monthData)) ||
+          {(typeof sumReports?.monthExpense === "number" &&
+            convertCurr(sumReports?.monthExpense)) ||
             convertCurr(0)}
         </h3>
         <h3>
           <span className={styles.textItalic}>Total Monthly Expenses: </span>
-          {(typeof expData === "number" && convertCurr(expData)) ||
+          {(typeof sumReports?.expenses === "number" &&
+            convertCurr(sumReports?.expenses)) ||
             convertCurr(0)}
         </h3>
       </div>
