@@ -1,8 +1,8 @@
-import { RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import styles from "../src/pages/index.module.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import Link from "next/link";
 import toast from "react-hot-toast";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
 import { CloseModal, ModalRender } from "~/pages";
@@ -17,10 +17,10 @@ export function BillFormating(props: BillWithUser) {
   const ctx = api.useContext();
   const dueDate = convertLocalDate(props.billDueDate);
   const { data: billData } = api.bills.getBillById.useQuery({
-    id: props.id as string,
+    id: props.id,
   });
   const { data: historyData } = api.bills.getBillHistoryById.useQuery({
-    id: props.id as string,
+    id: props.id,
   });
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {

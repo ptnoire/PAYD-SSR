@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../src/pages/index.module.css";
 import { HistoryFormating } from "./historyFormat";
-import { RouterOutputs } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { CloseModal } from "~/pages";
 
@@ -13,8 +13,8 @@ type BillHistoryComponentProps = {
   history: BillHistoryIndex[] | undefined;
 };
 export function BillHistoryComponent(props: BillHistoryComponentProps) {
-  if (!props.uniqueBill) return <div>Couldn't Retrieve Bill Data!</div>;
-  if (!props.history) return <div>Couldn't Retrieve History!</div>;
+  if (!props.uniqueBill) return <div>Couldn&apos;t Retrieve Bill Data!</div>;
+  if (!props.history) return <div>Couldn&apos;t Retrieve History!</div>;
 
   return (
     <div className={styles.modal_format}>
