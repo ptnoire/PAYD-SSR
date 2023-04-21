@@ -74,7 +74,7 @@ export function BillFormating(props: BillWithUser) {
             well.
           </h3>
           <h3 className={styles.textItalic}>
-            Once confirmed, you can't undo this action!
+            Once confirmed, you can&apos;t undo this action!
           </h3>
         </div>
         <div className={styles.modalB}>

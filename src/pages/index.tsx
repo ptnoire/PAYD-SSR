@@ -46,7 +46,7 @@ export const ModalRender = (content: ReactElement) => {
   if (!modal) return;
   modal?.classList.remove("hidden");
   if (!content) return;
-  return ReactDOM.render(content, modal);
+  ReactDOM.render(content, modal);
 };
 
 export const CloseModal = () => {
