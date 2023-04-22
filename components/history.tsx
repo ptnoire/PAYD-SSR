@@ -1,27 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../src/pages/index.module.css";
 import { HistoryFormating } from "./historyFormat";
-import type { RouterOutputs } from "~/utils/api";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { CloseModal } from "~/pages";
+import type { BillHistory } from "@prisma/client";
 
-type BillIndex = RouterOutputs["bills"]["getBillById"];
-type BillHistoryIndex = RouterOutputs["bills"]["getBillHistoryById"][number];
-
-type BillHistoryComponentProps = {
-  uniqueBill: BillIndex;
-  history: BillHistoryIndex[] | undefined;
-};
-export function BillHistoryComponent(props: BillHistoryComponentProps) {
-  if (!props.uniqueBill) return <div>Couldn&apos;t Retrieve Bill Data!</div>;
-  if (!props.history) return <div>Couldn&apos;t Retrieve History!</div>;
-
+export function BillHistoryComponent(props: {
+  history: Array<BillHistory>;
+  title: string;
+}) {
   return (
     <div className={styles.modal_format}>
       <div className={styles.modalT}>
-        <h1 className={styles.gradient_text}>
-          {props.uniqueBill.billName}&apos;s History
-        </h1>
+        <h1 className={styles.gradient_text}>{props.title}&apos;s History</h1>
       </div>
       <div className={styles.modalD}>
         {props.history.length === 0 && (

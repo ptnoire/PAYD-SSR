@@ -9,23 +9,22 @@ import { CloseModal, ModalRender } from "~/pages";
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BillHistoryComponent } from "./history";
+import { BillWithHistory } from "~/server/api/routers/bills";
 dayjs.extend(relativeTime);
 
-type BillWithUser = RouterOutputs["bills"]["getUserBills"][number];
-
-export function BillFormating(props: BillWithUser) {
+export function BillFormating(props: BillWithHistory) {
   const ctx = api.useContext();
   const dueDate = convertLocalDate(props.billDueDate);
-  const { data: billData } = api.bills.getBillById.useQuery({
-    id: props.id,
-  });
-  const { data: historyData } = api.bills.getBillHistoryById.useQuery({
-    id: props.id,
-  });
+  // const { data: billData } = api.bills.getBillById.useQuery({
+  //   id: props.id,
+  // });
+  // const { data: historyData } = api.bills.getBillHistoryById.useQuery({
+  //   id: props.id,
+  // });
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
-      await ctx.bills.getTotals.invalidate();
+
       toast.success("Bill Successfully Deleted!");
     },
     onError: (e) => {
@@ -41,7 +40,7 @@ export function BillFormating(props: BillWithUser) {
   const { mutate: paydMutate } = api.bills.payd.useMutation({
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
-      await ctx.bills.getTotals.invalidate();
+
       toast.success("Bill Payd!!");
     },
     onError: (e) => {
@@ -65,10 +64,13 @@ export function BillFormating(props: BillWithUser) {
 
   const historyDisplay = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!billData) return;
+    if (!props.history) return;
     ModalRender(
       <>
-        <BillHistoryComponent uniqueBill={billData} history={historyData} />
+        <BillHistoryComponent
+          history={...props.history}
+          title={props.billName}
+        />
       </>
     );
   };

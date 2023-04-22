@@ -1,12 +1,21 @@
+import type { Bill, BillHistory } from "@prisma/client";
 import { createTRPCRouter, privateProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { BillFormSchema } from "components/billForm";
 import { z } from "zod";
 import { incrementMonthAndRetainDate } from "~/helpers/convert";
 
+export type BillWithHistory = Bill & {
+    history: Array<BillHistory>
+}
+
 export const billsRouter = createTRPCRouter({
-    getUserBills: privateProcedure.query(async ({ctx}) => 
-    await ctx.prisma.bill.findMany({
+    getUserBills: privateProcedure.query(async ({ctx}) => {
+        const currentDate = new Date();
+        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+        
+        const userBills = await ctx.prisma.bill.findMany({
             where: {
                 billOwner: ctx.userId
             },
@@ -15,11 +24,7 @@ export const billsRouter = createTRPCRouter({
                 {createAt: "desc"}
             ]
         })
-    ),
-    getTotals: privateProcedure.query(async ({ctx}) => {
-        const currentDate = new Date();
-        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+        
         const expenseTotal = await ctx.prisma.bill.aggregate({
             where: {
                 billOwner: ctx.userId,
@@ -33,6 +38,10 @@ export const billsRouter = createTRPCRouter({
         const currBalance = await ctx.prisma.bill.aggregate({
             where: {
                 billOwner: ctx.userId,
+                billDueDate: {
+                    gte: startOfMonth.toISOString(),
+                    lte: endOfMonth.toISOString(),
+                  },
                 payd: false,
             },
             _sum: {
@@ -53,7 +62,38 @@ export const billsRouter = createTRPCRouter({
             }
         })
 
+        const userHistory = await ctx.prisma.billHistory.findMany({
+            where: { 
+                billOwner: ctx.userId,
+            },
+            take: 100,
+            orderBy: [
+                {createAt: "desc"}
+            ]
+        })
+
+        const uniqueBills: Array<BillWithHistory> = [];
+
+        userBills.forEach(element => {
+            const uniqueHistory = userHistory.filter(el => el.billNameID === element.id)
+            const uniqueBill = {
+                id: element.id,
+                createAt: element.createAt,
+                billName: element.billName,
+                billDueAmt: element.billDueAmt,
+                billDueDate: element.billDueDate,
+                isRecurring: element.isRecurring,
+                payd: element.payd,
+                billOwner: element.billOwner,
+                history: uniqueHistory,
+            }
+            uniqueBills.push(uniqueBill)
+        })
+
         const totals = {
+            userBills: {
+                bills: uniqueBills,
+            },
             expenses: expenseTotal._sum.billDueAmt, 
             monthExpense: monthTotal._sum.billDueAmt,
             currBalance: currBalance._sum.billDueAmt,
@@ -75,33 +115,6 @@ export const billsRouter = createTRPCRouter({
             }
         });
         return bill;
-    }),
-    getBillById: privateProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ctx, input}) => {
-        const bill = await ctx.prisma.bill.findUnique({
-        where: { id: input.id }} )
-        if(!bill) throw new TRPCError({code: "NOT_FOUND"});
-
-        return bill;
-    }),
-    getBillHistoryById: privateProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ctx, input}) => {
-        const billHistory = await ctx.prisma.billHistory.findMany({
-            where: { 
-                billOwner: ctx.userId,
-                billNameID: input.id 
-            },
-            take: 100,
-            orderBy: [
-                {createAt: "desc"}
-            ]
-        })
-
-        if(!billHistory) throw new TRPCError({code: "NOT_FOUND"});
-
-        return billHistory;
     }),
     payd: privateProcedure
     .input(z.object({ id: z.string() }))

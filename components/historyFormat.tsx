@@ -1,17 +1,16 @@
-import { RouterOutputs } from "~/utils/api";
 import styles from "../src/pages/index.module.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import toast from "react-hot-toast";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
-import { CloseModal, ModalRender } from "~/pages";
-import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 dayjs.extend(relativeTime);
+import type { BillHistory } from "@prisma/client";
 
-type HistorySchema = RouterOutputs["bills"]["getBillHistoryById"][number];
+// import toast from "react-hot-toast";
+// import { CloseModal, ModalRender } from "~/pages";
+// import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export function HistoryFormating(props: HistorySchema) {
+export function HistoryFormating(props: BillHistory) {
   const paydAt = props.createAt.toISOString();
   const paydDate = convertLocalDate(paydAt);
 
