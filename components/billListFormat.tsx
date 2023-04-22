@@ -15,12 +15,7 @@ dayjs.extend(relativeTime);
 export function BillFormating(props: BillWithHistory) {
   const ctx = api.useContext();
   const dueDate = convertLocalDate(props.billDueDate);
-  // const { data: billData } = api.bills.getBillById.useQuery({
-  //   id: props.id,
-  // });
-  // const { data: historyData } = api.bills.getBillHistoryById.useQuery({
-  //   id: props.id,
-  // });
+
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
@@ -66,12 +61,7 @@ export function BillFormating(props: BillWithHistory) {
     e.preventDefault();
     if (!props.history) return;
     ModalRender(
-      <>
-        <BillHistoryComponent
-          history={...props.history}
-          title={props.billName}
-        />
-      </>
+      <BillHistoryComponent history={...props.history} title={props.billName} />
     );
   };
 

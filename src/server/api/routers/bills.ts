@@ -94,6 +94,7 @@ export const billsRouter = createTRPCRouter({
             userBills: {
                 bills: uniqueBills,
             },
+            userHistory,
             expenses: expenseTotal._sum.billDueAmt, 
             monthExpense: monthTotal._sum.billDueAmt,
             currBalance: currBalance._sum.billDueAmt,

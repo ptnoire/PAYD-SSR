@@ -7,7 +7,6 @@ import {
   faArrowUpRightFromSquare,
   faCircleQuestion,
   faMoneyBill,
-  faMoneyCheck,
   faSignIn,
   faSignOut,
   faSquarePlus,
@@ -16,14 +15,12 @@ import {
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { api } from "~/utils/api";
-import { BillFormating } from "components/billListFormat";
 import { LoadingSpinner } from "components/loading";
 import { LandingPage } from "components/landing";
 import Link from "next/link";
-import { ReactElement, ReactNode, useRef } from "react";
-import { NewListDisplay } from "components/newList";
-import { convertCurr } from "~/helpers/convert";
+import { ReactElement, useRef } from "react";
 import ReactDOM from "react-dom";
+import { BillList, UserData } from "components/billList";
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");
@@ -61,64 +58,12 @@ export const CloseModal = () => {
   }
 };
 
-const BillList = () => {
-  const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
-  console.log(data);
-  const today = new Date();
-
-  if (postsLoading)
-    return (
-      <div className="center">
-        <LoadingSpinner />
-      </div>
-    );
-
-  if (!data || data.userBills.bills.length === 0) return <NewListDisplay />;
-
-  return (
-    <>
-      <div className={styles.expenseRow}>
-        <FontAwesomeIcon icon={faMoneyCheck} className="fa-icon hideMobile" />
-        <h3>
-          <span className={styles.textItalic}>Today&apos;s Date: </span>
-          {today.toLocaleDateString()}
-        </h3>
-        <h3>
-          <span className={styles.textItalic}>Current Balance: </span>
-          {(typeof data?.currBalance === "number" &&
-            convertCurr(data?.currBalance)) ||
-            convertCurr(0)}
-        </h3>
-      </div>
-      <div className={styles.expenseRow}>
-        <FontAwesomeIcon icon={faMoneyBill} className="fa-icon hideMobile" />
-        <h3>
-          <span className={styles.textItalic}>
-            This Month&apos;s Expenses:{" "}
-          </span>
-          {(typeof data?.monthExpense === "number" &&
-            convertCurr(data?.monthExpense)) ||
-            convertCurr(0)}
-        </h3>
-        <h3>
-          <span className={styles.textItalic}>Total Monthly Expenses: </span>
-          {(typeof data?.expenses === "number" &&
-            convertCurr(data?.expenses)) ||
-            convertCurr(0)}
-        </h3>
-      </div>
-      <div>
-        {data.userBills.bills?.map((bill) => (
-          <BillFormating {...bill} key={bill.id} />
-        ))}
-      </div>
-    </>
-  );
-};
-
 const Home: NextPage = () => {
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
   const myRef = useRef<HTMLDivElement>(null);
+
+  const { data } = api.bills.getUserBills.useQuery();
+  const userData = data as UserData;
 
   const handleClick = () => {
     scrollTo(myRef);
@@ -257,7 +202,7 @@ const Home: NextPage = () => {
               ></video>
             </div>
           )}
-          {!!isSignedIn && <BillList />}
+          {!!isSignedIn && <BillList {...userData} />}
         </div>
       </main>
       <div ref={myRef}>{!isSignedIn && userLoaded && <LandingPage />}</div>
