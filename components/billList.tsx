@@ -32,7 +32,7 @@ export const BillList = (props: UserData) => {
         <div className={styles.optionsRow}>
           <button
             onClick={(e) => {
-              e.preventDefault;
+              e.preventDefault();
               ModalRender(
                 <BillHistoryComponent
                   history={...props.userHistory}
