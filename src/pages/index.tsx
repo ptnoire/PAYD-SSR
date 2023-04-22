@@ -20,7 +20,8 @@ import { LandingPage } from "components/landing";
 import Link from "next/link";
 import { ReactElement, useRef } from "react";
 import ReactDOM from "react-dom";
-import { BillList, UserData } from "components/billList";
+import { BillList } from "components/billList";
+import type { UserData } from "components/billList";
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");

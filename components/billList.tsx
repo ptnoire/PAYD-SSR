@@ -8,8 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../src/pages/index.module.css";
 import { NewListDisplay } from "./newList";
-import { BillHistory } from "@prisma/client";
-import { BillWithHistory } from "~/server/api/routers/bills";
+import type { BillHistory } from "@prisma/client";
+import type { BillWithHistory } from "~/server/api/routers/bills";
 import { ModalRender } from "~/pages";
 import { BillHistoryComponent } from "./history";
 
@@ -32,13 +32,13 @@ export const BillList = (props: UserData) => {
         <div className={styles.optionsRow}>
           <button
             onClick={(e) => {
-              e.preventDefault,
-                ModalRender(
-                  <BillHistoryComponent
-                    history={...props.userHistory}
-                    title={"Account History"}
-                  />
-                );
+              e.preventDefault;
+              ModalRender(
+                <BillHistoryComponent
+                  history={...props.userHistory}
+                  title={"Account History"}
+                />
+              );
             }}
           >
             <FontAwesomeIcon icon={faHistory} className="fa-icon" />

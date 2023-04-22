@@ -1,5 +1,4 @@
 import { api } from "~/utils/api";
-import type { RouterOutputs } from "~/utils/api";
 import styles from "../src/pages/index.module.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -9,7 +8,7 @@ import { CloseModal, ModalRender } from "~/pages";
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BillHistoryComponent } from "./history";
-import { BillWithHistory } from "~/server/api/routers/bills";
+import type { BillWithHistory } from "~/server/api/routers/bills";
 dayjs.extend(relativeTime);
 
 export function BillFormating(props: BillWithHistory) {
