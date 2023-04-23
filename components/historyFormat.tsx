@@ -5,10 +5,10 @@ import { convertCurr, convertLocalDate } from "~/helpers/convert";
 dayjs.extend(relativeTime);
 import type { BillHistory } from "@prisma/client";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
-import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function HistoryFormating(props: BillHistory) {
   const ctx = api.useContext();
