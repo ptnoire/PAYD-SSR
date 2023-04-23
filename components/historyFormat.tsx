@@ -4,17 +4,17 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
 dayjs.extend(relativeTime);
 import type { BillHistory } from "@prisma/client";
-import { api } from "~/utils/api";
+// import { api } from "~/utils/api";
 // import toast from "react-hot-toast";
 
 // import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function HistoryFormating(props: BillHistory) {
-  const ctx = api.useContext();
+  // const ctx = api.useContext();
   const paydAt = props.createAt.toISOString();
   const paydDate = convertLocalDate(paydAt);
-  let slideModal: boolean = false;
+  // let slideModal: boolean = false;
 
   // const { mutate } = api.bills.deleteBillHistory.useMutation({
   //   onSuccess: async () => {

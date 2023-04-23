@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
-import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BillHistoryComponent } from "./history";
 import type { BillWithHistory } from "~/server/api/routers/bills";

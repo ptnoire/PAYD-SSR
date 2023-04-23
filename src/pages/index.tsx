@@ -48,7 +48,8 @@ export const ModalRender = (content: ReactElement) => {
   if (!content) return;
   const backdrop = document.querySelector(".backdrop");
   const modal = document.querySelector(".modal");
-  const root = createRoot(modal!);
+  if (!modal) return null;
+  const root = createRoot(modal);
   const closeModal = () => {
     root.unmount();
     backdrop?.classList.add("hidden");
