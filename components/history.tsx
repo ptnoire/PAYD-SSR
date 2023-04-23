@@ -1,8 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../src/pages/index.module.css";
 import { HistoryFormating } from "./historyFormat";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { CloseModal } from "~/pages";
 import type { BillHistory } from "@prisma/client";
 
 export function BillHistoryComponent(props: {
@@ -26,11 +23,7 @@ export function BillHistoryComponent(props: {
             <HistoryFormating {...bill} key={bill.id} />
           ))}
       </div>
-      <div className={styles.modalB}>
-        <button onClick={CloseModal}>
-          <FontAwesomeIcon icon={faClose} className="fa-icon" />
-        </button>
-      </div>
+      <div className={styles.modalB}></div>
     </div>
   );
 }

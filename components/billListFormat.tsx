@@ -4,11 +4,11 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
-import { CloseModal, ModalRender } from "~/pages";
 import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BillHistoryComponent } from "./history";
 import type { BillWithHistory } from "~/server/api/routers/bills";
+import { ModalRender } from "~/pages";
 dayjs.extend(relativeTime);
 
 export function BillFormating(props: BillWithHistory) {
@@ -66,6 +66,11 @@ export function BillFormating(props: BillWithHistory) {
 
   const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    const closeWindow = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      document.querySelector(".backdrop")?.classList.add("hidden");
+      document.querySelector(".modal")?.classList.add("hidden");
+    };
     ModalRender(
       <div className={styles.modal_format}>
         <div className={styles.modalT}>
@@ -81,7 +86,7 @@ export function BillFormating(props: BillWithHistory) {
           </h3>
         </div>
         <div className={styles.modalB}>
-          <button onClick={CloseModal}>
+          <button onClick={(e) => closeWindow(e)}>
             <FontAwesomeIcon icon={faCancel} className="fa-icon" />
           </button>
           <button onClick={(e) => deleteFunction(e)}>
@@ -96,7 +101,8 @@ export function BillFormating(props: BillWithHistory) {
     e.preventDefault();
     try {
       deleteMutate({ id: props.id });
-      CloseModal();
+      document.querySelector(".backdrop")?.classList.add("hidden");
+      document.querySelector(".modal")?.classList.add("hidden");
     } catch (error) {
       toast.error("Failed to delete bill");
     }

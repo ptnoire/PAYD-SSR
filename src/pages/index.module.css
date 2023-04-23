@@ -75,8 +75,8 @@
 .modalB {
   display: flex;
   justify-content: space-evenly;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 15%;
+  margin-right: 15%;
   grid-area: modalB;
 }
 
@@ -95,6 +95,16 @@
 .formInput {
   opacity: 1;
   transition: all .5s;
+}
+
+.optionsRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 10px;
+  text-align: center;
+  padding: 0 12px 0 12px;
 }
 
 .expenseRow {
@@ -321,5 +331,8 @@
   }
   .expenseRow {
     padding: 0 5px 0 5px;
+  }
+  .modalB {
+    justify-content: space-between;
   }
 }

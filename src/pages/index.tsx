@@ -6,10 +6,13 @@ import {
   faArrowDown,
   faArrowUpRightFromSquare,
   faCircleQuestion,
+  faMoneyCheck,
   faMoneyBill,
   faSignIn,
   faSignOut,
   faSquarePlus,
+  faClose,
+  faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
@@ -20,9 +23,11 @@ import { LandingPage } from "components/landing";
 import Link from "next/link";
 import { useRef } from "react";
 import type { ReactElement } from "react";
-import ReactDOM from "react-dom";
-import { BillList } from "components/billList";
-import type { UserData } from "components/billList";
+import { createRoot } from "react-dom/client";
+import { NewListDisplay } from "components/newList";
+import { convertCurr } from "~/helpers/convert";
+import { BillFormating } from "components/billListFormat";
+import { BillHistoryComponent } from "components/history";
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");
@@ -40,32 +45,103 @@ const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
 };
 
 export const ModalRender = (content: ReactElement) => {
-  document.querySelector(".backdrop")?.classList.remove("hidden");
-  const modal = document.querySelector(".modal");
-  if (!modal) return;
-  modal?.classList.remove("hidden");
   if (!content) return;
-  ReactDOM.render(content, modal);
+  const backdrop = document.querySelector(".backdrop");
+  const modal = document.querySelector(".modal");
+  const root = createRoot(modal!);
+  const closeModal = () => {
+    root.unmount();
+    backdrop?.classList.add("hidden");
+    modal?.classList.add("hidden");
+  };
+
+  backdrop?.classList.remove("hidden");
+  modal?.classList.remove("hidden");
+  root.render(
+    <>
+      <button className="modal_close" onClick={closeModal}>
+        <FontAwesomeIcon icon={faClose} className="fa-icon" />
+      </button>
+      {content}
+    </>
+  );
+  backdrop?.addEventListener("click", closeModal);
 };
 
-export const CloseModal = () => {
-  const modal = document.querySelector(".modal");
-  if (modal) {
-    ReactDOM.unmountComponentAtNode(modal);
-    modal.classList.add("hidden");
-  }
-  const backdrop = document.querySelector(".backdrop");
-  if (backdrop) {
-    backdrop.classList.add("hidden");
-  }
+const BillList = () => {
+  const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
+  const today = new Date();
+
+  if (postsLoading)
+    return (
+      <div className="center">
+        <LoadingSpinner />
+      </div>
+    );
+
+  if (!data || data.userBills.bills.length === 0) return <NewListDisplay />;
+
+  return (
+    <>
+      {data.userHistory && data.userHistory.length !== 0 && (
+        <div className={styles.optionsRow}>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              ModalRender(
+                <BillHistoryComponent
+                  history={...data.userHistory}
+                  title={"Account"}
+                />
+              );
+            }}
+          >
+            <FontAwesomeIcon icon={faHistory} className="fa-icon" />
+          </button>
+        </div>
+      )}
+      <div className={styles.expenseRow}>
+        <FontAwesomeIcon icon={faMoneyCheck} className="fa-icon hideMobile" />
+        <h3>
+          <span className={styles.textItalic}>Today&apos;s Date: </span>
+          {today.toLocaleDateString()}
+        </h3>
+        <h3>
+          <span className={styles.textItalic}>Current Balance: </span>
+          {(typeof data?.currBalance === "number" &&
+            convertCurr(data?.currBalance)) ||
+            convertCurr(0)}
+        </h3>
+      </div>
+      <div className={styles.expenseRow}>
+        <FontAwesomeIcon icon={faMoneyBill} className="fa-icon hideMobile" />
+        <h3>
+          <span className={styles.textItalic}>
+            This Month&apos;s Expenses:{" "}
+          </span>
+          {(typeof data?.monthExpense === "number" &&
+            convertCurr(data?.monthExpense)) ||
+            convertCurr(0)}
+        </h3>
+        <h3>
+          <span className={styles.textItalic}>Total Monthly Expenses: </span>
+          {(typeof data?.expenses === "number" &&
+            convertCurr(data?.expenses)) ||
+            convertCurr(0)}
+        </h3>
+      </div>
+      <div>
+        {data.userBills.bills?.map((bill) => (
+          <BillFormating {...bill} key={bill.id} />
+        ))}
+      </div>
+    </>
+  );
 };
 
 const Home: NextPage = () => {
   const { user, isLoaded: userLoaded, isSignedIn } = useUser();
   const myRef = useRef<HTMLDivElement>(null);
-
-  const { data } = api.bills.getUserBills.useQuery();
-  const userData = data as UserData;
 
   const handleClick = () => {
     scrollTo(myRef);
@@ -78,11 +154,8 @@ const Home: NextPage = () => {
           <div className={styles.navDate}>
             <h3 className={styles.paydGreen}>payd-2</h3>
           </div>
-
-          {/* User Failed to Load */}
           {!userLoaded && <LoadingSpinner />}
 
-          {/* Not Signed In Nav Bar */}
           {!isSignedIn && (
             <SignInButton>
               <button>
@@ -94,7 +167,6 @@ const Home: NextPage = () => {
             </SignInButton>
           )}
 
-          {/* Signed In Nav Bar */}
           {!!isSignedIn && (
             <>
               <button onClick={showNewBillSubmit}>
@@ -204,7 +276,7 @@ const Home: NextPage = () => {
               ></video>
             </div>
           )}
-          {!!isSignedIn && <BillList {...userData} />}
+          {!!isSignedIn && <BillList />}
         </div>
       </main>
       <div ref={myRef}>{!isSignedIn && userLoaded && <LandingPage />}</div>
