@@ -52,13 +52,24 @@
 }
 
 .history_format {
+  position: relative;
   border: 1px outset var(--white);
+  border-radius: 20px;
   background: var(--background-black);
   margin: 5px 0 5px 0;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
+}
+
+.history_title {
+  position: absolute;
+  top: -30%;
+  left: 1.5%;
+  color: var(--gray-);
+  font-style: italic;
+  font-weight: 400;
 }
 
 .modalT {

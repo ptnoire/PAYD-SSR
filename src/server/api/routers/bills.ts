@@ -148,6 +148,7 @@ export const billsRouter = createTRPCRouter({
     })
         await ctx.prisma.billHistory.create({
             data: {
+                billName: bill.billName,
                 billNameID: bill.id,
                 amtPaid: bill.billDueAmt,
                 billOwner: ctx.userId,
@@ -156,6 +157,14 @@ export const billsRouter = createTRPCRouter({
 
         return bill;
     }),
+    deleteBillHistory: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ctx, input}) => 
+        await ctx.prisma.billHistory.delete({
+            where: {
+                id: input.id,
+            }
+        })),
     deleteBill: privateProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ctx, input}) => 

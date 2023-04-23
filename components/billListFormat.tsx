@@ -66,11 +66,6 @@ export function BillFormating(props: BillWithHistory) {
 
   const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const closeWindow = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      document.querySelector(".backdrop")?.classList.add("hidden");
-      document.querySelector(".modal")?.classList.add("hidden");
-    };
     ModalRender(
       <div className={styles.modal_format}>
         <div className={styles.modalT}>
@@ -86,9 +81,6 @@ export function BillFormating(props: BillWithHistory) {
           </h3>
         </div>
         <div className={styles.modalB}>
-          <button onClick={(e) => closeWindow(e)}>
-            <FontAwesomeIcon icon={faCancel} className="fa-icon" />
-          </button>
           <button onClick={(e) => deleteFunction(e)}>
             <FontAwesomeIcon icon={faCheck} className="fa-icon" />
           </button>

@@ -27,5 +27,6 @@ model BillHistory {
     createAt   DateTime @default(now())
     billNameID String
     amtPaid    Float
+    billName   String
     billOwner  String
 }

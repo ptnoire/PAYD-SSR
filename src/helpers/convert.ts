@@ -6,9 +6,9 @@ export const convertCurr = (inputCurrency: number) => {
     }).format(inputCurrency);
   
     return xchange;
-  };
+};
   
-  export const convertLocalDate = (input: string) => {
+export const convertLocalDate = (input: string) => {
     const userLang = navigator.language;
     const newDate = new Date(input);
     const localDateString = newDate.toLocaleDateString(userLang, {
@@ -19,9 +19,9 @@ export const convertCurr = (inputCurrency: number) => {
     });
   
     return localDateString;
-  };
+};
 
-  export function incrementMonthAndRetainDate(date: string) {
+export function incrementMonthAndRetainDate(date: string) {
     const newDate = new Date(date);
 
     const isLastDayOfMonth = newDate.getDate() === new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate();
@@ -36,4 +36,4 @@ export const convertCurr = (inputCurrency: number) => {
     const updatedDate = newDate.toString();
 
     return updatedDate;
-  }
+}

@@ -63,6 +63,11 @@ export const ModalRender = (content: ReactElement) => {
         <FontAwesomeIcon icon={faClose} className="fa-icon" />
       </button>
       {content}
+      <div className="center">
+        <button onClick={closeModal}>
+          <FontAwesomeIcon icon={faClose} className="fa-icon" />
+        </button>
+      </div>
     </>
   );
   backdrop?.addEventListener("click", closeModal);

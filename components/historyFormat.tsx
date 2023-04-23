@@ -4,80 +4,88 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
 dayjs.extend(relativeTime);
 import type { BillHistory } from "@prisma/client";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
-// import toast from "react-hot-toast";
-// import { CloseModal, ModalRender } from "~/pages";
-// import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function HistoryFormating(props: BillHistory) {
+  const ctx = api.useContext();
   const paydAt = props.createAt.toISOString();
   const paydDate = convertLocalDate(paydAt);
+  let slideModal: boolean = false;
 
-  //   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
-  //     onSuccess: async () => {
-  //       await ctx.bills.getUserBills.invalidate();
-  //       await ctx.bills.getExpenseTotal.invalidate();
-  //       await ctx.bills.getMonthTotal.invalidate();
-  //       await ctx.bills.getCurBalance.invalidate();
-  //       toast.success("Bill Successfully Deleted!");
-  //     },
-  //     onError: (e) => {
-  //       const errMsg = e.data?.zodError?.fieldErrors.content;
-  //       if (errMsg && errMsg[0]) {
-  //         toast.error(errMsg[0]);
-  //       } else {
-  //         toast.error("Failed to Delete!");
-  //       }
-  //     },
-  //   });
+  // const { mutate } = api.bills.deleteBillHistory.useMutation({
+  //   onSuccess: async () => {
+  //     await ctx.bills.getUserBills.invalidate();
 
-  //   const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //     e.preventDefault();
-  //     ModalRender(
-  //       <div className={styles.modal_format}>
-  //         <div className={styles.modalT}>
-  //           <h1 className={styles.gradient_text}>Delete {props.billName}?</h1>
-  //         </div>
-  //         <div className={styles.modalD}>
-  //           <h3>
-  //             Deleting this item will get rid of everything associated with it as
-  //             well.
-  //           </h3>
-  //           <h3 className={styles.textItalic}>
-  //             Once confirmed, you can&apos;t undo this action!
-  //           </h3>
-  //         </div>
-  //         <div className={styles.modalB}>
-  //           <button onClick={CloseModal}>
-  //             <FontAwesomeIcon icon={faCancel} className="fa-icon" />
-  //           </button>
-  //           <button onClick={(e) => deleteFunction(e)}>
-  //             <FontAwesomeIcon icon={faCheck} className="fa-icon" />
-  //           </button>
-  //         </div>
-  //       </div>
-  //     );
-  //   };
-
-  //   const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //     e.preventDefault();
-  //     try {
-  //       deleteMutate({ id: props.id });
-  //       CloseModal();
-  //     } catch (error) {
-  //       toast.error("Failed to delete bill");
+  //     toast.success("Bill Successfully Deleted!");
+  //   },
+  //   onError: (e) => {
+  //     const errMsg = e.data?.zodError?.fieldErrors.content;
+  //     if (errMsg && errMsg[0]) {
+  //       toast.error(errMsg[0]);
+  //     } else {
+  //       toast.error("Failed to Delete!");
   //     }
+  //   },
+  // });
+
+  // export const ModalRender = (content: ReactElement) => {
+  //   if (!content) return;
+  //   const modal = document.querySelector(".modal");
+  //   const root = createRoot(modal!);
+  //   const closeModal = () => {
+  //     root.unmount();
+  //     backdrop?.classList.add("hidden");
+  //     modal?.classList.add("hidden");
   //   };
+
+  //   backdrop?.classList.remove("hidden");
+  //   modal?.classList.remove("hidden");
+  //   root.render(
+  //     <>
+  //       <button className="modal_close" onClick={closeModal}>
+  //         <FontAwesomeIcon icon={faClose} className="fa-icon" />
+  //       </button>
+  //       {content}
+  //       <div className="center">
+  //         <button onClick={closeModal}>
+  //           <FontAwesomeIcon icon={faClose} className="fa-icon" />
+  //         </button>
+  //       </div>
+  //     </>
+  //   );
+  //   backdrop?.addEventListener("click", closeModal);
+  // };
+
+  // const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   slideModal = !slideModal;
+  // };
+
+  // const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   try {
+  //     mutate({ id: props.id });
+  //   } catch (error) {
+  //     toast.error("Failed to delete bill");
+  //   }
+  // };
 
   return (
-    <div className={styles.history_format} key={props.id}>
-      <h3>{paydDate}</h3>
-      <h2 className={styles.textItalic}>
-        {`Amount Paid: ${convertCurr(props.amtPaid)}`}
-      </h2>
-      <button className="btn modify_button">Edit</button>
-      <button className="btn">Delete</button>
-    </div>
+    <>
+      <div className={styles.history_format} key={props.id}>
+        <h3 className={styles.history_title}>{props.billName}</h3>
+        <h3>{paydDate}</h3>
+        <h3 className={styles.textItalic}>
+          {`Amount Paid: ${convertCurr(props.amtPaid)}`}
+        </h3>
+        <button className="btn">Edit</button>
+        <button className="btn">Delete</button>
+      </div>
+      <div className="deleteSlideModal"></div>
+    </>
   );
 }
