@@ -45,7 +45,12 @@ const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
   }
 };
 
-export const ModalRender = (content: ReactElement, passFunction?: Function) => {
+type PassFunctions = () => void;
+
+export const ModalRender = (
+  content: ReactElement,
+  passFunction?: PassFunctions
+) => {
   if (!content) return;
   const backdrop = document.querySelector(".backdrop");
   const modal = document.querySelector(".modal");
@@ -59,8 +64,7 @@ export const ModalRender = (content: ReactElement, passFunction?: Function) => {
   };
 
   const passedFunction = () => {
-    const func = () => (passFunction ? passFunction() : undefined);
-    func();
+    if (passFunction) passFunction();
     closeModal();
   };
 

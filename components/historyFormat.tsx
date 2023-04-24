@@ -36,7 +36,8 @@ export function HistoryFormating(props: BillHistory) {
   const slideDownRender = (content: ReactElement) => {
     if (!content) return;
     const slide = document.querySelector(".slideModal");
-    const root = createRoot(slide!);
+    if (!slide) return null;
+    const root = createRoot(slide);
     const closeModal = () => {
       slide?.classList.add("hidden");
       root.unmount();
