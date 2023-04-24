@@ -4,49 +4,47 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
 dayjs.extend(relativeTime);
 import type { BillHistory } from "@prisma/client";
-// import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 
 import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { ReactElement } from "react";
 import { createRoot } from "react-dom/client";
+import type { functionObject } from "~/pages";
 
-export function HistoryFormating(props: BillHistory) {
-  // const ctx = api.useContext();
+type HistoryFormatingProps = BillHistory & {
+  passFunctions: functionObject;
+};
 
+export function HistoryFormating({
+  passFunctions,
+  ...props
+}: HistoryFormatingProps) {
   const paydAt = props.createAt.toISOString();
   const paydDate = convertLocalDate(paydAt);
 
-  // const { mutate: deleteMutate } = api.bills.deleteBillHistory.useMutation({
-  //   onSuccess: async () => {
-  //     await ctx.bills.getUserBills.invalidate();
-  //     toast.success("Bill Successfully Deleted!");
-  //   },
-  //   onError: (e) => {
-  //     const errMsg = e.data?.zodError?.fieldErrors.content;
-  //     if (errMsg && errMsg[0]) {
-  //       toast.error(errMsg[0]);
-  //     } else {
-  //       toast.error("Failed to Delete!");
-  //     }
-  //   },
-  // });
+  const { deleteHistoryMutate } = passFunctions;
 
   const slideDownRender = (content: ReactElement) => {
     if (!content) return;
-    const slide = document.querySelector(".slideModal");
+    const slide = document.getElementById(props.id);
+    console.log(slide);
     if (!slide) return null;
     const root = createRoot(slide);
     const closeModal = () => {
       slide?.classList.add("hidden");
       root.unmount();
     };
+    const deleteAndClose = () => {
+      deleteFunction();
+      closeModal();
+      document.getElementById(`_${props.id}`)?.classList.add("hidden");
+    };
     slide?.classList.remove("hidden");
     root.render(
       <div className={styles.optionsRow}>
         {content}
-        <button onClick={deleteFunction}>
+        <button onClick={deleteAndClose}>
           <FontAwesomeIcon icon={faCheck} className="fa-icon" />
         </button>
         <button onClick={closeModal}>
@@ -65,10 +63,9 @@ export function HistoryFormating(props: BillHistory) {
     );
   };
 
-  const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const deleteFunction = () => {
     try {
-      // deleteMutate({ id: props.id });
+      if (deleteHistoryMutate) deleteHistoryMutate({ id: props.id });
     } catch (error) {
       toast.error("Failed to delete bill");
     }
@@ -76,7 +73,7 @@ export function HistoryFormating(props: BillHistory) {
 
   return (
     <>
-      <div className={styles.history_format} key={props.id}>
+      <div id={`_${props.id}`} className={styles.history_format} key={props.id}>
         <h3 className={styles.history_title}>{props.billName}</h3>
         <h3>{paydDate}</h3>
         <h3 className={styles.textItalic}>
@@ -87,7 +84,7 @@ export function HistoryFormating(props: BillHistory) {
           Delete
         </button>
       </div>
-      <div className="slideModal hidden"></div>
+      <div id={props.id} className="slideModal hidden"></div>
     </>
   );
 }

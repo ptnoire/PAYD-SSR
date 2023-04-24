@@ -1,4 +1,3 @@
-import { api } from "~/utils/api";
 import styles from "../src/pages/index.module.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -7,48 +6,21 @@ import { convertCurr, convertLocalDate } from "~/helpers/convert";
 import { BillHistoryComponent } from "./history";
 import type { BillWithHistory } from "~/server/api/routers/bills";
 import { ModalRender } from "~/pages";
+import type { functionObject } from "~/pages";
 dayjs.extend(relativeTime);
 
-export function BillFormating(props: BillWithHistory) {
-  const ctx = api.useContext();
+type BillFormatingProps = BillWithHistory & {
+  passFunctions: functionObject;
+};
+
+export function BillFormating({ passFunctions, ...props }: BillFormatingProps) {
   const dueDate = convertLocalDate(props.billDueDate);
-
-  const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
-    onSuccess: async () => {
-      await ctx.bills.getUserBills.invalidate();
-
-      toast.success("Bill Successfully Deleted!");
-    },
-    onError: (e) => {
-      const errMsg = e.data?.zodError?.fieldErrors.content;
-      if (errMsg && errMsg[0]) {
-        toast.error(errMsg[0]);
-      } else {
-        toast.error("Failed to Delete!");
-      }
-    },
-  });
-
-  const { mutate: paydMutate } = api.bills.payd.useMutation({
-    onSuccess: async () => {
-      await ctx.bills.getUserBills.invalidate();
-
-      toast.success("Bill Payd!!");
-    },
-    onError: (e) => {
-      const errMsg = e.data?.zodError?.fieldErrors.content;
-      if (errMsg && errMsg[0]) {
-        toast.error(errMsg[0]);
-      } else {
-        toast.error("Failed to pay bill, whoops!");
-      }
-    },
-  });
+  const { paydMutate, deleteMutate } = passFunctions;
 
   const paydFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      paydMutate({ id: props.id });
+      if (paydMutate) paydMutate({ id: props.id });
     } catch (error) {
       toast.error("Failed to pay this bill! Uh Oh!");
     }
@@ -58,7 +30,11 @@ export function BillFormating(props: BillWithHistory) {
     e.preventDefault();
     if (!props.history) return;
     ModalRender(
-      <BillHistoryComponent history={...props.history} title={props.billName} />
+      <BillHistoryComponent
+        history={...props.history}
+        title={props.billName}
+        passFunctions={passFunctions}
+      />
     );
   };
 
@@ -85,7 +61,7 @@ export function BillFormating(props: BillWithHistory) {
 
   const deleteFunction = () => {
     try {
-      deleteMutate({ id: props.id });
+      if (deleteMutate) deleteMutate({ id: props.id });
     } catch (error) {
       toast.error("Failed to delete bill");
     }

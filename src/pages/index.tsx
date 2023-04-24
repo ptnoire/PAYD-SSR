@@ -29,6 +29,7 @@ import { NewListDisplay } from "components/newList";
 import { convertCurr } from "~/helpers/convert";
 import { BillFormating } from "components/billListFormat";
 import { BillHistoryComponent } from "components/history";
+import toast from "react-hot-toast";
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");
@@ -45,7 +46,13 @@ const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
   }
 };
 
-type PassFunctions = () => void;
+export type PassFunctions = () => void;
+
+type queryCall = { id: string };
+type qcFunction = (args: queryCall) => void;
+export type functionObject = {
+  [key: string]: qcFunction;
+};
 
 export const ModalRender = (
   content: ReactElement,
@@ -92,7 +99,61 @@ export const ModalRender = (
 };
 
 const BillList = () => {
+  const ctx = api.useContext();
   const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
+
+  const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
+    onSuccess: async () => {
+      await ctx.bills.getUserBills.invalidate();
+      toast.success("Bill Successfully Deleted!");
+    },
+    onError: (e) => {
+      const errMsg = e.data?.zodError?.fieldErrors.content;
+      if (errMsg && errMsg[0]) {
+        toast.error(errMsg[0]);
+      } else {
+        toast.error("Failed to Delete!");
+      }
+    },
+  });
+
+  const { mutate: paydMutate } = api.bills.payd.useMutation({
+    onSuccess: async () => {
+      await ctx.bills.getUserBills.invalidate();
+      toast.success("Bill Payd!!");
+    },
+    onError: (e) => {
+      const errMsg = e.data?.zodError?.fieldErrors.content;
+      if (errMsg && errMsg[0]) {
+        toast.error(errMsg[0]);
+      } else {
+        toast.error("Failed to pay bill, whoops!");
+      }
+    },
+  });
+
+  const { mutate: deleteHistoryMutate } =
+    api.bills.deleteBillHistory.useMutation({
+      onSuccess: async () => {
+        await ctx.bills.getUserBills.invalidate();
+        toast.success("Specific History Successfully Deleted!");
+      },
+      onError: (e) => {
+        const errMsg = e.data?.zodError?.fieldErrors.content;
+        if (errMsg && errMsg[0]) {
+          toast.error(errMsg[0]);
+        } else {
+          toast.error("Failed to Delete!");
+        }
+      },
+    });
+
+  const passFunctions: functionObject = {
+    deleteMutate,
+    paydMutate,
+    deleteHistoryMutate,
+  };
+
   const today = new Date();
   console.log(data);
   if (postsLoading)
@@ -115,6 +176,7 @@ const BillList = () => {
                 <BillHistoryComponent
                   history={...data.userHistory}
                   title={"Account"}
+                  passFunctions={passFunctions}
                 />
               );
             }}
@@ -155,7 +217,11 @@ const BillList = () => {
       </div>
       <div>
         {data.userBills.bills?.map((bill) => (
-          <BillFormating {...bill} key={bill.id} />
+          <BillFormating
+            {...bill}
+            key={bill.id}
+            passFunctions={passFunctions}
+          />
         ))}
       </div>
     </>

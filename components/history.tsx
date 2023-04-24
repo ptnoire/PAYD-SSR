@@ -1,3 +1,4 @@
+import type { functionObject } from "~/pages";
 import styles from "../src/pages/index.module.css";
 import { HistoryFormating } from "./historyFormat";
 import type { BillHistory } from "@prisma/client";
@@ -5,6 +6,7 @@ import type { BillHistory } from "@prisma/client";
 export function BillHistoryComponent(props: {
   history: Array<BillHistory> | undefined;
   title: string;
+  passFunctions: functionObject;
 }) {
   return (
     <div className={styles.modal_format}>
@@ -20,7 +22,11 @@ export function BillHistoryComponent(props: {
         {props.history &&
           props.history.length !== 0 &&
           props.history?.map((bill) => (
-            <HistoryFormating {...bill} key={bill.id} />
+            <HistoryFormating
+              {...bill}
+              key={bill.id}
+              passFunctions={props.passFunctions}
+            />
           ))}
       </div>
       <div className={styles.modalB}></div>
