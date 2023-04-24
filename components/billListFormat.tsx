@@ -4,8 +4,6 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BillHistoryComponent } from "./history";
 import type { BillWithHistory } from "~/server/api/routers/bills";
 import { ModalRender } from "~/pages";
@@ -80,21 +78,14 @@ export function BillFormating(props: BillWithHistory) {
             Once confirmed, you can&apos;t undo this action!
           </h3>
         </div>
-        <div className={styles.modalB}>
-          <button onClick={(e) => deleteFunction(e)}>
-            <FontAwesomeIcon icon={faCheck} className="fa-icon" />
-          </button>
-        </div>
-      </div>
+      </div>,
+      deleteFunction
     );
   };
 
-  const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const deleteFunction = () => {
     try {
       deleteMutate({ id: props.id });
-      document.querySelector(".backdrop")?.classList.add("hidden");
-      document.querySelector(".modal")?.classList.add("hidden");
     } catch (error) {
       toast.error("Failed to delete bill");
     }

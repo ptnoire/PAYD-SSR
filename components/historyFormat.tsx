@@ -5,21 +5,22 @@ import { convertCurr, convertLocalDate } from "~/helpers/convert";
 dayjs.extend(relativeTime);
 import type { BillHistory } from "@prisma/client";
 // import { api } from "~/utils/api";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 
-// import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { ReactElement } from "react";
+import { createRoot } from "react-dom/client";
 
 export function HistoryFormating(props: BillHistory) {
   // const ctx = api.useContext();
+
   const paydAt = props.createAt.toISOString();
   const paydDate = convertLocalDate(paydAt);
-  // let slideModal: boolean = false;
 
-  // const { mutate } = api.bills.deleteBillHistory.useMutation({
+  // const { mutate: deleteMutate } = api.bills.deleteBillHistory.useMutation({
   //   onSuccess: async () => {
   //     await ctx.bills.getUserBills.invalidate();
-
   //     toast.success("Bill Successfully Deleted!");
   //   },
   //   onError: (e) => {
@@ -32,47 +33,45 @@ export function HistoryFormating(props: BillHistory) {
   //   },
   // });
 
-  // export const ModalRender = (content: ReactElement) => {
-  //   if (!content) return;
-  //   const modal = document.querySelector(".modal");
-  //   const root = createRoot(modal!);
-  //   const closeModal = () => {
-  //     root.unmount();
-  //     backdrop?.classList.add("hidden");
-  //     modal?.classList.add("hidden");
-  //   };
+  const slideDownRender = (content: ReactElement) => {
+    if (!content) return;
+    const slide = document.querySelector(".slideModal");
+    const root = createRoot(slide!);
+    const closeModal = () => {
+      slide?.classList.add("hidden");
+      root.unmount();
+    };
+    slide?.classList.remove("hidden");
+    root.render(
+      <div className={styles.optionsRow}>
+        {content}
+        <button onClick={deleteFunction}>
+          <FontAwesomeIcon icon={faCheck} className="fa-icon" />
+        </button>
+        <button onClick={closeModal}>
+          <FontAwesomeIcon icon={faClose} className="fa-icon" />
+        </button>
+      </div>
+    );
+  };
 
-  //   backdrop?.classList.remove("hidden");
-  //   modal?.classList.remove("hidden");
-  //   root.render(
-  //     <>
-  //       <button className="modal_close" onClick={closeModal}>
-  //         <FontAwesomeIcon icon={faClose} className="fa-icon" />
-  //       </button>
-  //       {content}
-  //       <div className="center">
-  //         <button onClick={closeModal}>
-  //           <FontAwesomeIcon icon={faClose} className="fa-icon" />
-  //         </button>
-  //       </div>
-  //     </>
-  //   );
-  //   backdrop?.addEventListener("click", closeModal);
-  // };
+  const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    slideDownRender(
+      <h3 className={styles.textItalic}>
+        Are you sure you want to delete this history item?
+      </h3>
+    );
+  };
 
-  // const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   slideModal = !slideModal;
-  // };
-
-  // const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   try {
-  //     mutate({ id: props.id });
-  //   } catch (error) {
-  //     toast.error("Failed to delete bill");
-  //   }
-  // };
+  const deleteFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      // deleteMutate({ id: props.id });
+    } catch (error) {
+      toast.error("Failed to delete bill");
+    }
+  };
 
   return (
     <>
@@ -83,9 +82,11 @@ export function HistoryFormating(props: BillHistory) {
           {`Amount Paid: ${convertCurr(props.amtPaid)}`}
         </h3>
         <button className="btn">Edit</button>
-        <button className="btn">Delete</button>
+        <button className="btn" onClick={confirmDelete}>
+          Delete
+        </button>
       </div>
-      <div className="deleteSlideModal"></div>
+      <div className="slideModal hidden"></div>
     </>
   );
 }

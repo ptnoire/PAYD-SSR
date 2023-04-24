@@ -13,6 +13,7 @@ import {
   faSquarePlus,
   faClose,
   faHistory,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
@@ -44,7 +45,7 @@ const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
   }
 };
 
-export const ModalRender = (content: ReactElement) => {
+export const ModalRender = (content: ReactElement, passFunction?: Function) => {
   if (!content) return;
   const backdrop = document.querySelector(".backdrop");
   const modal = document.querySelector(".modal");
@@ -54,6 +55,13 @@ export const ModalRender = (content: ReactElement) => {
     root.unmount();
     backdrop?.classList.add("hidden");
     modal?.classList.add("hidden");
+    backdrop?.removeEventListener("click", closeModal);
+  };
+
+  const passedFunction = () => {
+    const func = () => (passFunction ? passFunction() : undefined);
+    func();
+    closeModal();
   };
 
   backdrop?.classList.remove("hidden");
@@ -64,10 +72,15 @@ export const ModalRender = (content: ReactElement) => {
         <FontAwesomeIcon icon={faClose} className="fa-icon" />
       </button>
       {content}
-      <div className="center">
+      <div className={styles.optionsRow}>
         <button onClick={closeModal}>
           <FontAwesomeIcon icon={faClose} className="fa-icon" />
         </button>
+        {passFunction && (
+          <button onClick={passedFunction}>
+            <FontAwesomeIcon icon={faCheck} className="fa-icon" />
+          </button>
+        )}
       </div>
     </>
   );
@@ -77,7 +90,7 @@ export const ModalRender = (content: ReactElement) => {
 const BillList = () => {
   const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
   const today = new Date();
-
+  console.log(data);
   if (postsLoading)
     return (
       <div className="center">

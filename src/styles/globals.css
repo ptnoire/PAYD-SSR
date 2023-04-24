@@ -200,6 +200,10 @@ video {
   overflow-y: scroll;
 }
 
+.slideModal {
+  transition: all 0.5s;
+}
+
 .backdrop {
   background-color: rgba(0, 0, 0, 0.468);
   backdrop-filter: blur(4px);
