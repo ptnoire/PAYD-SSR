@@ -37,6 +37,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             background: "#14150b",
             color: "#f5f5dc",
           },
+          error: {
+            style: { border: "1px solid #e91313" },
+          },
         }}
       />
       <Component {...pageProps} />

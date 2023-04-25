@@ -266,6 +266,10 @@ video {
   .hideMobile {
     display: none;
   }
+  .modal {
+    padding: 0;
+    margin: 2vh 5vw 15vh 5vw;
+  }
   .fanfare {
     animation: 1s success ease-out infinite;
   }
@@ -277,6 +281,11 @@ video {
       opacity: 0;
       transform: translateY(100%) skewY(10deg);}
     100% {transform: translateY(0%);}
+  }
+  button:hover {
+    transform: none;
+    transition: all .5s;
+    cursor: pointer;
   }
 }
 

@@ -6,7 +6,12 @@ dayjs.extend(relativeTime);
 import type { BillHistory } from "@prisma/client";
 import toast from "react-hot-toast";
 
-import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCancel,
+  faCheck,
+  faClose,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { ReactElement } from "react";
 import { createRoot } from "react-dom/client";
@@ -75,14 +80,18 @@ export function HistoryFormating({
     <>
       <div id={`_${props.id}`} className={styles.history_format} key={props.id}>
         <h3 className={styles.history_title}>{props.billName}</h3>
-        <h3>{paydDate}</h3>
+        <p>{paydDate}</p>
         <h3 className={styles.textItalic}>
           {`Amount Paid: ${convertCurr(props.amtPaid)}`}
         </h3>
-        <button className="btn">Edit</button>
-        <button className="btn" onClick={confirmDelete}>
-          Delete
-        </button>
+        <div className={styles.history_buttons}>
+          <button className="btn">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+          <button className="btn" onClick={confirmDelete}>
+            <FontAwesomeIcon icon={faCancel} />
+          </button>
+        </div>
       </div>
       <div id={props.id} className="slideModal hidden"></div>
     </>
