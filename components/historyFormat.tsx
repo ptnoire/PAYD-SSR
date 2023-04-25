@@ -10,7 +10,7 @@ import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { ReactElement } from "react";
 import { createRoot } from "react-dom/client";
-import type { functionObject } from "~/pages";
+import type { functionObject } from "~/helpers/exportTypes";
 
 type HistoryFormatingProps = BillHistory & {
   passFunctions: functionObject;

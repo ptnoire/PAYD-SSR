@@ -117,6 +117,24 @@ export const billsRouter = createTRPCRouter({
         });
         return bill;
     }),
+    // edit: privateProcedure
+    // .input(BillEditSchema)
+    // .mutation(async ({ctx, input}) => {
+    //     const billOwner = ctx.userId;
+    //     const bill = await ctx.prisma.bill.update({
+    //         where: { 
+    //             id: input.id 
+    //         },
+    //         data: {
+    //             isRecurring: input.isRecurring,
+    //             billDueAmt: input.billDueAmt,
+    //             billName: input.billName,
+    //             billDueDate: input.billDueDate,
+    //             billOwner,
+    //         }
+    //     });
+    //     return bill;
+    // }),
     payd: privateProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ctx, input}) => {

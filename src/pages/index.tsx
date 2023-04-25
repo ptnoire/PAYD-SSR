@@ -11,9 +11,7 @@ import {
   faSignIn,
   faSignOut,
   faSquarePlus,
-  faClose,
   faHistory,
-  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
@@ -22,14 +20,14 @@ import { api } from "~/utils/api";
 import { LoadingSpinner } from "components/loading";
 import { LandingPage } from "components/landing";
 import Link from "next/link";
-import { useRef } from "react";
-import type { ReactElement } from "react";
-import { createRoot } from "react-dom/client";
+import { useRef, useState } from "react";
 import { NewListDisplay } from "components/newList";
 import { convertCurr } from "~/helpers/convert";
 import { BillFormating } from "components/billListFormat";
 import { BillHistoryComponent } from "components/history";
 import toast from "react-hot-toast";
+import type { functionObject } from "~/helpers/exportTypes";
+import { ModalRender } from "components/modal";
 
 const showNewBillSubmit = () => {
   const form = document.querySelector(".formInput");
@@ -46,61 +44,10 @@ const scrollTo = (ref: React.RefObject<HTMLDivElement>) => {
   }
 };
 
-export type PassFunctions = () => void;
-
-type queryCall = { id: string };
-type qcFunction = (args: queryCall) => void;
-export type functionObject = {
-  [key: string]: qcFunction;
-};
-
-export const ModalRender = (
-  content: ReactElement,
-  passFunction?: PassFunctions
-) => {
-  if (!content) return;
-  const backdrop = document.querySelector(".backdrop");
-  const modal = document.querySelector(".modal");
-  if (!modal) return null;
-  const root = createRoot(modal);
-  const closeModal = () => {
-    root.unmount();
-    backdrop?.classList.add("hidden");
-    modal?.classList.add("hidden");
-    backdrop?.removeEventListener("click", closeModal);
-  };
-
-  const passedFunction = () => {
-    if (passFunction) passFunction();
-    closeModal();
-  };
-
-  backdrop?.classList.remove("hidden");
-  modal?.classList.remove("hidden");
-  root.render(
-    <>
-      <button className="modal_close" onClick={closeModal}>
-        <FontAwesomeIcon icon={faClose} className="fa-icon" />
-      </button>
-      {content}
-      <div className={styles.optionsRow}>
-        <button onClick={closeModal}>
-          <FontAwesomeIcon icon={faClose} className="fa-icon" />
-        </button>
-        {passFunction && (
-          <button onClick={passedFunction}>
-            <FontAwesomeIcon icon={faCheck} className="fa-icon" />
-          </button>
-        )}
-      </div>
-    </>
-  );
-  backdrop?.addEventListener("click", closeModal);
-};
-
 const BillList = () => {
   const ctx = api.useContext();
   const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
+  const [isEnabled, setIsEnabled] = useState(true);
 
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
     onSuccess: async () => {
@@ -120,14 +67,15 @@ const BillList = () => {
   const { mutate: paydMutate } = api.bills.payd.useMutation({
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
-      toast.success("Bill Payd!!");
+      toast.success("Bill Payd!!", { id: "loading" });
+      setIsEnabled(true);
     },
     onError: (e) => {
       const errMsg = e.data?.zodError?.fieldErrors.content;
       if (errMsg && errMsg[0]) {
-        toast.error(errMsg[0]);
+        toast.error(errMsg[0], { id: "loading" });
       } else {
-        toast.error("Failed to pay bill, whoops!");
+        toast.error("Failed to pay bill, whoops!", { id: "loading" });
       }
     },
   });
@@ -136,14 +84,15 @@ const BillList = () => {
     api.bills.deleteBillHistory.useMutation({
       onSuccess: async () => {
         await ctx.bills.getUserBills.invalidate();
-        toast.success("Specific History Successfully Deleted!");
+        toast.success("Bill Successfully Deleted!", { id: "loading" });
+        setIsEnabled(true);
       },
       onError: (e) => {
         const errMsg = e.data?.zodError?.fieldErrors.content;
         if (errMsg && errMsg[0]) {
-          toast.error(errMsg[0]);
+          toast.error(errMsg[0], { id: "loading" });
         } else {
-          toast.error("Failed to Delete!");
+          toast.error("Failed to Delete!", { id: "loading" });
         }
       },
     });
@@ -221,6 +170,8 @@ const BillList = () => {
             {...bill}
             key={bill.id}
             passFunctions={passFunctions}
+            isEnabled={isEnabled}
+            setIsEnabled={setIsEnabled}
           />
         ))}
       </div>
@@ -291,7 +242,7 @@ const Home: NextPage = () => {
 
         {!!isSignedIn && (
           <div className={styles.formList}>
-            <BillForm />
+            <BillForm title={"New Bill"} />
           </div>
         )}
 

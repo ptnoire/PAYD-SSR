@@ -29,7 +29,16 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           href="/ptwhite.ico"
         />
       </Head>
-      <Toaster position="bottom-center" />
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            border: "1px solid #00C853",
+            background: "#14150b",
+            color: "#f5f5dc",
+          },
+        }}
+      />
       <Component {...pageProps} />
     </ClerkProvider>
   );

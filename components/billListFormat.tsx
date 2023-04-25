@@ -5,23 +5,36 @@ import toast from "react-hot-toast";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
 import { BillHistoryComponent } from "./history";
 import type { BillWithHistory } from "~/server/api/routers/bills";
-import { ModalRender } from "~/pages";
-import type { functionObject } from "~/pages";
+import { BillForm } from "./billForm";
+import type { functionObject } from "~/helpers/exportTypes";
+import { ModalRender } from "./modal";
 dayjs.extend(relativeTime);
 
 type BillFormatingProps = BillWithHistory & {
   passFunctions: functionObject;
+  isEnabled: boolean;
+  setIsEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function BillFormating({ passFunctions, ...props }: BillFormatingProps) {
+export function BillFormating({
+  passFunctions,
+  isEnabled,
+  setIsEnabled,
+  ...props
+}: BillFormatingProps) {
   const dueDate = convertLocalDate(props.billDueDate);
   const { paydMutate, deleteMutate } = passFunctions;
 
   const paydFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      if (paydMutate) paydMutate({ id: props.id });
+      if (paydMutate) {
+        setIsEnabled(false);
+        paydMutate({ id: props.id });
+        toast.loading("Processing...", { id: "loading" });
+      }
     } catch (error) {
+      setIsEnabled(true);
       toast.error("Failed to pay this bill! Uh Oh!");
     }
   };
@@ -35,6 +48,20 @@ export function BillFormating({ passFunctions, ...props }: BillFormatingProps) {
         title={props.billName}
         passFunctions={passFunctions}
       />
+    );
+  };
+
+  const editModalDisplay = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    ModalRender(
+      <div className={styles.modal_format}>
+        <div className={styles.modalT}>
+          <h1 className={styles.gradient_text}>Edit {props.billName}?</h1>
+        </div>
+        <div className={styles.modalD}>
+          <BillForm title={"Edit Bill"} />
+        </div>
+      </div>
     );
   };
 
@@ -61,8 +88,13 @@ export function BillFormating({ passFunctions, ...props }: BillFormatingProps) {
 
   const deleteFunction = () => {
     try {
-      if (deleteMutate) deleteMutate({ id: props.id });
+      if (deleteMutate) {
+        setIsEnabled(false);
+        deleteMutate({ id: props.id });
+        toast.loading("Processing...", { id: "loading" });
+      }
     } catch (error) {
+      setIsEnabled(true);
       toast.error("Failed to delete bill");
     }
   };
@@ -85,14 +117,24 @@ export function BillFormating({ passFunctions, ...props }: BillFormatingProps) {
         {!!props.isRecurring && <h3>Monthly Bill</h3>}
       </div>
       <div className={styles.billList_btns}>
-        <button className="btn payd__button" onClick={(e) => paydFunction(e)}>
+        <button
+          className="btn"
+          disabled={!isEnabled}
+          onClick={(e) => paydFunction(e)}
+        >
           Payd!
         </button>
         <button className="btn" onClick={(e) => historyDisplay(e)}>
           History
         </button>
-        <button className="btn">Edit</button>
-        <button className="btn" onClick={(e) => confirmDelete(e)}>
+        <button className="btn" onClick={(e) => editModalDisplay(e)}>
+          Edit
+        </button>
+        <button
+          className="btn"
+          disabled={!isEnabled}
+          onClick={(e) => confirmDelete(e)}
+        >
           Delete
         </button>
       </div>

@@ -1,4 +1,4 @@
-import type { functionObject } from "~/pages";
+import type { functionObject } from "~/helpers/exportTypes";
 import styles from "../src/pages/index.module.css";
 import { HistoryFormating } from "./historyFormat";
 import type { BillHistory } from "@prisma/client";

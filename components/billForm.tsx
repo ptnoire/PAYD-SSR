@@ -38,6 +38,7 @@ export function BillForm(props: { title?: string }) {
       }
     },
   });
+
   const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const form = document.querySelector(".formInput");
