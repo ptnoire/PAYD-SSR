@@ -2,12 +2,25 @@ import type { functionObject } from "~/helpers/exportTypes";
 import styles from "../src/pages/index.module.css";
 import { HistoryFormating } from "./historyFormat";
 import type { BillHistory } from "@prisma/client";
+import { Pagination } from "./pagination";
+import { useState } from "react";
 
 export function BillHistoryComponent(props: {
   history: Array<BillHistory> | undefined;
   title: string;
   passFunctions: functionObject;
 }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = props.history?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className={styles.modal_format}>
       <div className={styles.modalT}>
@@ -19,9 +32,9 @@ export function BillHistoryComponent(props: {
             Looks like there is no history on this bill just yet!
           </h3>
         )}
-        {props.history &&
-          props.history.length !== 0 &&
-          props.history?.map((bill) => (
+        {currentItems &&
+          currentItems.length !== 0 &&
+          currentItems?.map((bill) => (
             <HistoryFormating
               {...bill}
               key={bill.id}
@@ -29,7 +42,16 @@ export function BillHistoryComponent(props: {
             />
           ))}
       </div>
-      <div className={styles.modalB}></div>
+      <div className={styles.modalB}>
+        {props.history && props.history.length > 10 && (
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={props.history?.length || 0}
+            currentPage={currentPage}
+            paginate={paginate}
+          />
+        )}
+      </div>
     </div>
   );
 }

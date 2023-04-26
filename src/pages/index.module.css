@@ -40,6 +40,35 @@
   border: 3px solid var(--payd-green);
 }
 
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  color: var(--white);
+  transition: all .5s;
+  gap: 8px;
+}
+
+.active, .pageItem {
+  border: 2px solid var(--white);
+  background-color: var(--background-black);
+  border-radius: 5px;
+  padding: 6px 10px 6px 10px;
+  font-size: 1rem;
+  transition: all .5s;
+  font-weight: 900;
+}
+
+.active {
+  color: var(--payd-green);
+}
+
+.pageItem {
+  color: var(--white);
+}
+
 .modal_format {
   padding: 15px;
   display: grid;
