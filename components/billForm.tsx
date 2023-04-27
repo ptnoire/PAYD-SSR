@@ -13,6 +13,7 @@ export function BillForm() {
   const [isRecurring, setIsRecurring] = useState(false);
 
   const ctx = api.useContext();
+
   const { mutate, isLoading: isPosting } = api.bills.create.useMutation({
     onSuccess: async () => {
       setBillName("");
@@ -25,10 +26,11 @@ export function BillForm() {
     onError: (e) => {
       const errMsg = e.data?.zodError?.fieldErrors.content;
       if (errMsg && errMsg[0]) {
-        toast.error(errMsg[0]);
+        toast.error(errMsg[0], { id: "loading" });
       } else {
         toast.error(
-          "Failed to post, please check that all fields are correct!"
+          "Failed to post, please check that all fields are correct!",
+          { id: "loading" }
         );
       }
     },
@@ -36,10 +38,10 @@ export function BillForm() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const parsedDate = new Date(billDueDate);
-    const isoDateString = parsedDate.toISOString();
+    toast.loading("Creating...", { id: "loading" });
     try {
-      toast.loading("Creating...", { id: "loading" });
+      const parsedDate = new Date(billDueDate);
+      const isoDateString = parsedDate.toISOString();
       mutate(
         BillFormSchema.parse({
           billName,
@@ -54,11 +56,12 @@ export function BillForm() {
       if (e instanceof z.ZodError) {
         const errMsg = e.errors[0]?.message;
         if (errMsg) {
-          toast.error(errMsg);
+          toast.error(errMsg, { id: "loading" });
         }
       } else {
         toast.error(
-          "Failed to post, please check that all fields are filled out!"
+          "Failed to post, please check that all fields are filled out!",
+          { id: "loading" }
         );
       }
     }
