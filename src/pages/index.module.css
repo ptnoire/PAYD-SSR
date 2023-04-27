@@ -226,7 +226,7 @@
   align-items: center;
   justify-content: space-evenly;
   grid-area: billList_dueDates; 
-  background-color: var(--clear-black);
+  background-color: var(--background-black);
   box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
   border: 1px solid var(--white);
 }
