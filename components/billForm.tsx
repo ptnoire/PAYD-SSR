@@ -3,22 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import { BillFormSchema } from "~/helpers/exportTypes";
 import { api } from "~/utils/api";
 
-export const BillFormSchema = z.object({
-  billName: z.string(),
-  billDueAmt: z.number().positive(),
-  billDueDate: z.string(),
-  isRecurring: z.boolean(),
-});
-
-export function BillForm(props: { title?: string }) {
+export function BillForm() {
   const [billName, setBillName] = useState("");
   const [billDueAmt, setBillDueAmt] = useState("");
   const [billDueDate, setBillDueDate] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
-  const ctx = api.useContext();
 
+  const ctx = api.useContext();
   const { mutate, isLoading: isPosting } = api.bills.create.useMutation({
     onSuccess: async () => {
       setBillName("");
@@ -26,6 +20,7 @@ export function BillForm(props: { title?: string }) {
       setBillDueDate("");
       setIsRecurring(false);
       await ctx.bills.getUserBills.invalidate();
+      toast.success("Bill Successfully Created!", { id: "loading" });
     },
     onError: (e) => {
       const errMsg = e.data?.zodError?.fieldErrors.content;
@@ -39,18 +34,12 @@ export function BillForm(props: { title?: string }) {
     },
   });
 
-  const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    const form = document.querySelector(".formInput");
-    if (!form) return;
-    form.classList.add("hidden");
-  };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const parsedDate = new Date(billDueDate);
     const isoDateString = parsedDate.toISOString();
     try {
+      toast.loading("Creating...", { id: "loading" });
       mutate(
         BillFormSchema.parse({
           billName,
@@ -59,10 +48,8 @@ export function BillForm(props: { title?: string }) {
           isRecurring,
         })
       );
-
       const form = document.querySelector(".formInput");
-      if (!form) return;
-      form.classList.add("hidden");
+      form?.classList.add("hidden");
     } catch (e: unknown) {
       if (e instanceof z.ZodError) {
         const errMsg = e.errors[0]?.message;
@@ -77,10 +64,17 @@ export function BillForm(props: { title?: string }) {
     }
   };
 
+  const cancelBtn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    const form = document.querySelector(".formInput");
+    if (!form) return;
+    form.classList.add("hidden");
+  };
+
   return (
     <div className="formInput hidden">
       <div className="form_title form_style">
-        <h2>{props.title ? props.title : "Submit New Bill"}</h2>
+        <h2>Create New Bill</h2>
       </div>
       <div className="form_inputs form_style">
         <form onSubmit={(event) => handleSubmit(event)} id="billForm">
@@ -91,8 +85,9 @@ export function BillForm(props: { title?: string }) {
             type="text"
             placeholder="Insert Bill Name Here"
             value={billName}
-            disabled={isPosting}
-            onChange={(e) => setBillName(e.target.value)}
+            onChange={(e) => {
+              setBillName(e.target.value);
+            }}
           />
           <input
             className="text__field"
@@ -102,7 +97,6 @@ export function BillForm(props: { title?: string }) {
             step="0.01"
             placeholder="Insert Cost of Bill Here"
             value={billDueAmt}
-            disabled={isPosting}
             onChange={(e) => setBillDueAmt(e.target.value)}
           />
           <input
@@ -111,7 +105,6 @@ export function BillForm(props: { title?: string }) {
             name="dueDate"
             type="date"
             value={billDueDate}
-            disabled={isPosting}
             onChange={(e) => setBillDueDate(e.target.value)}
           />
           <br />
@@ -121,7 +114,6 @@ export function BillForm(props: { title?: string }) {
               name="reoccuring"
               type="checkbox"
               checked={isRecurring}
-              disabled={isPosting}
               onChange={(e) => setIsRecurring(e.target.checked)}
             />
             <span>Monthly?</span>
@@ -130,7 +122,7 @@ export function BillForm(props: { title?: string }) {
             <button onClick={(e) => cancelBtn(e)} className="cancel_btn">
               <FontAwesomeIcon icon={faCancel} className="fa-icon" />
             </button>
-            <button type="submit" disabled={isPosting}>
+            <button type="submit">
               <FontAwesomeIcon icon={faCheck} className="fa-icon" />
             </button>
           </div>

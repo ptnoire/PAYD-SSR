@@ -1,13 +1,9 @@
-import type { Bill, BillHistory } from "@prisma/client";
 import { createTRPCRouter, privateProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
-import { BillFormSchema } from "components/billForm";
 import { z } from "zod";
 import { incrementMonthAndRetainDate } from "~/helpers/convert";
-
-export type BillWithHistory = Bill & {
-    history: Array<BillHistory>
-}
+import { BillEditSchema, BillFormSchema } from "~/helpers/exportTypes";
+import type {BillWithHistory} from "~/helpers/exportTypes";
 
 export const billsRouter = createTRPCRouter({
     getUserBills: privateProcedure.query(async ({ctx}) => {
@@ -117,24 +113,24 @@ export const billsRouter = createTRPCRouter({
         });
         return bill;
     }),
-    // edit: privateProcedure
-    // .input(BillEditSchema)
-    // .mutation(async ({ctx, input}) => {
-    //     const billOwner = ctx.userId;
-    //     const bill = await ctx.prisma.bill.update({
-    //         where: { 
-    //             id: input.id 
-    //         },
-    //         data: {
-    //             isRecurring: input.isRecurring,
-    //             billDueAmt: input.billDueAmt,
-    //             billName: input.billName,
-    //             billDueDate: input.billDueDate,
-    //             billOwner,
-    //         }
-    //     });
-    //     return bill;
-    // }),
+    edit: privateProcedure
+    .input(BillEditSchema)
+    .mutation(async ({ctx, input}) => {
+        const billOwner = ctx.userId;
+        const bill = await ctx.prisma.bill.update({
+            where: { 
+                id: input.id 
+            },
+            data: {
+                isRecurring: input.isRecurring,
+                billDueAmt: input.billDueAmt,
+                billName: input.billName,
+                billDueDate: input.billDueDate,
+                billOwner,
+            }
+        });
+        return bill;
+    }),
     payd: privateProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ctx, input}) => {

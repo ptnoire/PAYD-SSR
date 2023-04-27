@@ -4,17 +4,13 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import toast from "react-hot-toast";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
 import { BillHistoryComponent } from "./history";
-import type { BillWithHistory } from "~/server/api/routers/bills";
 import { BillForm } from "./billForm";
-import type { functionObject } from "~/helpers/exportTypes";
+import { BillEditSchema, BillFormatingProps } from "~/helpers/exportTypes";
 import { ModalRender } from "./modal";
+import { z } from "zod";
+import { title } from "process";
+import { useState } from "react";
 dayjs.extend(relativeTime);
-
-type BillFormatingProps = BillWithHistory & {
-  passFunctions: functionObject;
-  isEnabled: boolean;
-  setIsEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
 export function BillFormating({
   passFunctions,
@@ -22,6 +18,11 @@ export function BillFormating({
   setIsEnabled,
   ...props
 }: BillFormatingProps) {
+  const [editbillName, setEditBillName] = useState("");
+  const [editbillDueAmt, setEditBillDueAmt] = useState("");
+  const [editbillDueDate, setEditBillDueDate] = useState("");
+  const [editisRecurring, setEditIsRecurring] = useState(false);
+
   const dueDate = convertLocalDate(props.billDueDate);
   const { paydMutate, deleteMutate } = passFunctions;
 
@@ -51,17 +52,90 @@ export function BillFormating({
     );
   };
 
+  const editBill = () => {
+    toast.loading("Editting...", { id: "loading" });
+    try {
+      if (props.editMutate) {
+        const parsedDate = new Date(editbillDueDate);
+        const isoDateString = parsedDate.toISOString();
+        props.editMutate(
+          BillEditSchema.parse({
+            id: props.id,
+            billName: editbillName,
+            billDueAmt: parseFloat(editbillDueAmt),
+            billDueDate: isoDateString,
+            isRecurring: editisRecurring,
+          })
+        );
+      }
+    } catch (e: unknown) {
+      if (e instanceof z.ZodError) {
+        const errMsg = e.errors[0]?.message;
+        if (errMsg) {
+          toast.error(errMsg, { id: "loading" });
+        }
+      } else {
+        toast.error(
+          "Failed to post, please check that all fields are filled out!",
+          { id: "loading" }
+        );
+      }
+    }
+  };
+
   const editModalDisplay = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     ModalRender(
-      <div className={styles.modal_format}>
-        <div className={styles.modalT}>
-          <h1 className={styles.gradient_text}>Edit {props.billName}?</h1>
+      <div className="formInput">
+        <div className="form_title form_style">
+          <h2>Edit {props.billName}</h2>
         </div>
-        <div className={styles.modalD}>
-          <BillForm title={"Edit Bill"} />
+        <div className="form_inputs form_style">
+          <form>
+            <input
+              className="text__field"
+              id="title"
+              name="title"
+              type="text"
+              placeholder="Insert Bill Name Here"
+              value={props.billName}
+              onChange={(e) => {
+                setEditBillName(e.target.value);
+              }}
+            />
+            <input
+              className="text__field"
+              id="amount"
+              name="amount"
+              type="number"
+              step="0.01"
+              placeholder="Insert Cost of Bill Here"
+              value={props.billDueAmt}
+              onChange={(e) => setEditBillDueAmt(e.target.value)}
+            />
+            <input
+              className="text__field dateBox"
+              id="date"
+              name="dueDate"
+              type="date"
+              value={props.billDueDate}
+              onChange={(e) => setEditBillDueDate(e.target.value)}
+            />
+            <br />
+            <label>
+              <input
+                id="reoccuring"
+                name="reoccuring"
+                type="checkbox"
+                checked={props.isRecurring}
+                onChange={(e) => setEditIsRecurring(e.target.checked)}
+              />
+              <span>Monthly?</span>
+            </label>
+          </form>
         </div>
-      </div>
+      </div>,
+      editBill
     );
   };
 

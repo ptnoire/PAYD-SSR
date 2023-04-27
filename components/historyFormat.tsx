@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { convertCurr, convertLocalDate } from "~/helpers/convert";
 dayjs.extend(relativeTime);
-import type { BillHistory } from "@prisma/client";
 import toast from "react-hot-toast";
 
 import {
@@ -15,11 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { ReactElement } from "react";
 import { createRoot } from "react-dom/client";
-import type { functionObject } from "~/helpers/exportTypes";
-
-type HistoryFormatingProps = BillHistory & {
-  passFunctions: functionObject;
-};
+import type { HistoryFormatingProps } from "~/helpers/exportTypes";
 
 export function HistoryFormating({
   passFunctions,
