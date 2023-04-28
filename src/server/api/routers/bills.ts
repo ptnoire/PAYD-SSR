@@ -129,6 +129,14 @@ export const billsRouter = createTRPCRouter({
                 billOwner,
             }
         });
+        await ctx.prisma.billHistory.updateMany({
+            where: { 
+                billNameID: input.id 
+            },
+            data: {
+                billName: input.billName
+            }
+        })
         return bill;
     }),
     payd: privateProcedure

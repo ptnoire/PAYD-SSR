@@ -17,6 +17,7 @@
 .textItalic {
   font-style: italic;
   font-weight: 300;
+  color: var(--white);
 }
 
 .topNav {
@@ -404,7 +405,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-  padding-bottom: 10px;
+    padding-bottom: 10px;
   }
   .history_title {
     position: relative;

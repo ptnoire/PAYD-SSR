@@ -7,7 +7,10 @@ import { BillHistoryComponent } from "./history";
 import { BillEditSchema, BillFormatingProps } from "~/helpers/exportTypes";
 import { ModalRender } from "./modal";
 import { z } from "zod";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
 dayjs.extend(relativeTime);
 
 export function BillFormating({
@@ -16,10 +19,11 @@ export function BillFormating({
   setIsEnabled,
   ...props
 }: BillFormatingProps) {
-  const [editbillName, setEditBillName] = useState("");
-  const [editbillDueAmt, setEditBillDueAmt] = useState("");
-  const [editbillDueDate, setEditBillDueDate] = useState("");
+  const [editBillName, setEditBillName] = useState("");
+  const [editBillDueAmt, setEditBillDueAmt] = useState("");
+  const [editBillDueDate, setEditBillDueDate] = useState("");
   const [editisRecurring, setEditIsRecurring] = useState(false);
+  const [showEditBar, setShowEditBar] = useState(false);
 
   const dueDate = convertLocalDate(props.billDueDate);
   const { paydMutate, deleteMutate } = passFunctions;
@@ -50,17 +54,21 @@ export function BillFormating({
     );
   };
 
+  const toggleModal = () => {
+    setShowEditBar(!showEditBar);
+  };
+
   const editBill = () => {
     toast.loading("Editting...", { id: "loading" });
     try {
       if (props.editMutate) {
-        const parsedDate = new Date(editbillDueDate);
+        const parsedDate = new Date(editBillDueDate);
         const isoDateString = parsedDate.toISOString();
         props.editMutate(
           BillEditSchema.parse({
             id: props.id,
-            billName: editbillName,
-            billDueAmt: parseFloat(editbillDueAmt),
+            billName: editBillName,
+            billDueAmt: parseFloat(editBillDueAmt),
             billDueDate: isoDateString,
             isRecurring: editisRecurring,
           })
@@ -79,68 +87,13 @@ export function BillFormating({
         );
       }
     }
-  };
-
-  const editModalDisplay = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    ModalRender(
-      <div className="formInput">
-        <div className="form_title form_style">
-          <h2>Edit {props.billName}</h2>
-        </div>
-        <div className="form_inputs form_style">
-          <form>
-            <input
-              className="text__field"
-              id="title"
-              name="title"
-              type="text"
-              placeholder="Insert Bill Name Here"
-              value={props.billName}
-              onChange={(e) => {
-                setEditBillName(e.target.value);
-              }}
-            />
-            <input
-              className="text__field"
-              id="amount"
-              name="amount"
-              type="number"
-              step="0.01"
-              placeholder="Insert Cost of Bill Here"
-              value={props.billDueAmt}
-              onChange={(e) => setEditBillDueAmt(e.target.value)}
-            />
-            <input
-              className="text__field dateBox"
-              id="date"
-              name="dueDate"
-              type="date"
-              value={props.billDueDate}
-              onChange={(e) => setEditBillDueDate(e.target.value)}
-            />
-            <br />
-            <label>
-              <input
-                id="reoccuring"
-                name="reoccuring"
-                type="checkbox"
-                checked={props.isRecurring}
-                onChange={(e) => setEditIsRecurring(e.target.checked)}
-              />
-              <span>Monthly?</span>
-            </label>
-          </form>
-        </div>
-      </div>,
-      editBill
-    );
+    toggleModal();
   };
 
   const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     ModalRender(
-      <div className={styles.modal_format}>
+      <div id={`_${props.id}`} className={styles.modal_format}>
         <div className={styles.modalT}>
           <h1 className={styles.gradient_text}>Delete {props.billName}?</h1>
         </div>
@@ -172,44 +125,93 @@ export function BillFormating({
   };
 
   return (
-    <div className={styles.billListFormat} key={props.id}>
-      <div className={styles.billList_title}>
-        <h1 className={styles.gradient_text}>{props.billName}</h1>
+    <>
+      <div id={`_${props.id}`} className={styles.billListFormat} key={props.id}>
+        <div className={styles.billList_title}>
+          <h1 className={styles.gradient_text}>{props.billName}</h1>
+        </div>
+        <div className={styles.billList_amt}>
+          <h2 className={styles.textItalic}>{`Amount Due: ${convertCurr(
+            props.billDueAmt
+          )}`}</h2>
+          <h3>{`Due ${dayjs(dueDate).fromNow()}`}</h3>
+        </div>
+        <div className={styles.billList_dueDates}>
+          <h3 className="center">
+            Pay By: <span className={styles.textItalic}>{dueDate}</span>
+          </h3>
+          {!!props.isRecurring && <h3>Monthly Bill</h3>}
+        </div>
+        {!showEditBar && (
+          <div className={styles.billList_btns}>
+            <button
+              className="btn"
+              disabled={!isEnabled}
+              onClick={(e) => paydFunction(e)}
+            >
+              Payd!
+            </button>
+            <button className="btn" onClick={(e) => historyDisplay(e)}>
+              History
+            </button>
+            <button className="btn" onClick={toggleModal}>
+              Edit
+            </button>
+            <button
+              className="btn"
+              disabled={!isEnabled}
+              onClick={(e) => confirmDelete(e)}
+            >
+              Delete
+            </button>
+          </div>
+        )}
+        {!!showEditBar && (
+          <div className={styles.billList_btns}>
+            <input
+              id="edit_items"
+              className="text__field"
+              type="text"
+              placeholder={props.billName}
+              value={editBillName}
+              onChange={(e) => setEditBillName(e.target.value)}
+            />
+            <input
+              id="edit_items"
+              className="text__field"
+              type="number"
+              step="0.01"
+              placeholder={props.billDueAmt.toString()}
+              value={editBillDueAmt}
+              onChange={(e) => setEditBillDueAmt(e.target.value)}
+            />
+            <input
+              className="text__field dateBox"
+              id="edit_items"
+              name="dueDate"
+              type="date"
+              value={editBillDueDate}
+              onChange={(e) => setEditBillDueDate(e.target.value)}
+            />
+            <label id="edit_items">
+              <input
+                id="edit_items"
+                className="text__field"
+                type="checkbox"
+                checked={editisRecurring}
+                onChange={(e) => setEditIsRecurring(e.target.checked)}
+              />
+              <span className={styles.textItalic}>Monthly?</span>
+            </label>
+            <button id="edit_items" onClick={editBill}>
+              <FontAwesomeIcon icon={faCheck} className="fa-icon" />
+            </button>
+            <button id="edit_items" onClick={toggleModal}>
+              <FontAwesomeIcon icon={faClose} className="fa-icon" />
+            </button>
+          </div>
+        )}
       </div>
-      <div className={styles.billList_amt}>
-        <h2 className={styles.textItalic}>{`Amount Due: ${convertCurr(
-          props.billDueAmt
-        )}`}</h2>
-        <h3>{`Due ${dayjs(dueDate).fromNow()}`}</h3>
-      </div>
-      <div className={styles.billList_dueDates}>
-        <h3 className="center">
-          Pay By: <span className={styles.textItalic}>{dueDate}</span>
-        </h3>
-        {!!props.isRecurring && <h3>Monthly Bill</h3>}
-      </div>
-      <div className={styles.billList_btns}>
-        <button
-          className="btn"
-          disabled={!isEnabled}
-          onClick={(e) => paydFunction(e)}
-        >
-          Payd!
-        </button>
-        <button className="btn" onClick={(e) => historyDisplay(e)}>
-          History
-        </button>
-        <button className="btn" onClick={(e) => editModalDisplay(e)}>
-          Edit
-        </button>
-        <button
-          className="btn"
-          disabled={!isEnabled}
-          onClick={(e) => confirmDelete(e)}
-        >
-          Delete
-        </button>
-      </div>
-    </div>
+    </>
   );
 }

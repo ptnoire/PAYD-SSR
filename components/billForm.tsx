@@ -88,9 +88,7 @@ export function BillForm() {
             type="text"
             placeholder="Insert Bill Name Here"
             value={billName}
-            onChange={(e) => {
-              setBillName(e.target.value);
-            }}
+            onChange={(e) => setBillName(e.target.value)}
           />
           <input
             className="text__field"
