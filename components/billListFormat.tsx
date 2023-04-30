@@ -167,9 +167,8 @@ export function BillFormating({
           </div>
         )}
         {!!showEditBar && (
-          <div className={styles.billList_btns}>
+          <div className={styles.billList_edit}>
             <input
-              id="edit_items"
               className="text__field"
               type="text"
               placeholder={props.billName}
@@ -177,7 +176,6 @@ export function BillFormating({
               onChange={(e) => setEditBillName(e.target.value)}
             />
             <input
-              id="edit_items"
               className="text__field"
               type="number"
               step="0.01"
@@ -187,15 +185,13 @@ export function BillFormating({
             />
             <input
               className="text__field dateBox"
-              id="edit_items"
               name="dueDate"
               type="date"
               value={editBillDueDate}
               onChange={(e) => setEditBillDueDate(e.target.value)}
             />
-            <label id="edit_items">
+            <label>
               <input
-                id="edit_items"
                 className="text__field"
                 type="checkbox"
                 checked={editisRecurring}
@@ -203,11 +199,11 @@ export function BillFormating({
               />
               <span className={styles.textItalic}>Monthly?</span>
             </label>
-            <button id="edit_items" onClick={editBill}>
-              <FontAwesomeIcon icon={faCheck} className="fa-icon" />
+            <button onClick={editBill}>
+              <FontAwesomeIcon icon={faCheck} className="fa-icon green" />
             </button>
-            <button id="edit_items" onClick={toggleModal}>
-              <FontAwesomeIcon icon={faClose} className="fa-icon" />
+            <button onClick={toggleModal}>
+              <FontAwesomeIcon icon={faClose} className="fa-icon red" />
             </button>
           </div>
         )}

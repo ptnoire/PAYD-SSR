@@ -45,10 +45,10 @@ export function HistoryFormating({
       <div className={styles.optionsRow}>
         {content}
         <button onClick={deleteAndClose}>
-          <FontAwesomeIcon icon={faCheck} className="fa-icon" />
+          <FontAwesomeIcon icon={faCheck} className="fa-icon green" />
         </button>
         <button onClick={closeModal}>
-          <FontAwesomeIcon icon={faClose} className="fa-icon" />
+          <FontAwesomeIcon icon={faClose} className="fa-icon red" />
         </button>
       </div>
     );

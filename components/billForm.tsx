@@ -1,4 +1,4 @@
-import { faCancel, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCancel, faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -121,10 +121,10 @@ export function BillForm() {
           </label>
           <div className="form_btns">
             <button onClick={(e) => cancelBtn(e)} className="cancel_btn">
-              <FontAwesomeIcon icon={faCancel} className="fa-icon" />
+              <FontAwesomeIcon icon={faClose} className="fa-icon red" />
             </button>
             <button type="submit">
-              <FontAwesomeIcon icon={faCheck} className="fa-icon" />
+              <FontAwesomeIcon icon={faCheck} className="fa-icon green" />
             </button>
           </div>
         </form>

@@ -11,7 +11,6 @@
   justify-content: center;
   padding: 4rem 1rem;
   border-radius: 10px;
-  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
 }
 
 .textItalic {
@@ -185,7 +184,7 @@
   margin-top: 30px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: .5fr .5fr .7fr;
+  grid-template-rows: .5fr .5fr .8fr;
   gap: 0px 5px;
   grid-auto-flow: row;
   grid-template-areas:
@@ -209,6 +208,17 @@
   justify-content: flex-end;
   gap: 2rem;
   align-items: center;
+  animation: .5s slideIn ease-in;
+}
+
+.billList_edit {
+  grid-area: billList_btns;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  justify-content: flex-end;
+  animation: .5s slideIn ease-in;
 }
 
 .billList_amt { 
@@ -327,18 +337,19 @@
 
 .landingContainer {  
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: auto auto auto;
   grid-template-rows: .5fr .5fr .5fr;
   grid-auto-flow: row;
   grid-template-areas:
-    "land_1 land_1 ."
+    "land_1 land_1 land_1"
     ". land_2 land_2"
     "land_3 land_3 land_3";
-  margin-left: 2%;
-  margin-right: 2%;
+  margin: 5% 2% 5% 2%;
 }
 
 .land_1 { 
+  display: flex;
+  align-items: center;
   grid-area: land_1;
   font-size: 2.8vw;
  }
@@ -368,6 +379,40 @@
   }
   .billList {
     width: 93vw;
+  }
+  .billListFormat {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "billList_title"
+      "billList_amt"
+      "billList_dueDates"
+      "billList_btns";
+  }
+  .billList_title, .billList_amt {
+    border-radius: 0;
+    padding: 0;
+  }
+  .billList_dueDates, .billList_amt { flex-direction: row; }
+  .billList_btns { 
+    margin: 10px 0 15px 0;
+    justify-content: space-between; 
+  }
+  .billList_edit {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    background-color: var(--background-black);
+    border: 1px solid var(--white);
+    border-radius: 20px;
+    padding-top: 10px;
+    box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+    margin: 5% 0 5% 0;
+  }
+  .billList_edit input[type="number"] {
+    width: 50%;
+  }
+  .billList_edit input[type="date"] {
+    width: 50%;
   }
   .welcomeTitle {
     font-size: 8.4vw;
@@ -441,5 +486,16 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0)
   }
 }
