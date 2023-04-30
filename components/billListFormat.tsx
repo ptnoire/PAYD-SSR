@@ -7,10 +7,15 @@ import { BillHistoryComponent } from "./history";
 import { BillEditSchema, BillFormatingProps } from "~/helpers/exportTypes";
 import { ModalRender } from "./modal";
 import { z } from "zod";
-import { ReactElement, useState } from "react";
-import { createRoot } from "react-dom/client";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faClose,
+  faEdit,
+  faHandHoldingDollar,
+  faHistory,
+} from "@fortawesome/free-solid-svg-icons";
 dayjs.extend(relativeTime);
 
 export function BillFormating({
@@ -144,25 +149,17 @@ export function BillFormating({
         </div>
         {!showEditBar && (
           <div className={styles.billList_btns}>
-            <button
-              className="btn"
-              disabled={!isEnabled}
-              onClick={(e) => paydFunction(e)}
-            >
-              Payd!
+            <button disabled={!isEnabled} onClick={(e) => paydFunction(e)}>
+              <FontAwesomeIcon icon={faHandHoldingDollar} className="fa-icon" />
             </button>
-            <button className="btn" onClick={(e) => historyDisplay(e)}>
-              History
+            <button onClick={(e) => historyDisplay(e)}>
+              <FontAwesomeIcon icon={faHistory} className="fa-icon" />
             </button>
-            <button className="btn" onClick={toggleModal}>
-              Edit
+            <button onClick={toggleModal}>
+              <FontAwesomeIcon icon={faEdit} className="fa-icon" />
             </button>
-            <button
-              className="btn"
-              disabled={!isEnabled}
-              onClick={(e) => confirmDelete(e)}
-            >
-              Delete
+            <button disabled={!isEnabled} onClick={(e) => confirmDelete(e)}>
+              <FontAwesomeIcon icon={faClose} className="fa-icon" />
             </button>
           </div>
         )}

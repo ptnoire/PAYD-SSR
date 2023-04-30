@@ -69,6 +69,10 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  filter: blur(3px);
+}
+
 .center {
   display: flex;
   flex-direction: column;
@@ -98,7 +102,7 @@ button:hover {
 .formInput { 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.5fr 0.5fr 0.5fr;
+  grid-template-rows: 0.3fr 0.5fr 0.5fr;
   gap: 5px 5px;
   grid-auto-flow: row;
   color: var(--white);
@@ -140,6 +144,15 @@ button:hover {
   margin: 1px 1px 1px 1px;
   box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
 }
+
+.form_inputs input[type="text"] {
+  width: 80%;
+}
+.form_inputs input[type="date"],
+.form_inputs input[type="number"] {
+  width: 40%;
+}
+
 
 input[type="checkbox"] {
   appearance: none;
@@ -289,11 +302,6 @@ video {
   .form_inputs {
     flex-direction: column;
     justify-content: center;
-  }
-  .form_inputs input[type="text"],
-  .form_inputs input[type="number"],
-  .form_inputs input[type="date"] {
-    width: 90%;
   }
   ::-webkit-scrollbar {
     height: 7px;

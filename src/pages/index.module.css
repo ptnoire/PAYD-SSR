@@ -1,5 +1,5 @@
 .main {
-  margin-top: 5%;
+  margin-top: 12vh;
   min-height: 100vh;
 }
 
@@ -92,6 +92,8 @@
   align-items: center;
   justify-content: space-evenly;
   animation: .5s fadeIn ease-in;
+  width: 100%;
+  max-width: 1000px;
 }
 
 .history_title {
@@ -119,9 +121,11 @@
 }
 
 .modalD {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   grid-area: modalD;
-  padding: 0 15% 0 15%;
 }
 
 .modalB {
@@ -139,7 +143,8 @@
 }
 
 .formList {
-  width: 40vw;
+  width: 80vw;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -171,11 +176,13 @@
   background: var(--background-black);
   text-align: center;
   padding: 0 12px 0 12px;
+  animation: .5s slideIn ease-in;
   box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
 }
 
 .billList {
-  width: 50vw;
+  width: 80vw;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -191,6 +198,7 @@
     "billList_title billList_title billList_dueDates"
     "billList_amt billList_amt billList_dueDates"
     "billList_btns billList_btns billList_btns";
+  animation: .5s slideIn ease-in;
 }
 
 .billList_title { 
