@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BillHistoryComponent } from "./history";
-import {
+import type {
   billHistoryMutateFunction,
   functionObject,
   userData,

@@ -1,4 +1,4 @@
-import { Bill, BillHistory } from "@prisma/client";
+import type { Bill, BillHistory } from "@prisma/client";
 import { z } from "zod";
 
 export type PassFunctions = () => void;

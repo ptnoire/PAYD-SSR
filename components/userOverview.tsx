@@ -14,7 +14,7 @@ export function UserOverview(props: {
   historyEditFunction: billHistoryMutateFunction;
 }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = props.bills?.slice(indexOfFirstItem, indexOfLastItem);
@@ -31,13 +31,17 @@ export function UserOverview(props: {
       <div className={styles.modalD}>
         {props.bills && props.bills.length === 0 && (
           <h3 className={styles.textItalic}>
-            Looks like you haven't created any bills or history yet!
+            Looks like you haven&apos;t created any bills or history yet!
           </h3>
         )}
         {currentItems &&
           currentItems.length !== 0 &&
           props.bills.map((bill) => (
-            <OverviewFormat bills={bill} passFunctions={props.passFunctions} />
+            <OverviewFormat
+              bills={bill}
+              key={bill.id}
+              passFunctions={props.passFunctions}
+            />
           ))}
       </div>
       <div className={styles.modalB}>

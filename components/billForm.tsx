@@ -1,4 +1,4 @@
-import { faCancel, faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -14,7 +14,7 @@ export function BillForm() {
 
   const ctx = api.useContext();
 
-  const { mutate, isLoading: isPosting } = api.bills.create.useMutation({
+  const { mutate } = api.bills.create.useMutation({
     onSuccess: async () => {
       setBillName("");
       setBillDueAmt("");

@@ -12,12 +12,11 @@ import {
   faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ReactElement, useState } from "react";
+import { useState } from "react";
+import type { ReactElement } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  BillHistoryEditSchema,
-  HistoryFormatingProps,
-} from "~/helpers/exportTypes";
+import { BillHistoryEditSchema } from "~/helpers/exportTypes";
+import type { HistoryFormatingProps } from "~/helpers/exportTypes";
 import { z } from "zod";
 
 export function HistoryFormating({
