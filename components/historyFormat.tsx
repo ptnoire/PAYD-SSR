@@ -29,6 +29,7 @@ export function HistoryFormating({
 
   const [amtPaid, setAmtPaid] = useState(props.amtPaid);
   const [toggleModal, setToggleModal] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(true);
 
   const slideDownRender = (content: ReactElement) => {
     if (!content) return;
@@ -39,13 +40,16 @@ export function HistoryFormating({
     const closeModal = () => {
       slide?.classList.add("hidden");
       root.unmount();
+      setIsEnabled(true);
     };
     const deleteAndClose = () => {
       deleteFunction();
       closeModal();
       document.getElementById(`_${props.id}`)?.classList.add("hidden");
+      setIsEnabled(true);
     };
     slide?.classList.remove("hidden");
+    setIsEnabled(false);
     root.render(
       <div className={styles.optionsRow}>
         {content}
@@ -117,10 +121,10 @@ export function HistoryFormating({
               {`Amount Paid: ${convertCurr(amtPaid)}`}
             </h3>
             <div className={styles.history_buttons}>
-              <button onClick={toggleEditForm}>
+              <button disabled={!isEnabled} onClick={toggleEditForm}>
                 <FontAwesomeIcon icon={faEdit} className="fa-icon" />
               </button>
-              <button onClick={confirmDelete}>
+              <button disabled={!isEnabled} onClick={confirmDelete}>
                 <FontAwesomeIcon icon={faCancel} className="fa-icon" />
               </button>
             </div>
