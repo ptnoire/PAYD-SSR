@@ -2,7 +2,7 @@ import { createTRPCRouter, privateProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { incrementMonthAndRetainDate } from "~/helpers/convert";
-import { BillEditSchema, BillFormSchema } from "~/helpers/exportTypes";
+import { BillEditSchema, BillFormSchema, BillHistoryEditSchema } from "~/helpers/exportTypes";
 import type {BillWithHistory} from "~/helpers/exportTypes";
 
 export const billsRouter = createTRPCRouter({
@@ -138,6 +138,20 @@ export const billsRouter = createTRPCRouter({
             }
         })
         return bill;
+    }),
+    editHistory: privateProcedure
+    .input(BillHistoryEditSchema)
+    .mutation(async ({ctx, input}) => {
+        const billHistory = await ctx.prisma.billHistory.update({
+            where: {
+                id: input.id 
+            },
+            data: {
+                amtPaid: input.billPaidAmt,
+            }
+        });
+
+        return billHistory;
     }),
     payd: privateProcedure
     .input(z.object({ id: z.string() }))

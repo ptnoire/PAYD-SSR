@@ -17,7 +17,6 @@ export const convertLocalDate = (input: string) => {
       day: "numeric",
       year: "numeric",
     });
-  
     return localDateString;
 };
 

@@ -40,13 +40,12 @@ export function BillForm() {
     event.preventDefault();
     toast.loading("Creating...", { id: "loading" });
     try {
-      const parsedDate = new Date(billDueDate);
-      const isoDateString = parsedDate.toISOString();
+      const convertDate = new Date(billDueDate + " 00:01:00").toString();
       mutate(
         BillFormSchema.parse({
           billName,
           billDueAmt: parseFloat(billDueAmt),
-          billDueDate: isoDateString,
+          billDueDate: convertDate,
           isRecurring,
         })
       );

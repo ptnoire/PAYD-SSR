@@ -21,6 +21,7 @@ export const BillList = () => {
     onSuccess: async () => {
       await ctx.bills.getUserBills.invalidate();
       toast.success("Bill Successfully Deleted!", { id: "loading" });
+      setIsEnabled(true);
     },
     onError: (e) => {
       const errMsg = e.data?.zodError?.fieldErrors.content;
@@ -80,6 +81,21 @@ export const BillList = () => {
     },
   });
 
+  const { mutate: billHistoryMutate } = api.bills.editHistory.useMutation({
+    onSuccess: async () => {
+      await ctx.bills.getUserBills.invalidate();
+      toast.success("History Successfully Editted!", { id: "loading" });
+    },
+    onError: (e) => {
+      const errMsg = e.data?.zodError?.fieldErrors.content;
+      if (errMsg && errMsg[0]) {
+        toast.error(errMsg[0]);
+      } else {
+        toast.error("Failed to Edit!", { id: "loading" });
+      }
+    },
+  });
+
   const passFunctions: functionObject = {
     deleteMutate,
     paydMutate,
@@ -100,7 +116,11 @@ export const BillList = () => {
   return (
     <>
       <div className={styles.optionsRow}>
-        <Dashboard history={data.userHistory} passFunctions={passFunctions} />
+        <Dashboard
+          userData={data}
+          passFunctions={passFunctions}
+          historyEditFunction={billHistoryMutate}
+        />
       </div>
       <div className={styles.expenseRow}>
         <FontAwesomeIcon icon={faMoneyCheck} className="fa-icon hideMobile" />
@@ -138,6 +158,7 @@ export const BillList = () => {
             {...bill}
             key={bill.id}
             passFunctions={passFunctions}
+            historyEditFunction={billHistoryMutate}
             isEnabled={isEnabled}
             setIsEnabled={setIsEnabled}
             editMutate={editMutate}

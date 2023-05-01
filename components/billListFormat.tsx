@@ -20,6 +20,7 @@ dayjs.extend(relativeTime);
 
 export function BillFormating({
   passFunctions,
+  historyEditFunction,
   isEnabled,
   setIsEnabled,
   ...props
@@ -55,6 +56,7 @@ export function BillFormating({
         history={...props.history}
         title={props.billName}
         passFunctions={passFunctions}
+        historyEditFunction={historyEditFunction}
       />
     );
   };
@@ -128,6 +130,8 @@ export function BillFormating({
       toast.error("Failed to delete bill");
     }
   };
+
+  if (!props.isRecurring && !!props.payd) return null;
 
   return (
     <>

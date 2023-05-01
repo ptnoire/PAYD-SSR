@@ -250,6 +250,29 @@
   border: 1px solid var(--white);
 }
 
+.overview {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  border-radius: 10px;
+  background-color: var(--background-black);
+  box-shadow: 0 10px 10px -4px rgb(0, 0, 0);
+  border: 1px solid var(--white);
+  animation: .5s slideIn ease-in;
+  margin-bottom: 20px;
+}
+
+.overview_btns {
+  position: absolute;
+  top: 0; right: 0;
+  display: flex;
+  flex-direction: row;
+  row-gap: 5px;
+}
+
 .paydGreen {
   font-size: 3rem;
   font-family: Comforta;
