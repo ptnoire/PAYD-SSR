@@ -10,7 +10,41 @@ export const billsRouter = createTRPCRouter({
         const currentDate = new Date();
         const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
         const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1).toISOString();
+        const dueDateThreshold = new Date(currentDate.getTime() + 7 * 2 * 24 * 60 * 60 * 1000).toISOString();
         
+        const updateBills = await ctx.prisma.bill.findMany({
+            where: {
+                billOwner: ctx.userId,
+                billDueDate : {
+                    lte: dueDateThreshold,
+                }
+            }
+        })
+
+        const checkReceipts = await ctx.prisma.billHistory.findMany({
+            where: {
+                createAt: {
+                    lte: dueDateThreshold
+                }
+            }
+        })
+
+        for (const element of updateBills) {
+            if (element.payd && 
+                !checkReceipts.find(el => el.billNameID === element.id &&
+                el.createAt <= new Date(dueDateThreshold))) {
+                        await ctx.prisma.bill.update({
+                            where: {
+                                id: element.id,
+                            },
+                            data: {
+                                payd: false
+                            }
+                        })
+                        
+            }
+        }
+
         const userBills = await ctx.prisma.bill.findMany({
             where: {
                 billOwner: ctx.userId
@@ -85,6 +119,8 @@ export const billsRouter = createTRPCRouter({
             }
             uniqueBills.push(uniqueBill)
         })
+
+        
 
         const totals = {
             userBills: {
