@@ -76,7 +76,7 @@ In the event that a bill has been created, has been paid and isn't recurring, it
   With this expanded screen, you can see some additional information like when it was last paid and when it was created.<br><br>
   
   <img src="https://i.imgur.com/j4olT7y.png" /><br>
-  There is an edit feature and right next to it is a delete feature.<br><br>
+  There is an edit feature and right next to it is a delete feature.<br><br></div>
   
 ## It's that simple!
 I will be adding more features as this ages, just some nice quality of life features and as well I will update this list to let the community know of any bug fixes or upcoming patches.<br><br>
