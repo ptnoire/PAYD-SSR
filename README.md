@@ -8,12 +8,15 @@ Upgrade to Payd-2 and enjoy the convenience of having all of your bill tracking 
 <div align="center"><img src="https://i.imgur.com/DRJQsPE.png" /></div>
 
 ## How to use 'payd-2'
-<b>Step 1:</b> Let's login, on the landing page of our app you should see two different buttons to login. Once clicked you'll be asked for a specific service to login. Currently payd-2 uses Facebook, Google or Apple ID to login. We do not store passwords or emails. A unique token is given to your login each time and encoded simply to pass data to our online database.<br><br><br>
+### Step 1: Log in!
+<div align="center">On the landing page of our app you should see two different buttons to login. Once clicked you'll be asked for a specific service to login. Currently payd-2 uses Facebook, Google or Apple ID to login. We do not store passwords or emails. A unique token is given to your login each time and encoded simply to pass data to our online database.<br><br><br></div>
 
-<b>Step 2:</b> Let's create a new bill!<br>
-<div align="center"><img src="https://i.imgur.com/c4ZiCYh.png" /><br>
+### Step 2: Creating a Bill
+<div align="center">Let's create a new bill!<br><br>
+<img src="https://i.imgur.com/c4ZiCYh.png" /><br>
 Once you click the new bill button at the top of the navbar, a little form should appear that looks like this:<br><br>
-<img src="https://i.imgur.com/ycWhjax.png" /><br></div>
+<img src="https://i.imgur.com/ycWhjax.png" /></div><br><br>
 
-<b>Step 3:</b> Once created you should see your list appear!<br>
-<div align="center"><img src="https://i.imgur.com/LQOPulW.png" /></div><br><br>
+### Step 3: Managing your Bill List
+<div align="center">Once created you should see your list appear!<br><br>
+<img src="https://i.imgur.com/LQOPulW.png" /></div><br><br>
