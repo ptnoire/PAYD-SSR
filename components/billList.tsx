@@ -120,6 +120,7 @@ export const BillList = () => {
           userData={data}
           passFunctions={passFunctions}
           historyEditFunction={billHistoryMutate}
+          editMutate={editMutate}
         />
       </div>
       <div className={styles.expenseRow}>

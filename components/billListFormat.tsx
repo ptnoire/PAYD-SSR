@@ -16,6 +16,7 @@ import {
   faEdit,
   faHandHoldingDollar,
   faHistory,
+  faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 dayjs.extend(relativeTime);
 
@@ -37,6 +38,7 @@ export function BillFormating({
 
   const paydFunction = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
     try {
       if (paydMutate) {
         setIsEnabled(false);
@@ -70,17 +72,20 @@ export function BillFormating({
     toast.loading("Editting...", { id: "loading" });
     try {
       if (props.editMutate) {
-        const parsedDate = new Date(editBillDueDate);
-        const isoDateString = parsedDate.toISOString();
+        const parsedDate = new Date(editBillDueDate + " 00:01:00").toString();
         props.editMutate(
           BillEditSchema.parse({
             id: props.id,
             billName: editBillName,
             billDueAmt: parseFloat(editBillDueAmt),
-            billDueDate: isoDateString,
+            billDueDate: parsedDate,
             isRecurring: editisRecurring,
           })
         );
+        setEditBillName("");
+        setEditBillDueAmt("");
+        setEditBillDueDate("");
+        setEditIsRecurring(false);
       }
     } catch (e: unknown) {
       if (e instanceof z.ZodError) {
@@ -154,9 +159,19 @@ export function BillFormating({
         </div>
         {!showEditBar && (
           <div className={styles.billList_btns}>
-            <button disabled={!isEnabled} onClick={(e) => paydFunction(e)}>
-              <FontAwesomeIcon icon={faHandHoldingDollar} className="fa-icon" />
-            </button>
+            {!props.payd && (
+              <button disabled={!isEnabled} onClick={(e) => paydFunction(e)}>
+                <FontAwesomeIcon
+                  icon={faHandHoldingDollar}
+                  className="fa-icon"
+                />
+              </button>
+            )}
+            {!!props.payd && (
+              <button disabled={!isEnabled} onClick={(e) => paydFunction(e)}>
+                <FontAwesomeIcon icon={faRotateLeft} className="fa-icon" />
+              </button>
+            )}
             <button onClick={(e) => historyDisplay(e)}>
               <FontAwesomeIcon icon={faHistory} className="fa-icon" />
             </button>
@@ -207,6 +222,11 @@ export function BillFormating({
             <button onClick={toggleModal}>
               <FontAwesomeIcon icon={faClose} className="fa-icon red" />
             </button>
+          </div>
+        )}
+        {!!props.payd && (
+          <div className={styles.paydStamp}>
+            <h1 className={styles.paydGreen}>payd!</h1>
           </div>
         )}
       </div>

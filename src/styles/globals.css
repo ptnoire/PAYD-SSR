@@ -283,6 +283,10 @@ video {
   border-radius: 30px;
 }
 
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
 @media only screen and (max-width: 800px) {
   h1 { font-size: 1.2rem; }
   h2 { font-size: 1rem; }
@@ -294,6 +298,7 @@ video {
     padding: 0;
     margin: 10vh 5vw 10vh 5vw;
     border: 1px solid var(--white);
+    height: auto;
   }
   .backdrop {
     z-index: 5;

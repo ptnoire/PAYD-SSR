@@ -163,7 +163,7 @@ export const billsRouter = createTRPCRouter({
         })
 
         if(!bill) throw new TRPCError({code: "NOT_FOUND"});
-        if (bill.isRecurring) {
+        if (bill.isRecurring && !bill.payd) {
             await ctx.prisma.bill.update({
                 where: { 
                     id: input.id 
@@ -173,15 +173,26 @@ export const billsRouter = createTRPCRouter({
                 }
             })
         }
-
-        await ctx.prisma.bill.update({
-        where: { 
-            id: input.id 
-        },
-        data: {
-            payd: true,
+        if (!bill.payd) {
+            await ctx.prisma.bill.update({
+                where: { 
+                    id: input.id 
+                },
+                data: {
+                    payd: true,
+                }
+            })
+        } else if (bill.payd) {
+            await ctx.prisma.bill.update({
+                where: { 
+                    id: input.id 
+                },
+                data: {
+                    payd: false,
+                }
+            })
         }
-    })
+        
         await ctx.prisma.billHistory.create({
             data: {
                 billName: bill.billName,
@@ -203,10 +214,16 @@ export const billsRouter = createTRPCRouter({
         })),
     deleteBill: privateProcedure
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ctx, input}) => 
+    .mutation(async ({ctx, input}) => {
         await ctx.prisma.bill.delete({
             where: {
                 id: input.id,
             }
-        }))
+        })
+        await ctx.prisma.billHistory.deleteMany({
+            where: {
+                billNameID: input.id,
+            }
+        })
+    })
 })

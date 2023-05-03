@@ -34,7 +34,7 @@ export function HistoryFormating({
   const slideDownRender = (content: ReactElement) => {
     if (!content) return;
     const slide = document.getElementById(props.id);
-    console.log(slide);
+
     if (!slide) return null;
     const root = createRoot(slide);
     const closeModal = () => {
@@ -77,12 +77,12 @@ export function HistoryFormating({
         })
       );
       toggleEditForm();
+      setAmtPaid(amtPaid);
     } catch (e: unknown) {
       if (e instanceof z.ZodError) {
         const errMsg = e.errors[0]?.message;
         if (errMsg) {
           toast.error(errMsg, { id: "loading" });
-          console.log(errMsg);
         }
       } else {
         toast.error(

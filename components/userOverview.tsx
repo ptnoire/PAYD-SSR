@@ -1,6 +1,7 @@
 import type {
   BillWithHistory,
   billHistoryMutateFunction,
+  editMutateFunction,
   functionObject,
 } from "~/helpers/exportTypes";
 import styles from "../src/pages/index.module.css";
@@ -12,6 +13,7 @@ export function UserOverview(props: {
   bills: Array<BillWithHistory>;
   passFunctions: functionObject;
   historyEditFunction: billHistoryMutateFunction;
+  editMutate: editMutateFunction;
 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -41,6 +43,7 @@ export function UserOverview(props: {
               bills={bill}
               key={bill.id}
               passFunctions={props.passFunctions}
+              editMutate={props.editMutate}
             />
           ))}
       </div>

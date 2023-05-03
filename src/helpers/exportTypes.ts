@@ -63,21 +63,21 @@ export type HistoryFormatingProps = BillHistory & {
 };
 
 export const BillFormSchema = z.object({
-  billName: z.string(),
+  billName: z.string().nonempty(),
   billDueAmt: z.number().positive(),
-  billDueDate: z.string(),
+  billDueDate: z.string().nonempty(),
   isRecurring: z.boolean(),
 });
 
 export const BillEditSchema = z.object({
-  id: z.string(),
-  billName: z.string(),
+  id: z.string().nonempty(),
+  billName: z.string().nonempty(),
   billDueAmt: z.number().positive(),
-  billDueDate: z.string(),
+  billDueDate: z.string().nonempty(),
   isRecurring: z.boolean(),
 });
 
 export const BillHistoryEditSchema = z.object({
-  id: z.string(),
+  id: z.string().nonempty(),
   billPaidAmt: z.number().positive(),
 });

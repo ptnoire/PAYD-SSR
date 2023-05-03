@@ -3,6 +3,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { BillHistoryComponent } from "./history";
 import type {
   billHistoryMutateFunction,
+  editMutateFunction,
   functionObject,
   userData,
 } from "~/helpers/exportTypes";
@@ -17,6 +18,7 @@ export const Dashboard = (props: {
   userData: userData;
   passFunctions: functionObject;
   historyEditFunction: billHistoryMutateFunction;
+  editMutate: editMutateFunction;
 }) => {
   return (
     <>
@@ -46,6 +48,7 @@ export const Dashboard = (props: {
               bills={...props.userData.userBills.bills}
               passFunctions={props.passFunctions}
               historyEditFunction={props.historyEditFunction}
+              editMutate={props.editMutate}
             />
           );
         }}

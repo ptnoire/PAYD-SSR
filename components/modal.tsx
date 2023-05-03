@@ -40,7 +40,7 @@ export const ModalRender = (
         </button>
         {passFunction && (
           <button onClick={passedFunction}>
-            <FontAwesomeIcon icon={faCheck} className="fa-icon" />
+            <FontAwesomeIcon icon={faCheck} className="fa-icon green" />
           </button>
         )}
       </div>
