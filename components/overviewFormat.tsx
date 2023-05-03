@@ -110,7 +110,9 @@ export function OverviewFormat(props: {
     toast.loading("Editting...", { id: "loading" });
     try {
       if (props.editMutate) {
-        const parsedDate = new Date(editBillDueDate + " 00:01:00").toString();
+        const parsedDate = new Date(
+          editBillDueDate + " 00:00:00"
+        ).toISOString();
         props.editMutate(
           BillEditSchema.parse({
             id: id,

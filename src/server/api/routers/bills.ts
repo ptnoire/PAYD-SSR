@@ -1,15 +1,15 @@
 import { createTRPCRouter, privateProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { incrementMonthAndRetainDate } from "~/helpers/convert";
+import { convertLocalDate, incrementMonthAndRetainDate } from "~/helpers/convert";
 import { BillEditSchema, BillFormSchema, BillHistoryEditSchema } from "~/helpers/exportTypes";
 import type {BillWithHistory} from "~/helpers/exportTypes";
 
 export const billsRouter = createTRPCRouter({
     getUserBills: privateProcedure.query(async ({ctx}) => {
         const currentDate = new Date();
-        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+        const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
+        const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1).toISOString();
         
         const userBills = await ctx.prisma.bill.findMany({
             where: {
@@ -35,8 +35,8 @@ export const billsRouter = createTRPCRouter({
             where: {
                 billOwner: ctx.userId,
                 billDueDate: {
-                    gte: startOfMonth.toISOString(),
-                    lte: endOfMonth.toISOString(),
+                    gte: startOfMonth,
+                    lte: endOfMonth,
                   },
                 payd: false,
             },
@@ -49,8 +49,8 @@ export const billsRouter = createTRPCRouter({
             where: {
                 billOwner: ctx.userId,
                 billDueDate: {
-                    gte: startOfMonth.toISOString(),
-                    lte: endOfMonth.toISOString(),
+                    gte: startOfMonth,
+                    lte: endOfMonth,
                   },
             },
             _sum: {

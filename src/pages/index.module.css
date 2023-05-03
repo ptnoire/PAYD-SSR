@@ -464,9 +464,9 @@
   .welcomeTitle {
     font-size: 8.4vw;
   }
-  .gradient_text {
+  /* .gradient_text {
     font-size: 1.2rem;
-  }
+  } */
   .land_3 {
     flex-direction: column;
     text-align: center;

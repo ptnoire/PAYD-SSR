@@ -229,6 +229,11 @@ export function BillFormating({
             <h1 className={styles.paydGreen}>payd!</h1>
           </div>
         )}
+        {!props.payd && (
+          <div className={styles.paydStamp}>
+            <h1 className="red">Due Soon!</h1>
+          </div>
+        )}
       </div>
     </>
   );

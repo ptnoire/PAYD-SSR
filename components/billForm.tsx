@@ -40,7 +40,7 @@ export function BillForm() {
     event.preventDefault();
     toast.loading("Creating...", { id: "loading" });
     try {
-      const convertDate = new Date(billDueDate + " 00:01:00").toString();
+      const convertDate = new Date(billDueDate + " 00:00:00").toISOString();
       mutate(
         BillFormSchema.parse({
           billName,

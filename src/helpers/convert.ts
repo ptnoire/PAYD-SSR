@@ -32,7 +32,7 @@ export function incrementMonthAndRetainDate(date: string) {
             return updatedDate;
         }
     newDate.setMonth(newDate.getMonth() + 1);
-    const updatedDate = newDate.toString();
+    const updatedDate = newDate.toISOString();
 
     return updatedDate;
 }

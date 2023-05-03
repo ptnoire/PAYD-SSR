@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 export const BillList = () => {
   const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
   const [isEnabled, setIsEnabled] = useState(true);
-
+  console.log(data);
   const ctx = api.useContext();
 
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({
@@ -130,7 +130,14 @@ export const BillList = () => {
           {today.toLocaleDateString()}
         </h3>
         <h3>
-          <span className={styles.textItalic}>Current Balance: </span>
+          <span
+            className={
+              (typeof data?.currBalance === "number" && styles.textItalic) ||
+              styles.gradient_text
+            }
+          >
+            Current Balance:{" "}
+          </span>
           {(typeof data?.currBalance === "number" &&
             convertCurr(data?.currBalance)) ||
             convertCurr(0)}
