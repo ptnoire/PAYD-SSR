@@ -47,6 +47,38 @@ Now that we have access to our list, we've got a ton of different options.</div>
   And finally, you can delete the bill with this option here<br>
   <img src="https://i.imgur.com/FBFjqzg.png" /><br><br>
   This will bring up this confirmation screen<br>
-  <img src="https://i.imgur.com/yrmeYyp.png" /><br><br>
+  <img src="https://i.imgur.com/yrmeYyp.png" /><br><br></div>
+
+### History Overview
+<div align="center">
+  <img src="https://i.imgur.com/ZFqsZDy.png" /><br>
+  Each reciept has a date when it was paid.<br><br>
   
+  <img src="https://i.imgur.com/yMiNLvY.png" /><br>
+  You can edit the amount paid here, this is just in case the amounts change at all.<br><br>
   
+  <img src="https://i.imgur.com/NHjkid5.png" /><br>
+  And you can delete the reciept here.<br><br>
+  
+  <img src="https://i.imgur.com/JbI6Bv2.png" /><br>
+  And for when you've paid a lot, the pop up will display 10 items at a time.<br><br></div>
+  
+### Account Overview
+In the event that a bill has been created, has been paid and isn't recurring, it will disappear from your main list but you can view all of your previous bills in your account overview or let's say that you're no longer paying a monthly bill anymore, if you click the edit button and turn off the monthly bill checkbox, it will also remove it from your main list but keep it in your account overview. This is a nifty feature to just keep all your past bills in one spot, which you can of course delete if you don't want to keep them.
+
+<div align="center"><br>
+  <img src="https://i.imgur.com/BmoWirR.png" /><br><br>
+  
+  <img src="https://i.imgur.com/NeNmG4q.png" /><br><br>
+  This displays a simple list of all the bills but you can click the little arrow to expand more information.<br><br>
+  
+  <img src="https://i.imgur.com/y8Zg8CZ.png" /><br>
+  With this expanded screen, you can see some additional information like when it was last paid and when it was created.<br><br>
+  
+  <img src="https://i.imgur.com/j4olT7y.png" /><br>
+  There is an edit feature and right next to it is a delete feature.<br><br>
+  
+## It's that simple!
+I will be adding more features as this ages, just some nice quality of life features and as well I will update this list to let the community know of any bug fixes or upcoming patches.<br><br>
+  <div align="center">
+    <img src="https://i.imgur.com/b0nZITi.png" /></div>
