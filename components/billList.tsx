@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 export const BillList = () => {
   const { data, isLoading: postsLoading } = api.bills.getUserBills.useQuery();
   const [isEnabled, setIsEnabled] = useState(true);
-  console.log(data);
+
   const ctx = api.useContext();
 
   const { mutate: deleteMutate } = api.bills.deleteBill.useMutation({

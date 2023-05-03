@@ -215,7 +215,9 @@ export function OverviewFormat(props: {
           </p>
         )}
         {!!isRecurring && !!showMore && !showEdit && <p>Monthly Bill</p>}
-        {!isRecurring && !!payd && !!showMore && !showEdit && <p>Bill Paid!</p>}
+        {!isRecurring && !!payd && !!showMore && !showEdit && (
+          <p className={styles.gradient_text}>Bill Paid!</p>
+        )}
         {!!showMore && !!showEdit && (
           <label>
             <input

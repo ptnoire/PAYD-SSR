@@ -1,7 +1,7 @@
 import { createTRPCRouter, privateProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { convertLocalDate, incrementMonthAndRetainDate } from "~/helpers/convert";
+import { incrementMonthAndRetainDate } from "~/helpers/convert";
 import { BillEditSchema, BillFormSchema, BillHistoryEditSchema } from "~/helpers/exportTypes";
 import type {BillWithHistory} from "~/helpers/exportTypes";
 
@@ -17,7 +17,7 @@ export const billsRouter = createTRPCRouter({
             },
             take: 100,
             orderBy: [
-                {createAt: "desc"}
+                {billDueDate: "asc"}
             ]
         })
         

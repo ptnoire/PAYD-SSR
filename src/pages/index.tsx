@@ -70,7 +70,7 @@ const Home: NextPage = () => {
               </button>
               <button>
                 <Link
-                  href="https://github.com/ptnoire/PAYD-bill-tracker/blob/master/README.md#its-payd"
+                  href="https://github.com/ptnoire/PAYD-SSR/blob/main/README.md#payd-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
