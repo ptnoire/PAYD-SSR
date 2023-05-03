@@ -29,14 +29,24 @@ Now that we have access to our list, we've got a ton of different options.</div>
 * Current Balance : This is what is still due this month.
 
 ### Bill Options:
-<div align="center"><br><br>
+<div align="center">
 <img src="https://i.imgur.com/KUw7Qz0.png" /><br>
 'PAYD' This little icon here is the button you press when you pay a bill. Few things will happen when you click this<br><br>
   <img src="https://i.imgur.com/P4szN06.png" /><br>
   The bill will be stamped 'payd!'<br><br>
   <img src="https://i.imgur.com/XwSb99G.png" /><br>
-  You will have the option to 'undo' this just in case you didn't meant to click it or you want to uncheck the bill.<br>
-  Note: If you will notice the date readjusts to the next month once you pay a bill, if you want to undo this date change, you can do so in the edit bill feature listed later.<br><br>
+  You will have the option to 'undo' this just in case you didn't meant to click it or you want to uncheck the bill.<br><br>
+  <i>Note: If you will notice the date readjusts to the next month once you pay a bill.<br> If you want to undo this date change, you can do so in the edit bill feature listed later.</i><br><br>
   <img src="https://i.imgur.com/R9UiVv1.png" /><br>
   You will now have access to the bill's history, just click this button to view it.<br><br>
   <img src="https://i.imgur.com/a5Z93oS.png" /><br>
+  <i>More on this in the history section..</i><br><br>
+  <img src="https://i.imgur.com/w46gn6K.png" /><br>
+  Click here to edit the bill's information.<br><br>
+  <img src="https://i.imgur.com/R5wuSgS.png" /><br><br>
+  And finally, you can delete the bill with this option here<br>
+  <img src="https://i.imgur.com/FBFjqzg.png" /><br><br>
+  This will bring up this confirmation screen<br>
+  <img src="https://i.imgur.com/yrmeYyp.png" /><br><br>
+  
+  
