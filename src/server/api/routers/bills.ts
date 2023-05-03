@@ -1,7 +1,7 @@
 import { createTRPCRouter, privateProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { incrementMonthAndRetainDate } from "~/helpers/convert";
+import { decrementMonthAndRetainDate, incrementMonthAndRetainDate } from "~/helpers/convert";
 import { BillEditSchema, BillFormSchema, BillHistoryEditSchema } from "~/helpers/exportTypes";
 import type {BillWithHistory} from "~/helpers/exportTypes";
 
@@ -182,6 +182,14 @@ export const billsRouter = createTRPCRouter({
                     payd: true,
                 }
             })
+            await ctx.prisma.billHistory.create({
+                data: {
+                    billName: bill.billName,
+                    billNameID: bill.id,
+                    amtPaid: bill.billDueAmt,
+                    billOwner: ctx.userId,
+                }
+            })
         } else if (bill.payd) {
             await ctx.prisma.bill.update({
                 where: { 
@@ -189,19 +197,25 @@ export const billsRouter = createTRPCRouter({
                 },
                 data: {
                     payd: false,
+                    billDueDate: decrementMonthAndRetainDate(bill.billDueDate)
+                }
+            })
+            const lastReciept = await ctx.prisma.billHistory.findMany({
+                where: {
+                    billNameID: input.id
+                },
+                orderBy: {
+                    createAt: "desc"
+                },
+                take: 1
+            })
+            await ctx.prisma.billHistory.delete({
+                where: {
+                    id: lastReciept[0]?.id
                 }
             })
         }
         
-        await ctx.prisma.billHistory.create({
-            data: {
-                billName: bill.billName,
-                billNameID: bill.id,
-                amtPaid: bill.billDueAmt,
-                billOwner: ctx.userId,
-            }
-        })
-
         return bill;
     }),
     deleteBillHistory: privateProcedure
