@@ -118,9 +118,9 @@ const Home: NextPage = () => {
               <div className={styles.landingC2}>
                 <div className={styles.c2_1}>
                   <h2>
-                    Returning?<br></br>
+                    Ready?<br></br>
                     <span className={styles.textItalic}>
-                      Let&apos;s sign-in!
+                      No sign-up required!
                     </span>
                   </h2>
 
@@ -146,8 +146,8 @@ const Home: NextPage = () => {
                 </div>
                 <div className={styles.c2_3}>
                   <h2>
-                    Curious?<br></br>{" "}
-                    <span className={styles.textItalic}>Try the demo!</span>
+                    Payd-1?<br></br>{" "}
+                    <span className={styles.textItalic}>View the beta!</span>
                   </h2>
                   <button>
                     <Link
